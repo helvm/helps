@@ -1,0 +1,182 @@
+cabal-version:         2.4
+
+name:                  helps
+version:               0.1.0.0
+
+synopsis:              HelPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
+description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
+homepage:              https://helvm.github.io/helps/
+bug-reports:           https://github.com/helvm/helps/issues
+
+license:               Apache-2.0
+license-file:          docs/LICENSE-APACHE
+author:                Kamil Adam
+maintainer:            kamil.adam.zabinski@gmail.com
+copyright:             2020-2023 WriteOnly Developers
+
+category:              Language
+build-type:            Simple
+extra-source-files:
+  docs/CHANGELOG.md
+  docs/README.md
+
+tested-with:           GHC == 9.2.1
+
+source-repository head
+  type:                git
+  location:            https://github.com/helvm/helps
+
+flag ghcoptions
+  description:         compile with options
+  manual:              True
+  default:             False
+
+common common-options
+  build-depends:
+      base             <  4.16
+    , relude           == 1.0.0.1
+  mixins:
+      base hiding (Prelude)
+    , relude (Relude as Prelude, Relude.Extra, Data.Text)
+  default-extensions:
+    EmptyDataDecls
+    ExistentialQuantification
+    FlexibleContexts
+    FlexibleInstances
+    FunctionalDependencies
+    GADTs
+    GeneralizedNewtypeDeriving
+    InstanceSigs
+    KindSignatures
+    LambdaCase
+    MultiParamTypeClasses
+    MultiWayIf
+    NamedFieldPuns
+--    NoImplicitPrelude
+    OverloadedStrings
+    PartialTypeSignatures
+    PatternGuards
+    PolyKinds
+    RankNTypes
+    RecordWildCards
+    ScopedTypeVariables
+    StandaloneDeriving
+    TupleSections
+    TypeFamilies
+    TypeSynonymInstances
+    ViewPatterns
+--    CPP
+--    TemplateHaskell
+--    ForeignFunctionInterface
+--    MagicHash
+--    UnliftedFFITypes
+    TypeOperators
+--    UnboxedTuples
+--    PackageImports
+--    QuasiQuotes
+--    DeriveAnyClass
+--    DeriveLift
+--    StaticPointers
+    DerivingStrategies
+    ConstraintKinds
+    StrictData
+  ghc-options:
+    -Wall
+    -Wcompat
+    -Widentities
+    -Wincomplete-uni-patterns
+    -Wincomplete-record-updates
+    -Wredundant-constraints
+    -Wnoncanonical-monad-instances
+    -fhide-source-paths
+--    -Wmissing-export-lists FIXME
+    -Wpartial-fields
+    -Wmissing-deriving-strategies
+    -fwrite-ide-info
+    -hiedir=.hie
+    -Wunused-packages
+--    -Werror
+    -fprint-potential-instances
+
+  default-language:    Haskell2010
+
+library
+  import:              common-options
+  hs-source-dirs:      hs/src
+  exposed-modules:
+    HelVM.HelPS.HelPS
+    HelVM.HelPS.Lazy.Builtin
+    HelVM.HelPS.Lazy.Compiler
+    HelVM.HelPS.Lazy.Lexer
+    HelVM.HelPS.Lazy.Main
+    HelVM.HelPS.Lazy.Optimizer
+    HelVM.HelPS.Lazy.Parser
+    HelVM.HelPS.Lazy.PatComp
+    HelVM.HelPS.Lazy.PPrint
+    HelVM.HelPS.Lazy.SCC
+    HelVM.HelPS.Lazy.Static
+    HelVM.HelPS.Lazy.Syntax
+    HelVM.HelPS.Lazy.Type
+
+  other-extensions:
+  build-depends:
+      array
+    , parsec
+  mixins:
+      base hiding (Prelude)
+    , relude (Relude as Prelude, Relude.Extra)
+  hs-source-dirs:      hs/src
+  default-language:    Haskell2010
+  ghc-options:
+
+executable helps
+  import:              common-options
+  hs-source-dirs:      hs/app
+  main-is:             Main.hs
+  other-modules:
+    AppOptions
+  build-depends:
+--      helps
+--    , optparse-applicative >= 0.14.3.0
+  ghc-options:
+    -threaded
+    -rtsopts
+    -with-rtsopts=-N
+
+test-suite helps-test
+  import:              common-options
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      hs/test
+  main-is:             Main.hs
+  other-modules:
+    Spec
+--    HelVM.HelPS.Lazy.Test
+  build-depends:
+      hspec
+    , hspec-core
+    , hspec-expectations-pretty-diff
+    , hspec-golden
+    , hspec-slow
+
+    , helps
+
+  build-tool-depends:  hspec-discover:hspec-discover == 2.*
+  ghc-options:
+    -threaded
+    -rtsopts
+    -with-rtsopts=-N
+
+benchmark helps-benchmark
+  import:              common-options
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      hs/benchmark
+  main-is:             Main.hs
+  build-depends:
+      gauge
+
+--    , helps
+
+  ghc-options:
+    -threaded
+    -rtsopts
+    -with-rtsopts=-N
