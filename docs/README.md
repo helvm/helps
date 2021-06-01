@@ -1,6 +1,6 @@
 # Welcome to 🚀 ✈️
 
-**🚀 ✈️ HELPS** - Heavenly Esoteric Little Pre Schemer for Esoteric Languages implemented in Haskell/Eta
+**🚀 ✈️ HELPS** - Heavenly Esoteric Little Pre Script for Esoteric Languages implemented in Haskell/Eta
 
 **🧑‍🚀 🧑‍✈️ HSPSPL** - Simple Pretty Language
 
