@@ -2,7 +2,7 @@
 
 **🚀 ✈️ HELPS** - Heavenly Esoteric Little Preeminent Script for Esoteric Languages implemented in Haskell/Eta
 
-**🧑‍🚀 🧑‍✈️ HSPSPL** - Simple Preeminent Language
+**🧑‍🚀 🧑‍✈️ HSPSPL** - Scripted Preeminent Language
 
 ## For User
 * [INSTALL](INSTALL.md) - How to download, test and run.
