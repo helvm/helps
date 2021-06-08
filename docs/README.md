@@ -1,8 +1,8 @@
 # Welcome to 🚀 ✈️
 
-**🚀 ✈️ HELPS** - Heavenly Esoteric Little Pre-eminent Script for Esoteric Languages implemented in Haskell/Eta
+**🚀 ✈️ HELPS** - Heavenly Esoteric Little Preluded Script for Esoteric Languages implemented in Haskell/Eta
 
-**🧑‍🚀 🧑‍✈️ HSPSPL** - Scripted Preluded Language
+**🧑‍🚀 🧑‍✈️ HSPSPL** - Scripted Procedural Language
 
 ## For User
 * [INSTALL](INSTALL.md) - How to download, test and run.
