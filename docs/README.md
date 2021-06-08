@@ -1,6 +1,6 @@
 # Welcome to 🚀 ✈️
 
-**🚀 ✈️ HELPS** - Heavenly Esoteric Little Preeminent Script for Esoteric Languages implemented in Haskell/Eta
+**🚀 ✈️ HELPS** - Heavenly Esoteric Little Prelude Script for Esoteric Languages implemented in Haskell/Eta
 
 **🧑‍🚀 🧑‍✈️ HSPSPL** - Scripted Preeminent Language
 
