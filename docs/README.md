@@ -2,7 +2,7 @@
 
 **🚀 ✈️ HELPS** - Heavenly Esoteric Little Pre Scripter for Esoteric Languages implemented in Haskell/Eta
 
-**🧑‍🚀 🧑‍✈️ HPSPSL** - Hyper Simple Procedural Script PreProcesing Language is a kind of [High-level] [Third-generation] [GPPL] for Esoteric Languages.
+**🧑‍🚀 🧑‍✈️ HPSPSL** - Hyper Simple Procedural Scripting PreProcesing Language is a kind of [High-level] [Third-generation] [GPPL] for Esoteric Languages.
 
 **🧑‍🚀 🧑‍✈️ HSPLSP** - Hyper Simple Procedural Language of Script PreProcesor
 
