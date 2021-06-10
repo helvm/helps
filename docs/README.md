@@ -1,4 +1,4 @@
-# Welcome to 🚀 ✈️
+# Welcome to 🚀 ✈️ HELPS
 
 **🚀 ✈️ HELPS** - Heavenly Esoteric Little Pre Scripter for Esoteric Languages implemented in Haskell/Eta
 
