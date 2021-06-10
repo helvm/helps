@@ -1,8 +1,11 @@
 # Welcome to 🚀 ✈️
 
-**🚀 ✈️ HELPS** - Heavenly Esoteric Little Preluded Script for Esoteric Languages implemented in Haskell/Eta
+**🚀 ✈️ HELPS** - Heavenly Esoteric Little Pre Scripter for Esoteric Languages implemented in Haskell/Eta
 
-**🧑‍🚀 🧑‍✈️ HSPSPL** - Scripted Procedural Language
+**🧑‍🚀 🧑‍✈️ HPSPSL** - Hyper Simple Procedural Script PreProcesing Language
+
+**🧑‍🚀 🧑‍✈️ HSPLSP** - Hyper Simple Procedural Language of Script PreProcesor
+
 
 ## For User
 * [INSTALL](INSTALL.md) - How to download, test and run.
