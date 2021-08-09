@@ -1,7 +1,7 @@
 # 🚀 ✈️ HelPS Heavenly Esoteric Little Pre Scripter for Esoteric Languages implemented in Haskell
 
-**🚀 ✈️ HelPS** is third part of [HelVM](http://helvm.online/) project and implementation of
-* **🧑‍🚀 🧑‍✈️ HSPLSP** - Hyper Simple Procedural Language of Script PreProcesor
+**🚀 ✈️ HelPS** is third part of [HelVM](http://helvm.online/) project and implementation of:
+* **🧑‍🚀 🧑‍✈️ HSPLSP** - Hyper Simple Procedural Language of Script PreProcesor.
 * **🧑‍🚀 🧑‍✈️ HPSPSL** - Hyper Simple Procedural Scripting PreProcesing Language is a kind of [High-level] [Third-generation] [GPPL] for Esoteric Languages.
 
 ## For User
