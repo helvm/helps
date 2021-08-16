@@ -4,6 +4,8 @@
 * **🧑‍🚀 🧑‍✈️ HSPLSP** - Hyper Simple Pretty Language of Script PolyProcesor.
 * **🧑‍🚀 🧑‍✈️ HPSPSL** - Hyper Simple Pretty Scripting PolyProcesing Language is a kind of [High-level] [Third-generation] [GPPL] for Esoteric Languages.
 
+BTW [GPPL] shoud have [Generic programming]
+
 ## For User
 * [INSTALL](INSTALL.md) - How to download, test and run.
 * [TODO](TODO.md) - Features to do.
@@ -22,6 +24,7 @@
 
 # 🌈 ❤️ 💛 💚 💙 🤍 🖤 🦄
 
-[High-level]:       https://en.wikipedia.org/wiki/High-level_programming_language
-[Third-generation]: https://en.wikipedia.org/wiki/Third-generation_programming_language
-[GPPL]:             https://en.wikipedia.org/wiki/General-purpose_programming_language
+[High-level]:          https://en.wikipedia.org/wiki/High-level_programming_language
+[Third-generation]:    https://en.wikipedia.org/wiki/Third-generation_programming_language
+[GPPL]:                https://en.wikipedia.org/wiki/General-purpose_programming_language
+[Generic programming]: https://en.wikipedia.org/wiki/Generic_programming
