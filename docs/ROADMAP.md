@@ -7,6 +7,7 @@
 * [ ] Add Typing Haskell in Haskell
 * [ ] Add hs2zoy
 * [ ] Add hs2bf
+* [ ] HscMain
 * [ ] Add helium and LVM
 * [ ] Compile to WASM
 
