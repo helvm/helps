@@ -2,12 +2,12 @@
 
 **Planned features.**
 
-* [ ] Add Poly
-* [ ] Add ProtoHaskell
-* [ ] Add Typing Haskell in Haskell
+* [ ] Add [Poly](https://github.com/helvm/write-you-a-haskell/tree/master/chapter7)
+* [ ] Add [ProtoHaskell](https://github.com/helvm/write-you-a-haskell/tree/master/chapter8)
+* [ ] Add [Typing Haskell in Haskell](https://github.com/helvm/haskell-tapl)
 * [ ] Add hs2zoy
 * [ ] Add hs2bf
-* [ ] HscMain
+* [ ] Add HscMain
 * [ ] Add helium and LVM
 * [ ] Compile to WASM
 
