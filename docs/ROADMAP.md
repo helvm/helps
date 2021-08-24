@@ -4,7 +4,8 @@
 
 * [ ] Add [Poly](https://github.com/helvm/write-you-a-haskell/tree/master/chapter7)
 * [ ] Add [ProtoHaskell](https://github.com/helvm/write-you-a-haskell/tree/master/chapter8)
-* [ ] Add [Typing Haskell in Haskell](https://github.com/helvm/haskell-tapl)
+* [ ] Add [Typing Haskell in Haskell](https://github.com/helvm/thih)
+* [ ] Add [Types and Programming Languages ](https://github.com/helvm/haskell-tapl)
 * [ ] Add hs2zoy
 * [ ] Add hs2bf
 * [ ] Add HscMain
