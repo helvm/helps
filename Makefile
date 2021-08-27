@@ -30,7 +30,7 @@ hlint:
 	./hlint.sh
 
 main:
-	make stylish configure check build test
+	make stylish configure build test
 
 repl:
 	cabal new-repl lib:helps
