@@ -1,35 +1,35 @@
-cabal-version:       2.4
+cabal-version:         2.4
 
-name:                helps
-version:             0.1.0.0
+name:                  helps
+version:               0.1.0.0
 
-synopsis:            HelPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
-description:         Please see the README on GitHub at <https://github.com/helvm/helps#readme>
-homepage:            https://helvm.github.io/helps/
-bug-reports:         https://github.com/helvm/helps/issues
+synopsis:              HelPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
+description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
+homepage:              https://helvm.github.io/helps/
+bug-reports:           https://github.com/helvm/helps/issues
 
-license:             Apache-2.0
-license-file:        docs/LICENSE-APACHE
-author:              Kamil Adam
-maintainer:          kamil.adam.zabinski@gmail.com
-copyright:           2020-2021 WriteOnly Developers
+license:               Apache-2.0
+license-file:          docs/LICENSE-APACHE
+author:                Kamil Adam
+maintainer:            kamil.adam.zabinski@gmail.com
+copyright:             2020-2021 WriteOnly Developers
 
-category:            Language
-build-type:          Simple
+category:              Language
+build-type:            Simple
 extra-source-files:
   docs/CHANGELOG.md
   docs/README.md
 
-tested-with:         GHC == 9.0.1
+tested-with:           GHC == 9.0.1
 
 source-repository head
-  type:              git
-  location:          https://github.com/helvm/helps
+  type:                git
+  location:            https://github.com/helvm/helps
 
 common common-options
   build-depends:
-      base    < 4.16
-    , relude               == 1.0.0.0
+      base             <  4.16
+    , relude           == 1.0.0.1
   mixins:
       base hiding (Prelude)
     , relude (Relude as Prelude, Relude.Extra, Data.Text)
