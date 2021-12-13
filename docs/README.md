@@ -1,6 +1,6 @@
 # 🚀 ✈️ HelPS - Heavenly Esoteric Little Poly Scripter for Esoteric Languages implemented in Haskell
 
-**🚀 ✈️ HelPS** is third part of [HelVM](http://helvm.online/) project and implementation of:
+**🚀 ✈️ HelPS** is third part of [HelVM](http://helvm.github.io/) project and implementation of:
 * **🧑‍🚀 🧑‍✈️ HSPLSP** - Hyper Simple Pretty Language of Script PolyProcesor.
 * **🧑‍🚀 🧑‍✈️ HPSPSL** - Hyper Simple Pretty Scripting PolyProcesing Language is a kind of [High-level] [Third-generation] [GPPL] for Esoteric Languages.
 
