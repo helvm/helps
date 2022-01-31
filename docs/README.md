@@ -1,5 +1,7 @@
 # 🚀 ✈️ HelPS - Haskellish Esoteric Little Poly Scripter for Esoteric Languages implemented in Haskell
 
+*One Scripter to rule them all, One Scripter to find them, One Scripter to bring them all and in the rainbow bind them.*
+
 *Write Once, Cross-Compile for EveryWhere*
 
 *If you are in [potrzebie](https://en.wikipedia.org/wiki/Potrzebie), use HelPS*
