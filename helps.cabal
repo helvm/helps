@@ -12,7 +12,7 @@ license:               Apache-2.0
 license-file:          docs/LICENSE-APACHE
 author:                Kamil Adam
 maintainer:            kamil.adam.zabinski@gmail.com
-copyright:             2020-2021 WriteOnly Developers
+copyright:             2020-2022 WriteOnly Developers
 
 category:              Language
 build-type:            Simple
@@ -20,11 +20,16 @@ extra-source-files:
   docs/CHANGELOG.md
   docs/README.md
 
-tested-with:           GHC == 9.0.1
+tested-with:           GHC == 9.2.1
 
 source-repository head
   type:                git
   location:            https://github.com/helvm/helps
+
+flag ghcoptions
+  description:         compile with options
+  manual:              True
+  default:             False
 
 common common-options
   build-depends:
