@@ -9,10 +9,11 @@
 --
 --  modified by irori <irorin@gmail.com>
 
-module Type where
+module HelVM.HelPS.Lazy.Type where
+
 import Data.List(nub, (\\), intersect, union, partition)
 import Control.Monad(msum)
-import Syntax
+import HelVM.HelPS.Lazy.Syntax
 
 enumId  :: Int -> Id
 enumId n = "v" ++ show n

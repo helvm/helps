@@ -1,0 +1,1954 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>HLint Report</title>
+<script type='text/javascript'>
+
+/* == Algorithm for show/unshow ==
+   Each hint/file is given a number, hint# or file#
+   When we say showOnly with a class name we add the rules to
+   the css #content div {display:none}, #content div.className {display:block}
+   When going back to showAll we remove these results
+*/
+
+// CSS MANIPULATION //
+
+function deleteRules(n)
+{
+    var css = document.styleSheets[0];
+    for (var i = 0; i < n; i++)
+        css.deleteRule(css.cssRules.length-1);
+}
+
+function insertRule(s)
+{
+    var css = document.styleSheets[0];
+    css.insertRule(s, css.cssRules.length);
+}
+
+// SHOW/HIDE LOGIC //
+
+/**
+ * @param {bool} [initialise=false] - Used to signal we are loading the page, so
+ the current location doesn't match our presumed state.
+ */
+function show(id, initialise=false)
+{
+    var last;
+    if (initialise)
+    {
+        last = "";
+    }
+    else
+    {
+        last = document.location.hash.slice(1);
+    }
+
+    if (id === last) return;
+    if (id.length === 0)
+    {
+        deleteRules(3);
+        insertRule(".all {font-weight: bold;}");
+    }
+    else
+    {
+        if (last.length === 0)
+        {
+            deleteRules(1);
+            insertRule("#content div {display:none;}");
+        }
+        else
+        {
+            deleteRules(2);
+        }
+        insertRule("#content div." + id + " {display:block;}");
+        insertRule("#" + id + "{font-weight:bold;}");
+    }
+
+    if (window.history)
+        history.replaceState("", document.title, window.location.pathname + window.location.search + (id === "" ? "" : "#" + id));
+    else
+        document.location.hash = '#'.concat(id);
+}
+
+</script>
+<style type="text/css">
+/* These rules are manipulated by the script.
+   The commented form is how it looks with an id selected */
+
+.all {font-weight: bold;}      /* #content div {display:none;} */
+                               /* #content div.id {display:block;} */
+                               /* #id {font-weight: bold;} */
+
+</style>
+<style type="text/css">
+/* See http://www.webreference.com/programming/css_frames/ */
+body {
+    margin:0;
+    border:0;
+    padding:0;
+    height:100%;
+    max-height:100%;
+    font-family: sans-serif;
+    font-size:76%;
+    overflow: hidden;
+}
+
+#leftbar {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width: 215px;
+    bottom: 0px;
+    overflow:auto;
+    background:rgb(202,223,255);
+    margin: 10px;
+    padding-top: 0;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 5px;
+
+    display:none; /* Override if script present */
+}
+
+#content {
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    overflow:auto;
+    padding-bottom: 15px;
+    padding-right: 7px;
+
+    left:10px; /* Override if script present */
+}
+
+#leftbar ul {margin-top: 0px; padding-left: 15px;}
+#leftbar p {margin-bottom: 0px;}
+.note {color: gray; font-size: smaller;}
+
+pre {
+    font-family: "lucida console", monospace;
+    padding-left: 15px;
+    margin: 2px;
+}
+
+#content div {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding-top: 4px;
+    border-top: 1px solid #ccc;
+}
+
+.script #content {left:250px;}
+.script #leftbar {display: block;}
+
+/* From HsColour */
+.hs-keyglyph, .hs-layout {color: red;}
+.hs-keyword {color: blue;}
+.hs-comment, .hs-comment a {color: green;}
+.hs-str, .hs-chr {color: teal;}
+</style>
+</head>
+<body>
+
+<script type='text/javascript'>
+document.body.className = "script";
+</script>
+
+<div id="leftbar" valign="top" style="min-width:200px">
+
+<p><a class="all" href="javascript:show('')">All hints</a></p>
+<ul>
+<li><a id="hint0" href="javascript:show('hint0')">Warning: Avoid lambda (1)</a></li>
+<li><a id="hint1" href="javascript:show('hint1')">Warning: Eta reduce (13)</a></li>
+<li><a id="hint2" href="javascript:show('hint2')">Warning: Reduce duplication (1)</a></li>
+<li><a id="hint3" href="javascript:show('hint3')">Warning: Redundant bracket (35)</a></li>
+<li><a id="hint4" href="javascript:show('hint4')">Warning: Redundant do (1)</a></li>
+<li><a id="hint5" href="javascript:show('hint5')">Warning: Use &#39;chr&#39; from Relude (1)</a></li>
+<li><a id="hint6" href="javascript:show('hint6')">Warning: Use &#39;getArgs&#39; from Relude (1)</a></li>
+<li><a id="hint7" href="javascript:show('hint7')">Warning: Use &#39;when&#39; from Relude (1)</a></li>
+<li><a id="hint8" href="javascript:show('hint8')">Warning: Use &lt;$&gt; (16)</a></li>
+<li><a id="hint9" href="javascript:show('hint9')">Warning: Use concatMap (8)</a></li>
+<li><a id="hint10" href="javascript:show('hint10')">Warning: Use fmap (3)</a></li>
+<li><a id="hint11" href="javascript:show('hint11')">Warning: Use mapM_ (2)</a></li>
+<li><a id="hint12" href="javascript:show('hint12')">Warning: Use ordNub (1)</a></li>
+<li><a id="hint13" href="javascript:show('hint13')">Warning: Use print (1)</a></li>
+<li><a id="hint14" href="javascript:show('hint14')">Warning: Use shows (11)</a></li>
+<li><a id="hint15" href="javascript:show('hint15')">Warning: Use zipWithM (1)</a></li>
+<li><a id="hint16" href="javascript:show('hint16')">Suggestion: Redundant $ (4)</a></li>
+<li><a id="hint17" href="javascript:show('hint17')">Suggestion: Redundant bracket (51)</a></li>
+<li><a id="hint18" href="javascript:show('hint18')">Suggestion: Use camelCase (8)</a></li>
+<li><a id="hint19" href="javascript:show('hint19')">Suggestion: Use foldr (1)</a></li>
+<li><a id="hint20" href="javascript:show('hint20')">Suggestion: Use fromMaybe (6)</a></li>
+<li><a id="hint21" href="javascript:show('hint21')">Suggestion: Use hierarchical imports (1)</a></li>
+<li><a id="hint22" href="javascript:show('hint22')">Suggestion: Use infix (1)</a></li>
+<li><a id="hint23" href="javascript:show('hint23')">Suggestion: Use newtype instead of data (1)</a></li>
+<li><a id="hint24" href="javascript:show('hint24')">Suggestion: Use null (1)</a></li>
+<li><a id="hint25" href="javascript:show('hint25')">Suggestion: Use prev (4)</a></li>
+<li><a id="hint26" href="javascript:show('hint26')">Suggestion: Use section (1)</a></li>
+<li><a id="hint27" href="javascript:show('hint27')">Suggestion: Use toFst (1)</a></li>
+<li><a id="hint28" href="javascript:show('hint28')">Suggestion: Use tuple-section (1)</a></li>
+</ul>
+
+<p><a class="all" href="javascript:show('')">All files</a></p>
+<ul>
+<li><a id="file0" href="javascript:show('file0')">./hs/src/HelVM/HelPS/BLC/Builtin.hs (2)</a></li>
+<li><a id="file1" href="javascript:show('file1')">./hs/src/HelVM/HelPS/BLC/Compiler.hs (5)</a></li>
+<li><a id="file2" href="javascript:show('file2')">./hs/src/HelVM/HelPS/BLC/Main.hs (5)</a></li>
+<li><a id="file3" href="javascript:show('file3')">./hs/src/HelVM/HelPS/BLC/PPrint.hs (10)</a></li>
+<li><a id="file4" href="javascript:show('file4')">./hs/src/HelVM/HelPS/BLC/Parser.hs (25)</a></li>
+<li><a id="file5" href="javascript:show('file5')">./hs/src/HelVM/HelPS/BLC/PatComp.hs (7)</a></li>
+<li><a id="file6" href="javascript:show('file6')">./hs/src/HelVM/HelPS/BLC/SCC.hs (7)</a></li>
+<li><a id="file7" href="javascript:show('file7')">./hs/src/HelVM/HelPS/BLC/Static.hs (4)</a></li>
+<li><a id="file8" href="javascript:show('file8')">./hs/src/HelVM/HelPS/BLC/Syntax.hs (17)</a></li>
+<li><a id="file9" href="javascript:show('file9')">./hs/src/HelVM/HelPS/BLC/Test.hs (1)</a></li>
+<li><a id="file10" href="javascript:show('file10')">./hs/src/HelVM/HelPS/BLC/Type.hs (33)</a></li>
+<li><a id="file11" href="javascript:show('file11')">Lexer.x (3)</a></li>
+<li><a id="file12" href="javascript:show('file12')">templates/GenericTemplate.hs (24)</a></li>
+<li><a id="file13" href="javascript:show('file13')">templates/wrappers.hs (35)</a></li>
+</ul>
+
+</div>
+<div id="content" valign="top" width="100%">
+<p>
+    Report generated by <a href="http://community.haskell.org/~ndm/hlint/">HLint</a>
+v2.1.11
+    - a tool to suggest improvements to your Haskell code.
+</p>
+
+<div class="hint20 file0">
+./hs/src/HelVM/HelPS/BLC/Builtin.hs:295:24: Suggestion: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>lookup</span> <span class='hs-varid'>v</span> <span class='hs-varid'>builtins</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-conid'>SVar</span> <span class='hs-varid'>v</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fromMaybe</span> <span class='hs-layout'>(</span><span class='hs-conid'>SVar</span> <span class='hs-varid'>v</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lookup</span> <span class='hs-varid'>v</span> <span class='hs-varid'>builtins</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file0">
+./hs/src/HelVM/HelPS/BLC/Builtin.hs:295:24: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>lookup</span> <span class='hs-varid'>v</span> <span class='hs-varid'>builtins</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-conid'>SVar</span> <span class='hs-varid'>v</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>lookup</span> <span class='hs-varid'>v</span> <span class='hs-varid'>builtins</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>SVar</span> <span class='hs-varid'>v</span></pre>
+
+</div>
+
+<div class="hint9 file1">
+./hs/src/HelVM/HelPS/BLC/Compiler.hs:16:29: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bgs</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bgs</span></pre>
+
+</div>
+
+<div class="hint17 file1">
+./hs/src/HelVM/HelPS/BLC/Compiler.hs:24:26: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>ESign</span> <span class='hs-layout'>(</span><span class='hs-varid'>expandCon</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>ESign</span> <span class='hs-layout'>(</span><span class='hs-varid'>expandCon</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>sc</span></pre>
+
+</div>
+
+<div class="hint17 file1">
+./hs/src/HelVM/HelPS/BLC/Compiler.hs:49:19: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-layout'>(</span><span class='hs-varid'>abstract</span> <span class='hs-varid'>i</span> <span class='hs-varid'>e'</span><span class='hs-layout'>)</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>SVar</span> <span class='hs-str'>"K"</span> <span class='hs-varop'>`SAp`</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+    <span class='hs-varid'>e''</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e''</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>removeSelfRec</span> <span class='hs-varid'>i</span> <span class='hs-varid'>v</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>abstract</span> <span class='hs-varid'>i</span> <span class='hs-varid'>e'</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>SVar</span> <span class='hs-str'>"K"</span> <span class='hs-varop'>`SAp`</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+    <span class='hs-varid'>e''</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e''</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>removeSelfRec</span> <span class='hs-varid'>i</span> <span class='hs-varid'>v</span></pre>
+
+</div>
+
+<div class="hint26 file1">
+./hs/src/HelVM/HelPS/BLC/Compiler.hs:70:17: Suggestion: Use section<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>flip</span> <span class='hs-varid'>refers</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>`refers`</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint19 file1">
+./hs/src/HelVM/HelPS/BLC/Compiler.hs:75:11: Suggestion: Use foldr<br/>
+Found<br/>
+<pre><span class='hs-definition'>mklist</span> <span class='hs-conid'>[]</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>SVar</span> <span class='hs-str'>"nil"</span>
+<span class='hs-definition'>mklist</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-conop'>:</span> <span class='hs-varid'>xs</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>SVar</span> <span class='hs-str'>"cons"</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>x</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>mklist</span> <span class='hs-varid'>xs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>mklist</span> <span class='hs-varid'>xs</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldr</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>SAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>SVar</span> <span class='hs-str'>"cons"</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>SVar</span> <span class='hs-str'>"nil"</span><span class='hs-layout'>)</span> <span class='hs-varid'>xs</span></pre>
+
+</div>
+
+<div class="hint21 file11">
+Lexer.x:19:1: Suggestion: Use hierarchical imports<br/>
+Found<br/>
+<pre><span class='hs-keyword'>import</span> <span class='hs-conid'>Char</span> <span class='hs-layout'>(</span><span class='hs-varid'>ord</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>import</span> <span class='hs-conid'>Data.Char</span> <span class='hs-layout'>(</span><span class='hs-varid'>ord</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:65:13: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>p</span><span class='hs-layout'>,</span> <span class='hs-varid'>c</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-conop'>:</span> <span class='hs-varid'>bs</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>p</span><span class='hs-layout'>,</span> <span class='hs-varid'>c</span><span class='hs-layout'>,</span> <span class='hs-varid'>b</span> <span class='hs-conop'>:</span> <span class='hs-varid'>bs</span><span class='hs-layout'>,</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:67:13: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>p</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-varid'>c</span> <span class='hs-conop'>:</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>p</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-varid'>c</span> <span class='hs-conop'>:</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:389:27: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexPn</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>line</span> <span class='hs-varid'>column</span><span class='hs-layout'>)</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>AlexPn</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>line</span> <span class='hs-varid'>column</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:389:92: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>line</span><span class='hs-layout'>)</span> <span class='hs-varop'>++</span> <span class='hs-str'>" line, "</span> <span class='hs-varop'>++</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>column</span><span class='hs-layout'>)</span> <span class='hs-varop'>++</span> <span class='hs-str'>" column"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>show</span> <span class='hs-varid'>line</span> <span class='hs-varop'>++</span> <span class='hs-str'>" line, "</span> <span class='hs-varop'>++</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>column</span><span class='hs-layout'>)</span> <span class='hs-varop'>++</span> <span class='hs-str'>" column"</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:389:120: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>column</span><span class='hs-layout'>)</span> <span class='hs-varop'>++</span> <span class='hs-str'>" column"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>show</span> <span class='hs-varid'>column</span> <span class='hs-varop'>++</span> <span class='hs-str'>" column"</span></pre>
+
+</div>
+
+<div class="hint18 file13">
+templates/wrappers.hs:416:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>alex_base</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alexBase</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint18 file13">
+templates/wrappers.hs:419:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>alex_table</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alexTable</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint18 file13">
+templates/wrappers.hs:422:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>alex_check</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alexCheck</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint18 file13">
+templates/wrappers.hs:425:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>alex_deflt</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alexDeflt</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint18 file13">
+templates/wrappers.hs:427:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>alex_accept</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alexAccept</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:186: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>AlexAccSkip</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>AlexAccSkip</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:202: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>AlexAccSkip</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>AlexAccSkip</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:218: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>AlexAccSkip</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>AlexAccSkip</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:233: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_3</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_3</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:243: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_3</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_3</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:261: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_3</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_3</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:271: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_3</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_3</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:289: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_4</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_4</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:299: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_4</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_4</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:317: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_4</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_4</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:327: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_4</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_4</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:345: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_5</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_5</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:355: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_5</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_5</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:373: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_6</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_6</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:383: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_6</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_6</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:401: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_7</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_7</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:411: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_7</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_7</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:429: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_8</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_8</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:439: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_8</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_8</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:457: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_9</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_9</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:467: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_9</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_9</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:485: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_10</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:495: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_10</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_10</span></pre>
+
+</div>
+
+<div class="hint17 file13">
+templates/wrappers.hs:427:514: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-conid'>AlexAcc</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_action_10</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint3 file13">
+templates/wrappers.hs:427:524: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>alex_action_10</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alex_action_10</span></pre>
+
+</div>
+
+<div class="hint1 file11">
+Lexer.x:157:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>annotate</span> <span class='hs-varid'>tps</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>annotate2</span> <span class='hs-num'>0</span> <span class='hs-varid'>tps</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>annotate</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>annotate2</span> <span class='hs-num'>0</span></pre>
+
+</div>
+
+<div class="hint17 file11">
+Lexer.x:164:28: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>next</span> <span class='hs-varid'>tok</span><span class='hs-layout'>)</span> <span class='hs-varid'>ln</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span> <span class='hs-varid'>tok</span> <span class='hs-varid'>ln</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:113:16: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>sc</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:114:34: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>sc</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:116:25: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>sc</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:117:35: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-num'>0</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-num'>0</span></pre>
+
+</div>
+
+<div class="hint18 file12">
+templates/GenericTemplate.hs:147:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>alex_scan_tkn</span> <span class='hs-varid'>user</span> <span class='hs-varid'>orig_input</span> <span class='hs-varid'>len</span> <span class='hs-varid'>input</span> <span class='hs-varid'>s</span> <span class='hs-varid'>last_acc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>alexScanTkn</span> <span class='hs-varid'>user</span> <span class='hs-varid'>orig_input</span> <span class='hs-varid'>len</span> <span class='hs-varid'>input</span> <span class='hs-varid'>s</span> <span class='hs-varid'>last_acc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint17 file12">
+templates/GenericTemplate.hs:149:3: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>let</span> <span class='hs-varid'>new_acc</span> <span class='hs-keyglyph'>=</span> <span class='hs-layout'>(</span><span class='hs-varid'>check_accs</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_accept</span> <span class='hs-varop'>`quickIndex`</span> <span class='hs-layout'>(</span><span class='hs-varid'>s</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyword'>in</span>
+  <span class='hs-varid'>new_acc</span> <span class='hs-varop'>`seq`</span>
+    <span class='hs-keyword'>case</span> <span class='hs-varid'>alexGetByte</span> <span class='hs-varid'>input</span> <span class='hs-keyword'>of</span>
+        <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>new_acc</span><span class='hs-layout'>,</span> <span class='hs-varid'>input</span><span class='hs-layout'>)</span>
+        <span class='hs-conid'>Just</span> <span class='hs-layout'>(</span><span class='hs-varid'>c</span><span class='hs-layout'>,</span> <span class='hs-varid'>new_input</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>let</span> <span class='hs-layout'>(</span><span class='hs-varid'>base</span><span class='hs-layout'>)</span>
+                                     <span class='hs-keyglyph'>=</span> <span class='hs-varid'>alexIndexInt32OffAddr</span> <span class='hs-varid'>alex_base</span> <span class='hs-varid'>s</span>
+                                   <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>fromIntegral</span> <span class='hs-varid'>c</span>
+                                   <span class='hs-layout'>(</span><span class='hs-varid'>offset</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-layout'>(</span><span class='hs-varid'>base</span> <span class='hs-varop'>+</span> <span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span>
+                                   <span class='hs-layout'>(</span><span class='hs-varid'>check</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>alexIndexInt16OffAddr</span> <span class='hs-varid'>alex_check</span> <span class='hs-varid'>offset</span>
+                                   <span class='hs-layout'>(</span><span class='hs-varid'>new_s</span><span class='hs-layout'>)</span>
+                                     <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>if</span> <span class='hs-layout'>(</span><span class='hs-varid'>offset</span> <span class='hs-varop'>&gt;=</span> <span class='hs-layout'>(</span><span class='hs-num'>0</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>&amp;&amp;</span> <span class='hs-layout'>(</span><span class='hs-varid'>check</span> <span class='hs-varop'>==</span> <span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span> <span class='hs-keyword'>then</span>
+                                         <span class='hs-varid'>alexIndexInt16OffAddr</span> <span class='hs-varid'>alex_table</span> <span class='hs-varid'>offset</span> <span class='hs-keyword'>else</span>
+                                         <span class='hs-varid'>alexIndexInt16OffAddr</span> <span class='hs-varid'>alex_deflt</span> <span class='hs-varid'>s</span>
+                                 <span class='hs-keyword'>in</span>
+                                 <span class='hs-keyword'>case</span> <span class='hs-varid'>new_s</span> <span class='hs-keyword'>of</span>
+                                     <span class='hs-layout'>(</span><span class='hs-comment'>-</span><span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>new_acc</span><span class='hs-layout'>,</span> <span class='hs-varid'>input</span><span class='hs-layout'>)</span>
+                                     <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>alex_scan_tkn</span> <span class='hs-varid'>user</span> <span class='hs-varid'>orig_input</span>
+                                            <span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&lt;</span> <span class='hs-num'>128</span> <span class='hs-varop'>||</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&gt;=</span> <span class='hs-num'>192</span> <span class='hs-keyword'>then</span> <span class='hs-layout'>(</span><span class='hs-varid'>len</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-num'>1</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>len</span><span class='hs-layout'>)</span>
+                                            <span class='hs-varid'>new_input</span>
+                                            <span class='hs-varid'>new_s</span>
+                                            <span class='hs-varid'>new_acc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>let</span> <span class='hs-varid'>new_acc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>check_accs</span> <span class='hs-layout'>(</span><span class='hs-varid'>alex_accept</span> <span class='hs-varop'>`quickIndex`</span> <span class='hs-layout'>(</span><span class='hs-varid'>s</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyword'>in</span>
+  <span class='hs-varid'>new_acc</span> <span class='hs-varop'>`seq`</span>
+    <span class='hs-keyword'>case</span> <span class='hs-varid'>alexGetByte</span> <span class='hs-varid'>input</span> <span class='hs-keyword'>of</span>
+        <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>new_acc</span><span class='hs-layout'>,</span> <span class='hs-varid'>input</span><span class='hs-layout'>)</span>
+        <span class='hs-conid'>Just</span> <span class='hs-layout'>(</span><span class='hs-varid'>c</span><span class='hs-layout'>,</span> <span class='hs-varid'>new_input</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>let</span> <span class='hs-layout'>(</span><span class='hs-varid'>base</span><span class='hs-layout'>)</span>
+                                     <span class='hs-keyglyph'>=</span> <span class='hs-varid'>alexIndexInt32OffAddr</span> <span class='hs-varid'>alex_base</span> <span class='hs-varid'>s</span>
+                                   <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>fromIntegral</span> <span class='hs-varid'>c</span>
+                                   <span class='hs-layout'>(</span><span class='hs-varid'>offset</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-layout'>(</span><span class='hs-varid'>base</span> <span class='hs-varop'>+</span> <span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span>
+                                   <span class='hs-layout'>(</span><span class='hs-varid'>check</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>alexIndexInt16OffAddr</span> <span class='hs-varid'>alex_check</span> <span class='hs-varid'>offset</span>
+                                   <span class='hs-layout'>(</span><span class='hs-varid'>new_s</span><span class='hs-layout'>)</span>
+                                     <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>if</span> <span class='hs-layout'>(</span><span class='hs-varid'>offset</span> <span class='hs-varop'>&gt;=</span> <span class='hs-layout'>(</span><span class='hs-num'>0</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>&amp;&amp;</span> <span class='hs-layout'>(</span><span class='hs-varid'>check</span> <span class='hs-varop'>==</span> <span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span> <span class='hs-keyword'>then</span>
+                                         <span class='hs-varid'>alexIndexInt16OffAddr</span> <span class='hs-varid'>alex_table</span> <span class='hs-varid'>offset</span> <span class='hs-keyword'>else</span>
+                                         <span class='hs-varid'>alexIndexInt16OffAddr</span> <span class='hs-varid'>alex_deflt</span> <span class='hs-varid'>s</span>
+                                 <span class='hs-keyword'>in</span>
+                                 <span class='hs-keyword'>case</span> <span class='hs-varid'>new_s</span> <span class='hs-keyword'>of</span>
+                                     <span class='hs-layout'>(</span><span class='hs-comment'>-</span><span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>new_acc</span><span class='hs-layout'>,</span> <span class='hs-varid'>input</span><span class='hs-layout'>)</span>
+                                     <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>alex_scan_tkn</span> <span class='hs-varid'>user</span> <span class='hs-varid'>orig_input</span>
+                                            <span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&lt;</span> <span class='hs-num'>128</span> <span class='hs-varop'>||</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&gt;=</span> <span class='hs-num'>192</span> <span class='hs-keyword'>then</span> <span class='hs-layout'>(</span><span class='hs-varid'>len</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-num'>1</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>len</span><span class='hs-layout'>)</span>
+                                            <span class='hs-varid'>new_input</span>
+                                            <span class='hs-varid'>new_s</span>
+                                            <span class='hs-varid'>new_acc</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:150:57: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>s</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:160:17: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>base</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>base</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:161:17: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varid'>ord_c</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>ord_c</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:162:17: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>offset</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>offset</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:163:17: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>check</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>check</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:165:17: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>new_s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>new_s</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:165:41: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-num'>0</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-num'>0</span></pre>
+
+</div>
+
+<div class="hint17 file12">
+templates/GenericTemplate.hs:173:49: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>if</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&lt;</span> <span class='hs-num'>128</span> <span class='hs-varop'>||</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&gt;=</span> <span class='hs-num'>192</span> <span class='hs-keyword'>then</span> <span class='hs-layout'>(</span><span class='hs-varid'>len</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-num'>1</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>len</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>if</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&lt;</span> <span class='hs-num'>128</span> <span class='hs-varop'>||</span> <span class='hs-varid'>c</span> <span class='hs-varop'>&gt;=</span> <span class='hs-num'>192</span> <span class='hs-keyword'>then</span> <span class='hs-varid'>len</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-num'>1</span><span class='hs-layout'>)</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:173:86: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-num'>1</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-num'>1</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:179:58: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>len</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:180:61: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>len</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:182:36: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>len</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:183:34: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>len</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:185:36: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>len</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:186:33: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>len</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>len</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:222:18: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>sc</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:223:36: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-num'>0</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-num'>0</span></pre>
+
+</div>
+
+<div class="hint3 file12">
+templates/GenericTemplate.hs:231:8: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>i</span></pre>
+
+</div>
+
+<div class="hint17 file2">
+./hs/src/HelVM/HelPS/BLC/Main.hs:17:22: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-conid'>P.Decl</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.VarDecl</span> <span class='hs-layout'>(</span><span class='hs-str'>"@main"</span><span class='hs-layout'>,</span> <span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-conid'>P.Rhs</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.Var</span> <span class='hs-str'>"main"</span><span class='hs-layout'>)</span> <span class='hs-conid'>[]</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-conop'>:</span>
+  <span class='hs-layout'>(</span><span class='hs-conid'>P.parse</span> <span class='hs-layout'>(</span><span class='hs-conid'>L.lexer</span> <span class='hs-str'>"argf"</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>P.Decl</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.VarDecl</span> <span class='hs-layout'>(</span><span class='hs-str'>"@main"</span><span class='hs-layout'>,</span> <span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-conid'>P.Rhs</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.Var</span> <span class='hs-str'>"main"</span><span class='hs-layout'>)</span> <span class='hs-conid'>[]</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-conop'>:</span>
+  <span class='hs-conid'>P.parse</span> <span class='hs-layout'>(</span><span class='hs-conid'>L.lexer</span> <span class='hs-str'>"argf"</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint4 file2">
+./hs/src/HelVM/HelPS/BLC/Main.hs:32:15: Warning: Redundant do<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>putStrLn</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>putStrLn</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint13 file2">
+./hs/src/HelVM/HelPS/BLC/Main.hs:34:18: Warning: Use print<br/>
+Found<br/>
+<pre><span class='hs-definition'>putStrLn</span> <span class='hs-layout'>(</span><span class='hs-varid'>show</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>print</span> <span class='hs-varid'>e</span></pre>
+
+</div>
+
+<div class="hint6 file2">
+./hs/src/HelVM/HelPS/BLC/Main.hs:37:19: Warning: Use &#39;getArgs&#39; from Relude<br/>
+Found<br/>
+<pre><span class='hs-definition'>getArgs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>getArgs</span></pre>
+<span class='note'>Note: &#39;getArgs&#39; is already exported from Relude</span>
+</div>
+
+<div class="hint24 file2">
+./hs/src/HelVM/HelPS/BLC/Main.hs:38:14: Suggestion: Use null<br/>
+Found<br/>
+<pre><span class='hs-definition'>argv</span> <span class='hs-varop'>==</span> <span class='hs-conid'>[]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>null</span> <span class='hs-varid'>argv</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:30:31: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:32:31: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:32:60: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:50:54: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:52:23: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint17 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:52:53: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>join</span> <span class='hs-str'>";\n\t"</span> <span class='hs-varid'>alts</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-chr'>'}'</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>join</span> <span class='hs-str'>";\n\t"</span> <span class='hs-varid'>alts</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-chr'>'}'</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:53:23: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:55:66: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:57:9: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint25 file3">
+./hs/src/HelVM/HelPS/BLC/PPrint.hs:58:49: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint10 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:67:64: Warning: Use fmap<br/>
+Found<br/>
+<pre><span class='hs-definition'>liftM</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fmap</span></pre>
+
+</div>
+
+<div class="hint25 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:93:51: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:136:7: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenEq</span>
+   <span class='hs-varid'>e</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>expr</span>
+   <span class='hs-varid'>ds</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>whereDecls</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Rhs</span> <span class='hs-varid'>e</span> <span class='hs-varid'>ds</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenEq</span>
+   <span class='hs-varid'>e</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>expr</span>
+   <span class='hs-conid'>Rhs</span> <span class='hs-varid'>e</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>whereDecls</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:140:7: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>gds</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>many1</span> <span class='hs-layout'>(</span><span class='hs-varid'>guard</span> <span class='hs-varid'>tokenEq</span><span class='hs-layout'>)</span>
+   <span class='hs-varid'>ds</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>whereDecls</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Guarded</span> <span class='hs-varid'>gds</span> <span class='hs-varid'>ds</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>gds</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>many1</span> <span class='hs-layout'>(</span><span class='hs-varid'>guard</span> <span class='hs-varid'>tokenEq</span><span class='hs-layout'>)</span>
+   <span class='hs-conid'>Guarded</span> <span class='hs-varid'>gds</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>whereDecls</span></pre>
+
+</div>
+
+<div class="hint18 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:157:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>context_type</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>contextType</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint18 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:160:1: Suggestion: Use camelCase<br/>
+Found<br/>
+<pre><span class='hs-definition'>context_simpletype</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>contextSimpletype</span> <span class='hs-keyglyph'>=</span> <span class='hs-varop'>...</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:222:10: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>conid</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>TyCon</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>TyCon</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>conid</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:225:9: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>varid</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>TyVar</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>TyVar</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>varid</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:253:9: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenLambda</span>
+   <span class='hs-varid'>ps</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>many1</span> <span class='hs-varid'>apat</span>
+   <span class='hs-varid'>tokenRArrow</span>
+   <span class='hs-varid'>e</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>expr</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Lambda</span> <span class='hs-varid'>ps</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenLambda</span>
+   <span class='hs-varid'>ps</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>many1</span> <span class='hs-varid'>apat</span>
+   <span class='hs-varid'>tokenRArrow</span>
+   <span class='hs-conid'>Lambda</span> <span class='hs-varid'>ps</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>expr</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:258:9: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenLet</span>
+   <span class='hs-varid'>ds</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>decls</span>
+   <span class='hs-varid'>tokenIn</span>
+   <span class='hs-varid'>e</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>expr</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Let</span> <span class='hs-varid'>ds</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenLet</span>
+   <span class='hs-varid'>ds</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>decls</span>
+   <span class='hs-varid'>tokenIn</span>
+   <span class='hs-conid'>Let</span> <span class='hs-varid'>ds</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>expr</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:263:9: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenCase</span>
+   <span class='hs-varid'>e</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>expr</span>
+   <span class='hs-varid'>tokenOf</span>
+   <span class='hs-varid'>a</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>alts</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Case</span> <span class='hs-varid'>e</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenCase</span>
+   <span class='hs-varid'>e</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>expr</span>
+   <span class='hs-varid'>tokenOf</span>
+   <span class='hs-conid'>Case</span> <span class='hs-varid'>e</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>alts</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:271:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>qvar</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Var</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>Var</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>qvar</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:272:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>gcon</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>Con</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>Con</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>gcon</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:273:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>litInt</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>LitInt</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>LitInt</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>litInt</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:274:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>litChar</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>LitChar</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>LitChar</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>litChar</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:275:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>litStr</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>LitStr</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>LitStr</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>litStr</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:331:28: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenAt</span>
+   <span class='hs-varid'>p</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>apat</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>AsPat</span> <span class='hs-varid'>v</span> <span class='hs-varid'>p</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>tokenAt</span>
+   <span class='hs-conid'>AsPat</span> <span class='hs-varid'>v</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>apat</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:333:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>litInt</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>PInt</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>PInt</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>litInt</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:334:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>litChar</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>PChar</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>PChar</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>litChar</span></pre>
+
+</div>
+
+<div class="hint8 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:335:8: Warning: Use &lt;$&gt;<br/>
+Found<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>litStr</span>
+   <span class='hs-varid'>return</span> <span class='hs-layout'>(</span><span class='hs-conid'>PStr</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>do</span> <span class='hs-conid'>PStr</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>litStr</span></pre>
+
+</div>
+
+<div class="hint1 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:507:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>hsBetween</span> <span class='hs-varid'>open</span> <span class='hs-varid'>close</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>between</span> <span class='hs-varid'>open</span> <span class='hs-varid'>close</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>hsBetween</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>between</span></pre>
+
+</div>
+
+<div class="hint1 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:516:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>arrow</span> <span class='hs-varid'>l</span> <span class='hs-varid'>r</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TyAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TyAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TyCon</span> <span class='hs-str'>"(-&gt;)"</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span><span class='hs-layout'>)</span> <span class='hs-varid'>r</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>arrow</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TyAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TyAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TyCon</span> <span class='hs-str'>"(-&gt;)"</span><span class='hs-layout'>)</span> <span class='hs-varid'>l</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint1 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:519:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>ap2</span> <span class='hs-varid'>op</span> <span class='hs-varid'>l</span> <span class='hs-varid'>r</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Ap</span> <span class='hs-layout'>(</span><span class='hs-conid'>Ap</span> <span class='hs-varid'>op</span> <span class='hs-varid'>l</span><span class='hs-layout'>)</span> <span class='hs-varid'>r</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>ap2</span> <span class='hs-varid'>op</span> <span class='hs-varid'>l</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Ap</span> <span class='hs-layout'>(</span><span class='hs-conid'>Ap</span> <span class='hs-varid'>op</span> <span class='hs-varid'>l</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint1 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:522:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>bltinApp</span> <span class='hs-varid'>i</span> <span class='hs-varid'>es</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldl</span> <span class='hs-conid'>Ap</span> <span class='hs-layout'>(</span><span class='hs-conid'>Var</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span> <span class='hs-varid'>es</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>bltinApp</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldl</span> <span class='hs-conid'>Ap</span> <span class='hs-layout'>(</span><span class='hs-conid'>Var</span> <span class='hs-varid'>i</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file4">
+./hs/src/HelVM/HelPS/BLC/Parser.hs:525:14: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>Con</span> <span class='hs-str'>":"</span><span class='hs-layout'>)</span> <span class='hs-varop'>`Ap`</span> <span class='hs-varid'>e1</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Con</span> <span class='hs-str'>":"</span> <span class='hs-varop'>`Ap`</span> <span class='hs-varid'>e1</span></pre>
+
+</div>
+
+<div class="hint16 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:36:30: Suggestion: Redundant $<br/>
+Found<br/>
+<pre><span class='hs-definition'>head</span> <span class='hs-varop'>$</span> <span class='hs-varid'>qs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>head</span> <span class='hs-varid'>qs</span></pre>
+
+</div>
+
+<div class="hint10 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:40:28: Warning: Use fmap<br/>
+Found<br/>
+<pre><span class='hs-definition'>liftM</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fmap</span></pre>
+
+</div>
+
+<div class="hint10 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:56:21: Warning: Use fmap<br/>
+Found<br/>
+<pre><span class='hs-definition'>liftM</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fmap</span></pre>
+
+</div>
+
+<div class="hint16 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:69:38: Suggestion: Redundant $<br/>
+Found<br/>
+<pre><span class='hs-conid'>LitStr</span> <span class='hs-varop'>$</span> <span class='hs-str'>"Non-exhaustive patterns"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>LitStr</span> <span class='hs-str'>"Non-exhaustive patterns"</span></pre>
+
+</div>
+
+<div class="hint16 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:87:44: Suggestion: Redundant $<br/>
+Found<br/>
+<pre><span class='hs-conid'>LitStr</span> <span class='hs-varop'>$</span> <span class='hs-str'>"!?"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>LitStr</span> <span class='hs-str'>"!?"</span></pre>
+
+</div>
+
+<div class="hint1 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:122:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>matchVar</span> <span class='hs-layout'>(</span><span class='hs-varid'>u</span> <span class='hs-conop'>:</span> <span class='hs-varid'>us</span><span class='hs-layout'>)</span> <span class='hs-varid'>qs</span> <span class='hs-varid'>def</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>match</span> <span class='hs-varid'>us</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>sub</span> <span class='hs-varid'>qs</span><span class='hs-layout'>)</span> <span class='hs-varid'>def</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>matchVar</span> <span class='hs-layout'>(</span><span class='hs-varid'>u</span> <span class='hs-conop'>:</span> <span class='hs-varid'>us</span><span class='hs-layout'>)</span> <span class='hs-varid'>qs</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>match</span> <span class='hs-varid'>us</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>sub</span> <span class='hs-varid'>qs</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint16 file5">
+./hs/src/HelVM/HelPS/BLC/PatComp.hs:182:44: Suggestion: Redundant $<br/>
+Found<br/>
+<pre><span class='hs-conid'>LitStr</span> <span class='hs-varop'>$</span> <span class='hs-str'>"!?"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>LitStr</span> <span class='hs-str'>"!?"</span></pre>
+
+</div>
+
+<div class="hint23 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:6:1: Suggestion: Use newtype instead of data<br/>
+Found<br/>
+<pre><span class='hs-keyword'>data</span> <span class='hs-conid'>SM</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>SM</span> <span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>newtype</span> <span class='hs-conid'>SM</span> <span class='hs-varid'>s</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>SM</span> <span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+<span class='note'>Note: decreases laziness</span>
+</div>
+
+<div class="hint28 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:10:20: Suggestion: Use tuple-section<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>k</span><span class='hs-layout'>,</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>k</span><span class='hs-layout'>,</span><span class='hs-layout'>)</span></pre>
+<span class='note'>Note: may require <tt>{-# LANGUAGE TupleSections #-}</tt> adding to the top of the file</span>
+</div>
+
+<div class="hint27 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:13:16: Suggestion: Use toFst<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>f</span> <span class='hs-varid'>s</span><span class='hs-layout'>,</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>toFst</span> <span class='hs-varid'>f</span></pre>
+<span class='note'>Note: Use <tt>toFst</tt> from <tt>Relude.Extra.Tuple</tt></span>
+</div>
+
+<div class="hint0 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:19:18: Warning: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>f</span> <span class='hs-varid'>s</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>f</span></pre>
+
+</div>
+
+<div class="hint17 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:42:33: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-varid'>u</span><span class='hs-layout'>,</span> <span class='hs-varid'>rangeSize</span> <span class='hs-layout'>(</span><span class='hs-varid'>bounds</span> <span class='hs-varid'>m</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>|</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-layout'>(</span><span class='hs-varid'>v</span> <span class='hs-conop'>:</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-layout'>(</span><span class='hs-varid'>u</span><span class='hs-layout'>,</span> <span class='hs-varid'>rangeSize</span> <span class='hs-layout'>(</span><span class='hs-varid'>bounds</span> <span class='hs-varid'>m</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>|</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>v</span> <span class='hs-conop'>:</span> <span class='hs-varid'>c</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint7 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:56:18: Warning: Use &#39;when&#39; from Relude<br/>
+Found<br/>
+<pre><span class='hs-definition'>when</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>when</span></pre>
+<span class='note'>Note: &#39;when&#39; is already exported from Relude</span>
+</div>
+
+<div class="hint20 file6">
+./hs/src/HelVM/HelPS/BLC/SCC.hs:64:21: Suggestion: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>elemIndex</span> <span class='hs-varid'>v</span> <span class='hs-varid'>vs</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>i</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>i</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>error</span> <span class='hs-str'>"Illegal adjacency list"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fromMaybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>error</span> <span class='hs-str'>"Illegal adjacency list"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>elemIndex</span> <span class='hs-varid'>v</span> <span class='hs-varid'>vs</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint9 file7">
+./hs/src/HelVM/HelPS/BLC/Static.hs:22:18: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-varid'>anSigDecl</span> <span class='hs-varid'>dt</span><span class='hs-layout'>)</span> <span class='hs-varid'>sigDecls</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-layout'>(</span><span class='hs-varid'>anSigDecl</span> <span class='hs-varid'>dt</span><span class='hs-layout'>)</span> <span class='hs-varid'>sigDecls</span></pre>
+
+</div>
+
+<div class="hint25 file7">
+./hs/src/HelVM/HelPS/BLC/Static.hs:256:33: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint25 file7">
+./hs/src/HelVM/HelPS/BLC/Static.hs:257:38: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint22 file7">
+./hs/src/HelVM/HelPS/BLC/Static.hs:265:25: Suggestion: Use infix<br/>
+Found<br/>
+<pre><span class='hs-definition'>elem</span> <span class='hs-varid'>id</span> <span class='hs-varid'>bounded</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>id</span> <span class='hs-varop'>`elem`</span> <span class='hs-varid'>bounded</span></pre>
+
+</div>
+
+<div class="hint5 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:40:29: Warning: Use &#39;chr&#39; from Relude<br/>
+Found<br/>
+<pre><span class='hs-definition'>chr</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>chr</span></pre>
+<span class='note'>Note: &#39;chr&#39; is already exported from Relude</span>
+</div>
+
+<div class="hint14 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:44:28: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:48:50: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint14 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:53:32: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint1 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:75:5: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>show</span> <span class='hs-varid'>tc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span> <span class='hs-varid'>tc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>show</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span></pre>
+
+</div>
+
+<div class="hint1 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:83:5: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>assocKey</span> <span class='hs-varid'>tc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span> <span class='hs-varid'>tc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>assocKey</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span></pre>
+
+</div>
+
+<div class="hint1 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:142:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>list</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TAp</span> <span class='hs-varid'>tList</span> <span class='hs-varid'>t</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>list</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TAp</span> <span class='hs-varid'>tList</span></pre>
+
+</div>
+
+<div class="hint1 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:152:3: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>kind</span> <span class='hs-varid'>tc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconKind</span> <span class='hs-varid'>tc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>kind</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconKind</span></pre>
+
+</div>
+
+<div class="hint17 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:158:20: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-layout'>(</span><span class='hs-varid'>kind</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-keyword'>of</span>
+    <span class='hs-layout'>(</span><span class='hs-conid'>Kfun</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>k</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>k</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>kind</span> <span class='hs-varid'>t</span> <span class='hs-keyword'>of</span>
+    <span class='hs-layout'>(</span><span class='hs-conid'>Kfun</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>k</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>k</span></pre>
+
+</div>
+
+<div class="hint20 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:169:23: Suggestion: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>lookup</span> <span class='hs-varid'>u</span> <span class='hs-varid'>s</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>t</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>TVar</span> <span class='hs-varid'>u</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fromMaybe</span> <span class='hs-layout'>(</span><span class='hs-conid'>TVar</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lookup</span> <span class='hs-varid'>u</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint12 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:181:13: Warning: Use ordNub<br/>
+Found<br/>
+<pre><span class='hs-definition'>nub</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>ordNub</span></pre>
+<span class='note'>Note: &#39;nub&#39; is O(n^2), &#39;ordNub&#39; is O(n log n)</span>
+</div>
+
+<div class="hint9 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:181:19: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-varop'>.</span> <span class='hs-varid'>map</span> <span class='hs-varid'>tv</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>tv</span></pre>
+
+</div>
+
+<div class="hint17 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:240:24: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-definition'>i</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>i</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>sc</span></pre>
+
+</div>
+
+<div class="hint9 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:324:35: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span></pre>
+
+</div>
+
+<div class="hint9 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:329:23: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span></pre>
+
+</div>
+
+<div class="hint1 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:368:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>idEnvTransformer</span> <span class='hs-varid'>ce</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Just</span> <span class='hs-varid'>ce</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>idEnvTransformer</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Just</span></pre>
+
+</div>
+
+<div class="hint20 file8">
+./hs/src/HelVM/HelPS/BLC/Syntax.hs:397:28: Suggestion: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>lookup</span> <span class='hs-varid'>key</span> <span class='hs-varid'>xs</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>x</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>error</span> <span class='hs-str'>"cannot occur"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fromMaybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>error</span> <span class='hs-str'>"cannot occur"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lookup</span> <span class='hs-varid'>key</span> <span class='hs-varid'>xs</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file9">
+./hs/src/HelVM/HelPS/BLC/Test.hs:11:5: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>let</span> <span class='hs-varid'>pList</span> <span class='hs-keyglyph'>=</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.TyAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.TyCon</span> <span class='hs-str'>"List"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.TyVar</span> <span class='hs-str'>"a"</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-keyword'>in</span>
+  <span class='hs-varid'>assertEqual</span> <span class='hs-str'>"1"</span> <span class='hs-layout'>(</span><span class='hs-varid'>tyList</span><span class='hs-layout'>,</span> <span class='hs-varid'>tcList</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>S.anDataLhs</span> <span class='hs-varid'>pList</span> <span class='hs-num'>2</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>let</span> <span class='hs-varid'>pList</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>P.TyAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.TyCon</span> <span class='hs-str'>"List"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>P.TyVar</span> <span class='hs-str'>"a"</span><span class='hs-layout'>)</span> <span class='hs-keyword'>in</span>
+  <span class='hs-varid'>assertEqual</span> <span class='hs-str'>"1"</span> <span class='hs-layout'>(</span><span class='hs-varid'>tyList</span><span class='hs-layout'>,</span> <span class='hs-varid'>tcList</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>S.anDataLhs</span> <span class='hs-varid'>pList</span> <span class='hs-num'>2</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:350:12: Warning: Reduce duplication<br/>
+Found<br/>
+<pre><span class='hs-definition'>qs'</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>qs</span>
+<span class='hs-definition'>t'</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>t</span>
+<span class='hs-definition'>fs</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tv</span> <span class='hs-layout'>(</span><span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>env</span><span class='hs-layout'>)</span>
+<span class='hs-definition'>gs</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tv</span> <span class='hs-varid'>t'</span> <span class='hs-varop'>\\</span> <span class='hs-varid'>fs</span>
+<span class='hs-definition'>sc'</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>quantify</span> <span class='hs-varid'>gs</span> <span class='hs-layout'>(</span><span class='hs-varid'>qs'</span> <span class='hs-conop'>:=&gt;</span> <span class='hs-varid'>t'</span><span class='hs-layout'>)</span>
+<span class='hs-definition'>ps'</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>filter</span> <span class='hs-layout'>(</span><span class='hs-varid'>not</span> <span class='hs-varop'>.</span> <span class='hs-varid'>entail</span> <span class='hs-varid'>ce</span> <span class='hs-varid'>qs'</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span>
+</pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Combine</span> <span class='hs-varid'>with</span> <span class='hs-varop'>./</span><span class='hs-varid'>hs</span><span class='hs-varop'>/</span><span class='hs-varid'>src</span><span class='hs-varop'>/</span><span class='hs-conid'>HelVM</span><span class='hs-varop'>/</span><span class='hs-conid'>HelPS</span><span class='hs-varop'>/</span><span class='hs-conid'>BLC</span><span class='hs-varop'>/</span><span class='hs-conid'>Type.hs</span><span class='hs-conop'>:</span><span class='hs-num'>521</span><span class='hs-conop'>:</span><span class='hs-num'>18</span></pre>
+
+</div>
+
+<div class="hint11 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:374:27: Warning: Use mapM_<br/>
+Found<br/>
+<pre><span class='hs-definition'>mapM</span> <span class='hs-layout'>(</span><span class='hs-varid'>unify</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>t'</span> <span class='hs-keyglyph'>|</span> <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-varid'>t'</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>r</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>mapM_</span> <span class='hs-layout'>(</span><span class='hs-varid'>unify</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>t'</span> <span class='hs-keyglyph'>|</span> <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-varid'>t'</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>r</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint11 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:394:8: Warning: Use mapM_<br/>
+Found<br/>
+<pre><span class='hs-definition'>mapM</span> <span class='hs-layout'>(</span><span class='hs-varid'>unify</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>t'</span> <span class='hs-keyglyph'>|</span> <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-varid'>t'</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>r</span><span class='hs-keyglyph'>]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>mapM_</span> <span class='hs-layout'>(</span><span class='hs-varid'>unify</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>[</span><span class='hs-varid'>t'</span> <span class='hs-keyglyph'>|</span> <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-varid'>t'</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>&lt;-</span> <span class='hs-varid'>r</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:429:36: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-conid'>TVar</span> <span class='hs-varid'>v</span><span class='hs-layout'>)</span> <span class='hs-varop'>==</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>TVar</span> <span class='hs-varid'>v</span> <span class='hs-varop'>==</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint9 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:444:44: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>snd</span> <span class='hs-varid'>vps</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>snd</span> <span class='hs-varid'>vps</span></pre>
+
+</div>
+
+<div class="hint1 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:458:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>resolve</span> <span class='hs-varid'>ce</span> <span class='hs-varid'>s</span> <span class='hs-varid'>recs</span> <span class='hs-varid'>ps</span> <span class='hs-varid'>alts</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>map</span> <span class='hs-varid'>resolveAlt</span> <span class='hs-varid'>alts</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>resolve</span> <span class='hs-varid'>ce</span> <span class='hs-varid'>s</span> <span class='hs-varid'>recs</span> <span class='hs-varid'>ps</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>map</span> <span class='hs-varid'>resolveAlt</span></pre>
+
+</div>
+
+<div class="hint20 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:489:5: Suggestion: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>lookup</span> <span class='hs-varid'>p'</span> <span class='hs-layout'>(</span><span class='hs-varid'>reParam</span> <span class='hs-varid'>re</span><span class='hs-layout'>)</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>e'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>byInst</span> <span class='hs-layout'>(</span><span class='hs-varid'>reClass</span> <span class='hs-varid'>re</span><span class='hs-layout'>)</span> <span class='hs-varid'>p'</span> <span class='hs-keyword'>of</span>
+                   <span class='hs-conid'>Just</span> <span class='hs-layout'>(</span><span class='hs-varid'>ps</span><span class='hs-layout'>,</span> <span class='hs-varid'>e'</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldl</span> <span class='hs-conid'>Ap</span> <span class='hs-varid'>e'</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-varid'>resolveExpr</span> <span class='hs-varid'>re</span> <span class='hs-varop'>.</span> <span class='hs-conid'>ClassPH</span><span class='hs-layout'>)</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span>
+                   <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>resolveSuper</span> <span class='hs-varid'>re</span> <span class='hs-varid'>pes</span> <span class='hs-varid'>p'</span> <span class='hs-keyword'>of</span>
+                                  <span class='hs-conid'>Just</span> <span class='hs-varid'>e'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+                                  <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fromMaybe</span>
+  <span class='hs-layout'>(</span><span class='hs-keyword'>case</span> <span class='hs-varid'>byInst</span> <span class='hs-layout'>(</span><span class='hs-varid'>reClass</span> <span class='hs-varid'>re</span><span class='hs-layout'>)</span> <span class='hs-varid'>p'</span> <span class='hs-keyword'>of</span>
+       <span class='hs-conid'>Just</span> <span class='hs-layout'>(</span><span class='hs-varid'>ps</span><span class='hs-layout'>,</span> <span class='hs-varid'>e'</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldl</span> <span class='hs-conid'>Ap</span> <span class='hs-varid'>e'</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-varid'>resolveExpr</span> <span class='hs-varid'>re</span> <span class='hs-varop'>.</span> <span class='hs-conid'>ClassPH</span><span class='hs-layout'>)</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span>
+       <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>resolveSuper</span> <span class='hs-varid'>re</span> <span class='hs-varid'>pes</span> <span class='hs-varid'>p'</span> <span class='hs-keyword'>of</span>
+                      <span class='hs-conid'>Just</span> <span class='hs-varid'>e'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+                      <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+  <span class='hs-layout'>(</span><span class='hs-varid'>lookup</span> <span class='hs-varid'>p'</span> <span class='hs-layout'>(</span><span class='hs-varid'>reParam</span> <span class='hs-varid'>re</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint20 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:495:17: Suggestion: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>resolveSuper</span> <span class='hs-varid'>re</span> <span class='hs-varid'>pes</span> <span class='hs-varid'>p'</span> <span class='hs-keyword'>of</span>
+    <span class='hs-conid'>Just</span> <span class='hs-varid'>e'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+    <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fromMaybe</span> <span class='hs-varid'>e</span> <span class='hs-layout'>(</span><span class='hs-varid'>resolveSuper</span> <span class='hs-varid'>re</span> <span class='hs-varid'>pes</span> <span class='hs-varid'>p'</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint1 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:540:1: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>restricted</span> <span class='hs-varid'>bs</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>any</span> <span class='hs-varid'>simple</span> <span class='hs-varid'>bs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>restricted</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>any</span> <span class='hs-varid'>simple</span></pre>
+
+</div>
+
+<div class="hint15 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:550:18: Warning: Use zipWithM<br/>
+Found<br/>
+<pre><span class='hs-definition'>sequence</span> <span class='hs-layout'>(</span><span class='hs-varid'>zipWith</span> <span class='hs-layout'>(</span><span class='hs-varid'>tiAlts</span> <span class='hs-varid'>ce</span> <span class='hs-varid'>env'</span><span class='hs-layout'>)</span> <span class='hs-varid'>altss</span> <span class='hs-varid'>ts</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Control.Monad.zipWithM</span> <span class='hs-layout'>(</span><span class='hs-varid'>tiAlts</span> <span class='hs-varid'>ce</span> <span class='hs-varid'>env'</span><span class='hs-layout'>)</span> <span class='hs-varid'>altss</span> <span class='hs-varid'>ts</span></pre>
+
+</div>
+
+<div class="hint9 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:552:31: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>fst</span> <span class='hs-varid'>pssass</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>fst</span> <span class='hs-varid'>pssass</span></pre>
+
+</div>
+
+<div class="hint9 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:579:20: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>fst</span> <span class='hs-varid'>qses_s</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>fst</span> <span class='hs-varid'>qses_s</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:601:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"+"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"+"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:602:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"-"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"-"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:603:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"*"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"*"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:605:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"div"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"div"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:606:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"mod"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"mod"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:610:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"&lt;"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"&lt;"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:611:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"&gt;"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"&gt;"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:612:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"&lt;="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"&lt;="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:613:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"&gt;="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"&gt;="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:614:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"&amp;&amp;"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"&amp;&amp;"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:615:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"||"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"||"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:616:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"ord"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tChar</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"ord"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tChar</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tInt</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:617:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"chr"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tChar</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"chr"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tChar</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:618:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"++"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>list</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>list</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>list</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"++"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>list</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>list</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>list</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:619:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"."</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span> <span class='hs-varop'>`fn`</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"."</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span> <span class='hs-varop'>`fn`</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:620:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"error"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>list</span> <span class='hs-varid'>tChar</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"error"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>list</span> <span class='hs-varid'>tChar</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:621:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"hGetContents"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>list</span> <span class='hs-varid'>tChar</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"hGetContents"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>toScheme</span> <span class='hs-layout'>(</span><span class='hs-varid'>tInt</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>list</span> <span class='hs-varid'>tChar</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:622:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"IF"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"IF"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>tBool</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:623:2: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"SEL"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"SEL"</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll'</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:631:9: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"=="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>[</span><span class='hs-conid'>IsIn</span> <span class='hs-str'>"Eq"</span> <span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-conop'>:=&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"=="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>[</span><span class='hs-conid'>IsIn</span> <span class='hs-str'>"Eq"</span> <span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-conop'>:=&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint17 file10">
+./hs/src/HelVM/HelPS/BLC/Type.hs:632:9: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-str'>"/="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>quantifyAll</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>[</span><span class='hs-conid'>IsIn</span> <span class='hs-str'>"Eq"</span> <span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-conop'>:=&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"/="</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>quantifyAll</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>[</span><span class='hs-conid'>IsIn</span> <span class='hs-str'>"Eq"</span> <span class='hs-varid'>a</span><span class='hs-keyglyph'>]</span> <span class='hs-conop'>:=&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>a</span> <span class='hs-varop'>`fn`</span> <span class='hs-varid'>tBool</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+</div>
+<script type='text/javascript'>
+show(window.location.hash.slice(1), true);
+</script>
+</body>
+</html>

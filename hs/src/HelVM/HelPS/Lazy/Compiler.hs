@@ -1,7 +1,8 @@
-module Compiler where
-import Syntax
-import PatComp (compilePatternMatch)
-import PPrint () -- for (Show Expr)
+module HelVM.HelPS.Lazy.Compiler where
+
+import HelVM.HelPS.Lazy.Syntax
+import HelVM.HelPS.Lazy.PatComp (compilePatternMatch)
+import HelVM.HelPS.Lazy.PPrint () -- for (Show Expr)
 
 programToExpr :: Program -> Expr
 programToExpr bgs = foldr Let (mainExpr (last bgs)) bgs'
@@ -47,8 +48,8 @@ compileExpr (Ap e1 e2) = compileExpr e1 `SAp` compileExpr e2
 compileExpr (Let bg e)
     = case map compileDef (bindings bg) of
       [(i, v)] -> case (abstract i e') of
-		  SVar "K" `SAp` _ -> e'
-		  e''              -> e'' `SAp` removeSelfRec i v
+		              SVar "K" `SAp` _ -> e'
+		              e''              -> e'' `SAp` removeSelfRec i v
       defs     -> compileMultipleDefs e' defs
     where e' = compileExpr e
 compileExpr (Lambda a) = compileAlt a

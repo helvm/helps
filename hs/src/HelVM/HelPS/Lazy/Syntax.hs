@@ -1,7 +1,8 @@
-module Syntax where
+module HelVM.HelPS.Lazy.Syntax where
+
 import Data.Char(chr, ord)
 import Data.List(find, nub, union, intersect, (\\))
-import SCC
+import HelVM.HelPS.Lazy.SCC
 
 type Id  = String
 type Alt = ([Pat], Rhs)

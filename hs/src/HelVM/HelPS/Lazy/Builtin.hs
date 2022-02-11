@@ -1,7 +1,8 @@
-module Builtin where
+module HelVM.HelPS.Lazy.Builtin where
+
 import Data.List (find)
 import Data.Char (ord)
-import Syntax
+import HelVM.HelPS.Lazy.Syntax
 
 churchnums = [
  SLit $ LitStr "`ki", -- 0

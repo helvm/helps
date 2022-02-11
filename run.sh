@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cabal new-run helps $1
+cabal new-run helps -- "$@"

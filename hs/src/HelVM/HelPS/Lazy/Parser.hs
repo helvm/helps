@@ -1,4 +1,5 @@
-module Parser where
+module HelVM.HelPS.Lazy.Parser where
+
 import           Control.Monad                      (liftM)
 import           Lexer
 import           Text.ParserCombinators.Parsec      hiding (satisfy)

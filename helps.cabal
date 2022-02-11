@@ -105,6 +105,18 @@ library
   hs-source-dirs:      hs/src
   exposed-modules:
     HelVM.HelPS.HelPS
+    HelVM.HelPS.Lazy.Builtin
+    HelVM.HelPS.Lazy.Compiler
+    HelVM.HelPS.Lazy.Lexer
+    HelVM.HelPS.Lazy.Main
+    HelVM.HelPS.Lazy.Optimizer
+    HelVM.HelPS.Lazy.Parser
+    HelVM.HelPS.Lazy.PatComp
+    HelVM.HelPS.Lazy.PPrint
+    HelVM.HelPS.Lazy.SCC
+    HelVM.HelPS.Lazy.Static
+    HelVM.HelPS.Lazy.Syntax
+    HelVM.HelPS.Lazy.Type
 
   other-extensions:
   build-depends:
@@ -136,6 +148,7 @@ test-suite helps-test
   main-is:             Main.hs
   other-modules:
     Spec
+--    HelVM.HelPS.Lazy.Test
   build-depends:
       hspec
     , hspec-core

@@ -1,4 +1,5 @@
 import HUnit
+
 import Syntax
 import qualified Parser as P
 import qualified Static as S

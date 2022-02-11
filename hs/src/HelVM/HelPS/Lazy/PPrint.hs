@@ -1,5 +1,6 @@
-module PPrint where
-import Syntax
+module HelVM.HelPS.Lazy.PPrint where
+
+import HelVM.HelPS.Lazy.Syntax
 --import IOExts (trace)
 
 --traceProgram :: Program -> Program

@@ -1,10 +1,11 @@
-module Static where
+module HelVM.HelPS.Lazy.Static where
+
 import Data.List(union, partition, (\\))
 import qualified Data.List(find)
-import Syntax
+import HelVM.HelPS.Lazy.Syntax
 import qualified Parser as P
 import qualified Type as T
-import PatComp (patBindings)
+import HelVM.HelPS.Lazy.PatComp (patBindings)
 
 type TyconEnv = ([Tycon], [Synonym])
 type DataType = (TyconEnv, [Const])

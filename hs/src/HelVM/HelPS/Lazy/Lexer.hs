@@ -1,7 +1,8 @@
 {-# LANGUAGE CPP #-}
 {-# LINE 2 "Lexer.x" #-}
 
-module Lexer where
+module HelVM.HelPS.Lazy.Lexer where
+
 import Numeric (readOct, readHex)
 import Data.Char (isUpper, isLower)
 import qualified Text.ParserCombinators.Parsec.Pos as Pos

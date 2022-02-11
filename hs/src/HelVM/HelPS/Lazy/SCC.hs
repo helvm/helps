@@ -1,4 +1,5 @@
-module SCC (scc) where
+module HelVM.HelPS.Lazy.SCC (scc) where
+
 import Data.List (elemIndex)
 import Control.Monad (when)
 import Data.Array

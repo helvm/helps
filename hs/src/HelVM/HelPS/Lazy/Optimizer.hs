@@ -1,5 +1,6 @@
-module Optimizer where
-import Syntax
+module HelVM.HelPS.Lazy.Optimizer where
+
+import HelVM.HelPS.Lazy.Syntax
 
 optimizeExpr :: Expr -> Expr
 optimizeExpr = optExpr
