@@ -195,7 +195,7 @@ simpleclass t                                = unexpected (show t)
 toSimpletype :: Type -> HsParser (String, [String])
 toSimpletype (TyCon con) = return (con, [])
 toSimpletype (TyAp l (TyVar v)) = do (c, vs) <- toSimpletype l
-                                     return (c, vs++[v])
+                                     return (c, vs<>[v])
 toSimpletype t = unexpected (show t)
 
 simpletype :: HsParser (String, [String])
@@ -408,7 +408,7 @@ fixity "/"   = InfixL 7
 fixity "+"   = InfixL 6
 fixity "-"   = InfixL 6
 fixity ":"   = InfixR 5
-fixity "++"  = InfixR 5
+fixity "<>"  = InfixR 5
 fixity "=="  = InfixN 4
 fixity "/="  = InfixN 4
 fixity "<"   = InfixN 4
@@ -533,7 +533,7 @@ pcons p1 p2 = PCon ":" [p1, p2]
 
 parse :: [(Token, SourcePos)] -> [TopDecl]
 parse input = case runParser program () "stdin" input of
-                Left err  -> error ("parse error at " ++ show err)
+                Left err  -> error ("parse error at " <> show err)
                 Right tds -> tds
 
 -----------------------------------------------------------------------------

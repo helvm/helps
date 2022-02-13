@@ -13,11 +13,11 @@ import HelVM.HelPS.Lazy.Optimizer (optimizeExpr)
 import HelVM.HelPS.Lazy.Builtin (expandBltin)
 import HelVM.HelPS.Lazy.PPrint (showProgram)
 
-compile s = (prog, as ++ a, expr2, ski2, ce')
+compile s = (prog, as <> a, expr2, ski2, ce')
     where (prog, is, ce', as) = S.analyze ce topdecls
           topdecls = P.Decl (P.VarDecl ("@main", [], P.Rhs (P.Var "main") []))
                      : (P.parse (L.lexer "argf" s))
-          as' = as ++ T.preludeAssumptions
+          as' = as <> T.preludeAssumptions
 	  (a, prog') = T.tiProgram ce' as' prog
           prog2 = ([],[is]):prog'
           prog3 = compilePatternMatch prog2

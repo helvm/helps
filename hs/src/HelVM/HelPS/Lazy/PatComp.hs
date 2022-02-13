@@ -80,7 +80,7 @@ patBindings v (PCon con pats)
 makeSel :: Const -> Int -> Expr -> Expr
 --makeSel con i e = ap (Var "SEL") [Lit (LitInt i), e]
 makeSel con i e = expr
-    where vs = ["@@"++show v | v <- [1..(conArity con)]]
+    where vs = ["@@"<>show v | v <- [1..(conArity con)]]
           body = Rhs $ Var $ vs !! (i-1)
           receiver = Lambda ([PVar v | v <- vs], body)
           expr = ap e [if i == conTag con then receiver else eError
@@ -172,8 +172,8 @@ matchCon us qs def
 matchConClause :: [Id] -> Expr -> (Const, [Equation]) -> PatComp (Expr, Expr)
 matchConClause (u:us) def (con, qs) =
     do us' <- newVars k'
-       body <- match (us'++us)
-                     [(ps'++ps, rhs) | (PCon c ps':ps, rhs) <- qs] def
+       body <- match (us'<>us)
+                     [(ps'<>ps, rhs) | (PCon c ps':ps, rhs) <- qs] def
        let receiver = Lambda ([PVar v | v <- us'], Rhs body)
            expr = ap (Var u) [if i == conTag con then receiver else eError
                                  | i <- [1..(tyconNumCon $ conTycon con)]]

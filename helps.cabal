@@ -120,6 +120,8 @@ library
 
   other-extensions:
   build-depends:
+      array
+    , parsec
   mixins:
       base hiding (Prelude)
     , relude (Relude as Prelude, Relude.Extra)

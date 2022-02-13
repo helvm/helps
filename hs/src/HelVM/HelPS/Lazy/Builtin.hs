@@ -279,7 +279,7 @@ builtins = [
  ("&&", SLit $ LitStr "``ss`k`k`ki"),
  ("||", SLit $ LitStr "``si`kk"),
  (".", SLit $ LitStr "``s`ksk"),
- ("++", SLit $ LitStr "```sii``s``s`ks``s`k`s`ks``s`k`s``s`ksk``s`kk``s`k`s`k`s``s`ks``s`kk``s`k`s`k`s`kk``s``s`ks``s`kk``s`ks``s`k`sik`kk``s`k`s`kk``s``s`ks``s`kk``s`ks``sii`kk`k`ki"),
+ ("<>", SLit $ LitStr "```sii``s``s`ks``s`k`s`ks``s`k`s``s`ksk``s`kk``s`k`s`k`s``s`ks``s`kk``s`k`s`k`s`kk``s``s`ks``s`kk``s`ks``s`k`sik`kk``s`k`s`kk``s``s`ks``s`kk``s`ks``sii`kk`k`ki"),
  ("Y", SLit $ LitStr "```ss`s``s`ksk`k``sii"),
  ("U", SLit $ LitStr "``s``s`ks``s``s`ksk`k``si`kk`k``si`k`ki"),
  ("cons", SLit $ LitStr "``s``s`ks``s`kk``s`ks``s`k`sik`kk"),

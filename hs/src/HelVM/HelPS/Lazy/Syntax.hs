@@ -46,11 +46,11 @@ instance Show Type where
 	      where [t1] = ts
 	  TCon tc | tyconName tc == "(->)"
                -> showParen (p > 0) $
-		  showsPrec 1 t1 . (" -> " ++) . showsPrec 0 t2
+		  showsPrec 1 t1 . (" -> " <>) . showsPrec 0 t2
 	      where [t1, t2] = ts
 	  TCon tc | tyconName tc == "(,)"
                -> showParen True $
-		  foldr1 (\f g -> f . (", " ++) . g)
+		  foldr1 (\f g -> f . (", " <>) . g)
                          (map (showsPrec 0) ts)
 	  _    -> showParen (p > 2) $
 		  foldr1 (\f g -> f . (' ':) . g)
@@ -58,7 +58,7 @@ instance Show Type where
 	where (t:ts) = fromTAp tap
 
 fromTAp :: Type -> [Type]
-fromTAp (TAp t1 t2) = fromTAp t1 ++ [t2]
+fromTAp (TAp t1 t2) = fromTAp t1 <> [t2]
 fromTAp t = [t]
 
 data Tyvar = Tyvar Id Kind deriving Eq
@@ -198,12 +198,12 @@ instance Types Pred where
 
 instance (Show t) => Show (Qual t) where
     showsPrec _ ([] :=> t) = shows t
-    showsPrec _ (p :=> t) = showsContext . (" => " ++) . shows t
+    showsPrec _ (p :=> t) = showsContext . (" => " <>) . shows t
         where showsContext = showParen True $
-                             foldr1 (\f g -> f . (", " ++) . g) (map shows p)
+                             foldr1 (\f g -> f . (", " <>) . g) (map shows p)
 
 instance Show Pred where
-    showsPrec _ (IsIn id t) = (id ++) . (' ':) . shows t
+    showsPrec _ (IsIn id t) = (id <>) . (' ':) . shows t
 
 -- Type schemes
 data Scheme = Forall [Kind] (Qual Type)
@@ -235,14 +235,14 @@ toScheme t     = Forall [] ([] :=> t)
 data Assump = Id :>: Scheme
 
 instance Show Assump where
-    show (i :>: sc) = show i ++ " :: " ++ show sc
+    show (i :>: sc) = show i <> " :: " <> show sc
 
 instance Types Assump where
   apply s (i :>: sc) = i :>: (apply s sc)
   tv (i :>: sc)      = tv sc
 
 findAssump :: Monad m => Id -> [Assump] -> m Scheme
-findAssump id [] = fail ("unbound identifier: " ++ id)
+findAssump id [] = fail ("unbound identifier: " <> id)
 findAssump id ((i:>:sc):as) = if i == id then return sc else findAssump id as
 
 -- Literals
@@ -291,7 +291,7 @@ ap :: Expr -> [Expr] -> Expr
 ap = foldl Ap
 
 bindings :: BindGroup -> [Impl]
-bindings (es, iss) = [(i, as) | (i, _, as) <- es] ++ concat iss
+bindings (es, iss) = [(i, as) | (i, _, as) <- es] <> concat iss
 
 class HasVar t where
     freeVars :: t -> [Id]
@@ -384,7 +384,7 @@ sap = foldl SAp
 
 instance Show SKI where
     show e = showsPrec 1 e ""
-    showsPrec _ (SVar i)    = (i++)
+    showsPrec _ (SVar i)    = (i<>)
     showsPrec _ (SLit l)    = shows l
     showsPrec _ (SCon k n)  = ('@':) . shows k . ('_':) . shows n
     showsPrec _ (SAp e1 e2) = ('`':) . shows e1 . shows e2
