@@ -36,7 +36,7 @@ common common-options
     , relude               == 1.2.2.0
   mixins:
       base hiding (Prelude)
-    , relude (Relude as Prelude, Relude.Extra, Data.Text)
+    , relude (Relude as Prelude, Relude.Extra)
   default-language:    Haskell2010
   default-extensions:
     EmptyDataDecls
@@ -82,28 +82,32 @@ common common-options
     StrictData
   if flag(ghcoptions)
     ghc-options:
-      -Wall
-      -Wcompat
-      -Widentities
-      -Wincomplete-uni-patterns
-      -Wincomplete-record-updates
-      -Wredundant-constraints
-      -Wnoncanonical-monad-instances
-      -fhide-source-paths
---      -Wmissing-export-lists FIXME
-       -Wpartial-fields
-      -Wmissing-deriving-strategies
-      -fwrite-ide-info
-      -hiedir=.hie
---      -Wunused-packages Remove comment when use base library
-      -fprint-potential-instances
-      -Werror
+--      -Wall
+--      -Wcompat
+--      -Widentities
+--      -Wincomplete-uni-patterns
+--      -Wincomplete-record-updates
+--      -Wredundant-constraints
+--      -Wnoncanonical-monad-instances
+--      -fhide-source-paths
+----      -Wmissing-export-lists FIXME
+--       -Wpartial-fields
+--      -Wmissing-deriving-strategies
+--      -fwrite-ide-info
+--      -hiedir=.hie
+----      -Wunused-packages Remove comment when use base library
+--      -fprint-potential-instances
+--      -Werror
+      -fno-warn-unused-binds
 
 library
   import:              common-options
   hs-source-dirs:      hs/src
   exposed-modules:
     HelVM.HelPS.HelPS
+
+    HelVM.HelPS.Quest.Compiler
+    HelVM.HelPS.Quest.Grind.Parity
 
   build-depends:
       helio
@@ -117,12 +121,13 @@ executable helps
   other-modules:
     AppOptions
   build-depends:
---      helps
+      helps
 --    , optparse-applicative >= 0.14.3.0
   ghc-options:
     -threaded
     -rtsopts
     -with-rtsopts=-N
+    -fno-warn-unused-binds
 
 test-suite helps-test
   import:              common-options
@@ -137,12 +142,16 @@ test-suite helps-test
     HelVM.Expectations
     HelVM.GoldenExpectations
 
+    HelVM.HelPS.Quest.CompilerSpec
+
   build-depends:
       hspec
     , hspec-core
     , hspec-expectations-pretty-diff
     , hspec-golden
     , hspec-slow
+    , filepath
+    , type-operators
 
     , helio
     , helps
