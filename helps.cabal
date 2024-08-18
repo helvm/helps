@@ -11,7 +11,7 @@ license:               Apache-2.0
 license-file:          docs/license/LICENSE-APACHE
 author:                Kamil Adam
 maintainer:            kamil.adam.zabinski@gmail.com
-copyright:             2020-2023 WriteOnly Developers
+copyright:             2020-2024 WriteOnly Developers
 
 category:              Language
 build-type:            Simple
@@ -106,6 +106,7 @@ library
     HelVM.HelPS.HelPS
 
   build-depends:
+      helio
 
   ghc-options:
 
@@ -130,6 +131,11 @@ test-suite helps-test
   main-is:             Main.hs
   other-modules:
     Spec
+    SpecHook
+
+    HelVM.Expectations
+    HelVM.GoldenExpectations
+
   build-depends:
       hspec
     , hspec-core
@@ -137,7 +143,11 @@ test-suite helps-test
     , hspec-golden
     , hspec-slow
 
+    , helio
     , helps
+
+    , filepath
+    , type-operators
 
   build-tool-depends:  hspec-discover:hspec-discover == 2.*
   ghc-options:
