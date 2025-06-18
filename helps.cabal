@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.1.0.0
+version:               0.1.0.1
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -11,7 +11,7 @@ license:               Apache-2.0
 license-file:          docs/license/LICENSE-APACHE
 author:                Kamil Adam
 maintainer:            kamil.adam.zabinski@gmail.com
-copyright:             2020-2024 WriteOnly Developers
+copyright:             2020-2025 WriteOnly Developers
 
 category:              Language
 build-type:            Simple
@@ -19,7 +19,7 @@ extra-source-files:
   docs/developers/CHANGELOG.md
   docs/README.md
 
-tested-with:           GHC == 9.6.1
+tested-with:           GHC == 9.10.1
 
 source-repository head
   type:                git
@@ -32,8 +32,8 @@ flag ghcoptions
 
 common common-options
   build-depends:
-      base                 <  4.19
-    , relude               == 1.1.0.0
+      base                 <  4.21
+    , relude               == 1.2.2.0
   mixins:
       base hiding (Prelude)
     , relude (Relude as Prelude, Relude.Extra, Data.Text)
@@ -130,6 +130,7 @@ test-suite helps-test
   hs-source-dirs:      hs/test
   main-is:             Main.hs
   other-modules:
+    Slow
     Spec
     SpecHook
 
@@ -147,6 +148,8 @@ test-suite helps-test
     , helps
 
     , filepath
+    , stm
+    , time
     , type-operators
 
   build-tool-depends:  hspec-discover:hspec-discover == 2.*
@@ -155,19 +158,19 @@ test-suite helps-test
     -rtsopts
     -with-rtsopts=-N
 
-benchmark helps-benchmark
-  import:              common-options
-  type:                exitcode-stdio-1.0
-  hs-source-dirs:      hs/benchmark
-  main-is:             Main.hs
-  other-modules:
+--benchmark helps-benchmark
+--  import:              common-options
+--  type:                exitcode-stdio-1.0
+--  hs-source-dirs:      hs/benchmark
+--  main-is:             Main.hs
+--  other-modules:
 
-  build-depends:
-      gauge
+--  build-depends:
+--      gauge
 
 --    , helps
 
-  ghc-options:
-    -threaded
-    -rtsopts
-    -with-rtsopts=-N
+--  ghc-options:
+--    -threaded
+--    -rtsopts
+--    -with-rtsopts=-N
