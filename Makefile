@@ -1,6 +1,6 @@
 .PHONY: all bench build check check-whitespace clean configure exec fast golden haddock hlint hpack install main output repl report run sdist stan stylish test tix update
 
-all: update fast bench
+all: update fast
 
 bench:
 	rm -f helps-benchmark.tix
@@ -23,7 +23,7 @@ clean:
 
 configure:
 	rm -f cabal.project.local*
-	cabal configure --enable-benchmarks --enable-coverage --enable-tests -f ghcoptions
+	cabal configure --enable-benchmarks --enable-coverage --enable-tests --disable-library-coverage -f ghcoptions
 
 exec:
 	make tix
@@ -68,7 +68,7 @@ sdist:
 
 stan:
 	./stan.sh
-	mv stan.html docs/reports
+	mv stan.html docs/reports/stan.html
 
 stylish:
 	#curl -sL https://raw.github.com/haskell/stylish-haskell/master/scripts/latest.sh | sh -s "-r -v -i hs"
