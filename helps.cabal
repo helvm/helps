@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.1.0.1
+version:               0.2.0.0
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -82,28 +82,32 @@ common common-options
     StrictData
   if flag(ghcoptions)
     ghc-options:
-      -Wall
-      -Wcompat
-      -Widentities
-      -Wincomplete-uni-patterns
-      -Wincomplete-record-updates
-      -Wredundant-constraints
-      -Wnoncanonical-monad-instances
-      -fhide-source-paths
---      -Wmissing-export-lists FIXME
-       -Wpartial-fields
-      -Wmissing-deriving-strategies
-      -fwrite-ide-info
-      -hiedir=.hie
---      -Wunused-packages Remove comment when use base library
-      -fprint-potential-instances
-      -Werror
+--      -Wall
+--      -Wcompat
+--      -Widentities
+--      -Wincomplete-uni-patterns
+--      -Wincomplete-record-updates
+--      -Wredundant-constraints
+--      -Wnoncanonical-monad-instances
+--      -fhide-source-paths
+----      -Wmissing-export-lists FIXME
+--       -Wpartial-fields
+--      -Wmissing-deriving-strategies
+--      -fwrite-ide-info
+--      -hiedir=.hie
+----      -Wunused-packages Remove comment when use base library
+--      -fprint-potential-instances
+--      -Werror
+      -fno-warn-unused-binds
 
 library
   import:              common-options
   hs-source-dirs:      hs/src
   exposed-modules:
     HelVM.HelPS.HelPS
+
+    HelVM.HelPS.MiniHaskell.Classy
+    HelVM.HelPS.MiniHaskell.Compiler
 
   build-depends:
       helio
@@ -117,8 +121,11 @@ executable helps
   other-modules:
     AppOptions
   build-depends:
---      helps
+
+      helps
 --    , optparse-applicative >= 0.14.3.0
+    , text
+
   ghc-options:
     -threaded
     -rtsopts
@@ -136,6 +143,8 @@ test-suite helps-test
 
     HelVM.Expectations
     HelVM.GoldenExpectations
+
+    HelVM.HelPS.MiniHaskell.CompilerSpec
 
   build-depends:
       hspec
