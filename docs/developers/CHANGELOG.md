@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.0.0  -- 2025-07-03
+* Add MiniHaskell
+
 ## 0.1.0.2  -- 2025-06-20
 * Upgrade
 
