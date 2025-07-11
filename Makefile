@@ -1,6 +1,6 @@
 .PHONY: all bench build check check-whitespace clean configure exec fast golden haddock hlint hpack install main output repl report run sdist stan stylish test tix update
 
-all: update fast
+all: update cpphs fast blynn check_compile
 
 bench:
 	rm -f helps-benchmark.tix
@@ -82,3 +82,12 @@ tix:
 
 update:
 	cabal update
+
+blynn:
+	gcc -ansi -O3 -o build/blynn c/blynn.c
+
+cpphs:
+	./cpphs.sh
+
+check_compile:
+	./check_compile.sh examples/mini-haskell/standalone/classy.hs

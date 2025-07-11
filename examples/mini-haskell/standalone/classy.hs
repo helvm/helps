@@ -3,39 +3,38 @@
 -- Originally written by Ben Lynn, modified by Ben Siraphob
 ------------------------------------------------------------------------
 -- Delete code below and uncomment the block to compile in GHC
-{-
-{-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE OverlappingInstances #-}
-{-# LANGUAGE TypeSynonymInstances #-}
-{-# LANGUAGE CPP #-}
-{-# LANGUAGE TupleSections #-}
-{-# LANGUAGE NoMonomorphismRestriction #-}
-module Compiler where
-import Prelude (Char, Int, String, succ)
-import Data.Char (chr, ord)
-import qualified Prelude
-a <= b = if a Prelude.<= b then True else False
-(*) = (Prelude.*)
-(+) = (Prelude.+)
-(-) = (Prelude.-)
-(/) = Prelude.div
-(%) = Prelude.mod
-class Eq a where { (==) :: a -> a -> Bool };
-class Show a where { show :: a -> String };
-class Functor f where { fmap :: (a -> b) -> f a -> f b };
-class Applicative f where { pure :: a -> f a; (<*>) :: f (a -> b) -> f a -> f b };
-class Monad m where { return :: a -> m a ; (>>=) :: m a -> (a -> m b) -> m b};
-instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
-instance Eq Int where { (==) x y = if x Prelude.== y then True else False };
-instance Show Char where { show = Prelude.show };
-infixr 5 ++;
-infixr 9 .;
-infixl 4 <*> , <$> , <* , *>;
-infixl 3 <|>, <||>;
-infixr 0 $;
-infixl 7 *;
-infixl 6 + , -;
--}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 infixr 5 :, ++;
 infixr 9 .;
 infixl 4 <*> , <$> , <* , *>;
@@ -48,7 +47,7 @@ infixl 6 + , -;
 (-) = (.-.);
 (%) = (.%.);
 (/) = (./.);
--- Delete code above and uncomment the block to compile in GHC
+
 undefined = undefined;
 ($) f = f;
 id x = x;
@@ -102,7 +101,7 @@ instance Monad Maybe where
   { return = Just ; (>>=) ma f = maybe Nothing f ma };
 fromMaybe a m = fmaybe m a id;
 foldr c n l = flst l n (\h t -> c h (foldr c n t));
--- TODO: foldr1 should have type
+-- TODO: foldr1 should have type 
 -- foldr1 :: Monoid a => (a -> a -> a) -> [a] -> a
 -- Later, when we add foldables and traversables, it should be
 -- foldr1 :: (Monoid m, Foldable t) => (m -> m -> m) -> t m -> m
@@ -158,7 +157,7 @@ showInt n = ifz n ('0':) (showInt' n);
 -- having multiple numeric types.
 instance Show Int where { show n = showInt n "" };
 
-instance Show String where { show = showString };
+instance {-# OVERLAPPING #-} Show String where { show = showString };
 instance Show a => Show [a] where { show = showList };
 
 any f = foldr (\x t -> ife (f x) True t) False;
@@ -174,7 +173,7 @@ zipWith f xs ys =
   { [] -> []
   ; (:) x xt ->
     case ys of
-    { []       -> []
+    { [] -> []
     ; (:) y yt -> f x y : zipWith f xt yt
     }
   };
@@ -1134,7 +1133,7 @@ inferMethod ienv typed qi def = fpair def $ \s expr ->
             fpair (instantiate (Qual psi $ apply subc tc) n1) $ \q2 n2 ->
             case q2 of { Qual ps2 t2 -> fpair ta $ \tx ax ->
               case match (apply sub tx) t2 of
-                { Nothing   -> undefined  -- Class/instance type conflict.
+                { Nothing -> undefined  -- Class/instance type conflict.
                 ; Just subx -> snd $ prove' ienv (subx @@ sub) (dictVars ps2 0) ax
               }}}}}}}}};
 

@@ -1,4 +1,4 @@
-module HelVM.HelPS.MiniHaskell.Compiler where
+module HelVM.HelPS.MiniHaskell.ClassyAdapter where
 
 import           HelVM.HelPS.MiniHaskell.Classy (compile)
 

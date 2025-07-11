@@ -3,15 +3,15 @@
 -- Originally written by Ben Lynn, modified by Ben Siraphob
 ------------------------------------------------------------------------
 -- Delete code below and uncomment the block to compile in GHC
-
-{-# LANGUAGE CPP                       #-}
-{-# LANGUAGE FlexibleInstances         #-}
+#ifdef EMBEDDED
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE TypeSynonymInstances #-}
+{-# LANGUAGE CPP #-}
+{-# LANGUAGE TupleSections #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
-{-# LANGUAGE TupleSections             #-}
-{-# LANGUAGE TypeSynonymInstances      #-}
 module HelVM.HelPS.MiniHaskell.Classy where
-import           Data.Char (chr, ord)
-import           Prelude   (Char, Int, String, succ)
+import Prelude (Char, Int, String, succ)
+import Data.Char (chr, ord)
 import qualified Prelude
 a <= b = if a Prelude.<= b then True else False
 (*) = (Prelude.*)
@@ -34,20 +34,20 @@ infixl 3 <|>, <||>;
 infixr 0 $;
 infixl 7 *;
 infixl 6 + , -;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#else
+infixr 5 :, ++;
+infixr 9 .;
+infixl 4 <*> , <$> , <* , *>;
+infixl 3 <|>, <||>;
+infixr 0 $;
+infixl 7 *;
+infixl 6 + , -;
+(*) = (.*.);
+(+) = (.+.);
+(-) = (.-.);
+(%) = (.%.);
+(/) = (./.);
+#endif
 undefined = undefined;
 ($) f = f;
 id x = x;
@@ -101,7 +101,7 @@ instance Monad Maybe where
   { return = Just ; (>>=) ma f = maybe Nothing f ma };
 fromMaybe a m = fmaybe m a id;
 foldr c n l = flst l n (\h t -> c h (foldr c n t));
--- TODO: foldr1 should have type
+-- TODO: foldr1 should have type 
 -- foldr1 :: Monoid a => (a -> a -> a) -> [a] -> a
 -- Later, when we add foldables and traversables, it should be
 -- foldr1 :: (Monoid m, Foldable t) => (m -> m -> m) -> t m -> m
@@ -173,7 +173,7 @@ zipWith f xs ys =
   { [] -> []
   ; (:) x xt ->
     case ys of
-    { []       -> []
+    { [] -> []
     ; (:) y yt -> f x y : zipWith f xt yt
     }
   };
@@ -1133,7 +1133,7 @@ inferMethod ienv typed qi def = fpair def $ \s expr ->
             fpair (instantiate (Qual psi $ apply subc tc) n1) $ \q2 n2 ->
             case q2 of { Qual ps2 t2 -> fpair ta $ \tx ax ->
               case match (apply sub tx) t2 of
-                { Nothing   -> undefined  -- Class/instance type conflict.
+                { Nothing -> undefined  -- Class/instance type conflict.
                 ; Just subx -> snd $ prove' ienv (subx @@ sub) (dictVars ps2 0) ax
               }}}}}}}}};
 
