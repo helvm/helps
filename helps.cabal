@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.2.0.2
+version:               0.2.1.0
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -105,6 +105,11 @@ library
   hs-source-dirs:      hs/src
   exposed-modules:
     HelVM.HelPS.HelPS
+    HelVM.HelPS.Util
+
+    HelVM.HelPS.Compiler
+
+    HelVM.HelPS.Compiler.Classy
 
     HelVM.HelPS.MiniHaskell.Classy
     HelVM.HelPS.MiniHaskell.ClassyAdapter
@@ -120,10 +125,12 @@ executable helps
   main-is:             Main.hs
   other-modules:
     AppOptions
-  build-depends:
+    Lang
 
+  build-depends:
       helps
---    , optparse-applicative >= 0.14.3.0
+    , helio
+    , optparse-applicative
     , text
 
   ghc-options:
@@ -144,6 +151,7 @@ test-suite helps-test
     HelVM.Expectations
     HelVM.GoldenExpectations
 
+    HelVM.HelPS.CompilerSpec
     HelVM.HelPS.MiniHaskellSpec
 
   build-depends:

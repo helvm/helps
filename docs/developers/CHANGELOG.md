@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.1.0 -- 2025-07-15
+* Add Classy compiler 
+
 ## 0.2.0.2 -- 2025-07-12
 * Add test for MiniHaskell
 

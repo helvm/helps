@@ -1,8 +1,10 @@
 module HelVM.HelPS.MiniHaskellSpec (spec) where
 
-import           HelVM.GoldenExpectations
-import           HelVM.HelIO.Extra
 import           HelVM.HelPS.MiniHaskell.ClassyAdapter (compileText)
+
+import           HelVM.HelIO.Extra
+
+import           HelVM.GoldenExpectations
 
 import           Test.Hspec
 
