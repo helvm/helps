@@ -84,6 +84,7 @@ update:
 	cabal update
 
 blynn:
+	mkdir -p build
 	gcc -ansi -O3 -o build/blynn c/blynn.c
 
 cpphs:
@@ -91,3 +92,4 @@ cpphs:
 
 check_compile:
 	./check_compile.sh examples/mini-haskell/standalone/classy.hs
+	echo 'n' | ./build/blynn .output/actual/mini-haskell/bignum .output/actual/mini-haskell/bignum build/bugnum

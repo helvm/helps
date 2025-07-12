@@ -4,6 +4,7 @@
 ------------------------------------------------------------------------
 -- Delete code below and uncomment the block to compile in GHC
 
+{- HLINT ignore -}
 {-# LANGUAGE CPP                       #-}
 {-# LANGUAGE FlexibleInstances         #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}

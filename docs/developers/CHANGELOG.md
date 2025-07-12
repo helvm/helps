@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.0.2 -- 2025-07-12
+* Add test for MiniHaskell
+
 ## 0.2.0.1  -- 2025-07-11
 * Add tests and refactor
 
