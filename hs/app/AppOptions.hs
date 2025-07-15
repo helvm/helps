@@ -1,5 +1,7 @@
 module AppOptions where
 
+import           HelVM.HelPS.Compiler.Compiler
+
 import           Lang
 import           Options.Applicative
 
@@ -12,9 +14,17 @@ optionParser = AppOptions
                    <> value    defaultLang
                    <> showDefault
                    )
+  <*> option auto  (  long    "Compiler"
+                   <> short   'c'
+                   <> metavar "[Compiler]"
+                   <> help   ("Level of compiler " <> show compilers)
+                   <> value    defaultCompiler
+                   <> showDefault
+                   )
   <*> argument str (  metavar "FILE")
 
 data AppOptions = AppOptions
-  { lang :: Lang
-  , file :: String
+  { lang     :: Lang
+  , compiler :: Compiler
+  , file     :: String
   }
