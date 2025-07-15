@@ -109,7 +109,9 @@ library
 
     HelVM.HelPS.Compiler
 
+    HelVM.HelPS.Compiler.Barely
     HelVM.HelPS.Compiler.Classy
+    HelVM.HelPS.Compiler.Typically
 
     HelVM.HelPS.MiniHaskell.Classy
     HelVM.HelPS.MiniHaskell.ClassyAdapter
