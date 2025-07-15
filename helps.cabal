@@ -109,7 +109,6 @@ library
 
     HelVM.HelPS.Compiler
 
-    HelVM.HelPS.Compiler.Barely
     HelVM.HelPS.Compiler.Classy
     HelVM.HelPS.Compiler.Typically
 

@@ -12,20 +12,8 @@ a <= b = if a Prelude.<= b then True else False
 (/) = Prelude.div
 (%) = Prelude.mod
 class Eq a where { (==) :: a -> a -> Bool };
---class Show a where { show :: a -> String };
---class Functor f where { fmap :: (a -> b) -> f a -> f b };
---class Applicative f where { pure :: a -> f a; (<*>) :: f (a -> b) -> f a -> f b };
---class Monad m where { return :: a -> m a ; (>>=) :: m a -> (a -> m b) -> m b};
 instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
 instance Eq Int where { (==) x y = if x Prelude.== y then True else False };
---instance Show Char where { show = Prelude.show };
---infixr 5 ++;
---infixr 9 .;
---infixl 4 <*> , <$> , <* , *>;
---infixl 3 <|>, <||>;
---infixr 0 $;
---infixl 7 *;
---infixl 6 + , -;
 #endif
 ------------------------------------------------------------------------
 -- Type classes.
