@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.2.0 -- 2025-07-24
+* Add Typically compiler
+
 ## 0.2.1.0 -- 2025-07-15
 * Add Classy compiler 
 

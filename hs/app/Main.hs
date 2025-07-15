@@ -1,6 +1,8 @@
 module Main where
 
 import qualified HelVM.HelPS.Compiler                  as C
+import           HelVM.HelPS.Compiler.Compiler
+
 import qualified HelVM.HelPS.MiniHaskell.ClassyAdapter as MH
 
 import           HelVM.HelIO.Extra
@@ -22,9 +24,9 @@ main = run =<< execParser opts where
 run :: App.AppOptions -> IO ()
 run o = do
   source <- readFileTextUtf8 $ App.file o
-  putTextLn $ runText (App.lang o) source
+  putTextLn $ runText (App.lang o) (App.compiler o) source
 
 
-runText :: Lang -> Text -> Text
-runText MiniHaskell = MH.compileText
-runText Compiler    = C.compileText
+runText :: Lang -> Compiler -> Text -> Text
+runText MiniHaskell _ = MH.compileText
+runText Compiler    c = C.compileText c
