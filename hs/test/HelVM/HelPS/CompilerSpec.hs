@@ -10,4 +10,5 @@ import           Test.Hspec
 
 spec :: Spec
 spec = describe "compiler" $ do
+  it "typically" $ ( compileText <$> readFileTextUtf8 "examples/compiler/standalone/typically.hs") `goldenShouldIO` "compiler/typically"
   it "classy" $ ( compileText <$> readFileTextUtf8 "examples/compiler/standalone/classy.hs") `goldenShouldIO` "compiler/classy"
