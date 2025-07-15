@@ -126,6 +126,7 @@ executable helps
   main-is:             Main.hs
   other-modules:
     AppOptions
+    Compiler
     Lang
 
   build-depends:
