@@ -11,5 +11,5 @@ cpphs --noline --strip -DSTANDALONE examples/compiler/original/typically.hs > ex
 cpphs --noline --strip -DEMBEDDED   examples/compiler/original/classy.hs > hs/src/HelVM/HelPS/Compiler/Classy.hs
 cpphs --noline --strip -DSTANDALONE examples/compiler/original/classy.hs > examples/compiler/standalone/classy.hs
 
-#cpphs --noline --strip -DEMBEDDED   examples/compiler/original/barely.hs > hs/src/HelVM/HelPS/Compiler/Barely.hs
+#cpphs --noline --strip -DEMBEDDED   examples/compiler/original/barely.hs > hs/src/HelVM/HelPS/Compiler.hs/Barely.hs
 #cpphs --noline --strip -DSTANDALONE examples/compiler/original/barely.hs > examples/compiler/standalone/barely.hs
