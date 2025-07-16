@@ -1,6 +1,6 @@
 module HelVM.HelPS.Compiler where
 
-import           HelVM.HelPS.Compiler.Classy
+import qualified HelVM.HelPS.Compiler.Classy as Classy
 import           HelVM.HelPS.Util
 
 compileText :: Text -> Text
