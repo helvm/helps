@@ -15,3 +15,4 @@ spec :: Spec
 spec = describe "compiler" $ do
   it "typically" $ ( compileText Compiler.Typically <$> readFileTextUtf8 "examples/compiler/standalone/typically.hs") `goldenShouldIO` "compiler/typically"
   it "classy" $ ( compileText Compiler.Classy <$> readFileTextUtf8 "examples/compiler/standalone/classy.hs") `goldenShouldIO` "compiler/classy"
+  it "barely" $ ( compileText Compiler.Barely <$> readFileTextUtf8 "examples/compiler/standalone/barely.hs") `goldenShouldIO` "compiler/barely"

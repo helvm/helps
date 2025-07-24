@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.2.2.0
+version:               0.2.3.0
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -80,6 +80,7 @@ common common-options
     DerivingStrategies
     ConstraintKinds
     StrictData
+    BlockArguments
   if flag(ghcoptions)
     ghc-options:
 --      -Wall
@@ -111,6 +112,7 @@ library
 
     HelVM.HelPS.Compiler.Compiler
 
+    HelVM.HelPS.Compiler.Compiler.Barely
     HelVM.HelPS.Compiler.Compiler.Classy
     HelVM.HelPS.Compiler.Compiler.Typically
 

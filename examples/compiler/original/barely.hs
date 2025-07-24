@@ -1,19 +1,19 @@
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#ifdef EMBEDDED
+{- HLINT ignore -}
+module HelVM.HelPS.Compiler.Compiler.Barely where
+import Prelude (Bool(..), Char, Int, String, succ)
+import Data.Char (chr, ord)
+import qualified Prelude
+intLE = (Prelude.<=)
+intEq = (Prelude.==)
+(*) = (Prelude.*)
+(+) = (Prelude.+)
+(-) = (Prelude.-)
+(/) = Prelude.div
+(%) = Prelude.mod
+instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
+instance Ord Char where { (<=) = (Prelude.<=) };
+#endif
 -- Output bare memory dump instead of ION assembly.
 infixr 9 .;
 infixr 5 ++;
@@ -29,9 +29,9 @@ undefined = undefined;
 id x = x;
 flip f x y = f y x;
 (&) x f = f x;
-
+#ifdef STANDALONE
 data Bool = True | False;
-
+#endif
 class Ord a where { (<=) :: a -> a -> Bool };
 instance Ord Int where { (<=) = intLE };
 data Ordering = LT | GT | EQ;
@@ -160,9 +160,9 @@ mlookup kx t = case t of
     ; EQ -> Just y
     }
   };
-
-
-
+#ifdef EMBEDDED
+fromList :: Ord k => [(k, v)] -> Map k v
+#endif
 fromList = let
   { ins t kx = case kx of { (,) k x -> insert k x t }
   } in foldl ins Tip;

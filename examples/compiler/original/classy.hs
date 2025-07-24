@@ -1,6 +1,5 @@
 #ifdef EMBEDDED
 {- HLINT ignore -}
-{-# LANGUAGE BlockArguments #-}
 module HelVM.HelPS.Compiler.Compiler.Classy where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)

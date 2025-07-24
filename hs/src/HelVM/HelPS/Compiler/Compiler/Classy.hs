@@ -1,6 +1,5 @@
 
 {- HLINT ignore -}
-{-# LANGUAGE BlockArguments #-}
 module HelVM.HelPS.Compiler.Compiler.Classy where
 import           Data.Char (chr, ord)
 import           Prelude   (Char, Int, String, succ)
