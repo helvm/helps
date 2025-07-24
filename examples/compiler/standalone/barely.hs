@@ -168,6 +168,10 @@ mlookup kx t = case t of
     ; EQ -> Just y
     }
   };
+
+
+
+
 fromList = let
   { ins t kx = case kx of { (,) k x -> insert k x t }
   } in foldl ins Tip;

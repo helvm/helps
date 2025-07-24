@@ -5,14 +5,14 @@ module HelVM.HelPS.Compiler.Compiler.Barely where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)
 import qualified Prelude
-import Prelude hiding (Const, GT, Either, EQ, Eq, Just, LT, Left, Map, Nothing, Ord, Right, Type, all, compare, concat, concatMap, elem, filter, find, first, fix, flip, fmap, foldr, fst, id, last, liftA2, many, map, maybe, not, prepAsm, pure, reverse, second, snd, some, undefined, ($), (++), (.), (==), (&&), (||), (<$>), (>>=), (*>), (<|>), (<*>), (<*), (&), (<=))
+import Prelude hiding (Const, GT, Either, EQ, Eq, Just, LT, Left, Map, Nothing, Ord, Right, Type, all, compare, concat, concatMap, elem, filter, find, first, fix, flip, fmap, foldr, fst, id, last, liftA2, many, map, maybe, not, prepAsm, pure, reverse, second, snd, some, undefined, ($), (++), (.), (==), (&&), (||), (<$>), (>>=), (*>), (<|>), (<*>), (<*), (&), (<=), (/))
 --a <= b = if a Prelude.<= b then True else False
 intLE = (Prelude.<=)
 intEq = (Prelude.==)
 --(*) = (Prelude.*)
 --(+) = (Prelude.+)
 --(-) = (Prelude.-)
---(/) = Prelude.div
+(/) = Prelude.div
 (%) = Prelude.mod
 --class Eq a where { (==) :: a -> a -> Bool };
 instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
@@ -168,6 +168,9 @@ mlookup kx t = case t of
     ; EQ -> Just y
     }
   };
+#ifdef EMBEDDED
+fromList :: Ord k => [(k, v)] -> Map k v
+#endif
 fromList = let
   { ins t kx = case kx of { (,) k x -> insert k x t }
   } in foldl ins Tip;

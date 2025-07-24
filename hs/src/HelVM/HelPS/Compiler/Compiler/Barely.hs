@@ -5,7 +5,7 @@ module HelVM.HelPS.Compiler.Compiler.Barely where
 import           Data.Char (chr, ord)
 import           Prelude   hiding (Const, EQ, Either, Eq, GT, Just, LT, Left, Map, Nothing, Ord, Right, Type, all, compare, concat, concatMap, elem, filter,
                             find, first, fix, flip, fmap, foldr, fst, id, last, liftA2, many, map, maybe, not, prepAsm, pure, reverse, second, snd, some,
-                            undefined, ($), (&&), (&), (*>), (++), (.), (<$>), (<*), (<*>), (<=), (<|>), (==), (>>=), (||))
+                            undefined, ($), (&&), (&), (*>), (++), (.), (/), (<$>), (<*), (<*>), (<=), (<|>), (==), (>>=), (||))
 import           Prelude   (Char, Int, String, succ)
 import qualified Prelude
 --a <= b = if a Prelude.<= b then True else False
@@ -14,7 +14,7 @@ intEq = (Prelude.==)
 --(*) = (Prelude.*)
 --(+) = (Prelude.+)
 --(-) = (Prelude.-)
---(/) = Prelude.div
+(/) = Prelude.div
 (%) = Prelude.mod
 --class Eq a where { (==) :: a -> a -> Bool };
 instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
@@ -170,6 +170,10 @@ mlookup kx t = case t of
     ; EQ -> Just y
     }
   };
+
+fromList :: Ord k => [(k, v)] -> Map k v
+--fromList :: [(Int, t)] -> Map Int t
+
 fromList = let
   { ins t kx = case kx of { (,) k x -> insert k x t }
   } in foldl ins Tip;
