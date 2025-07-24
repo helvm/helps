@@ -20,8 +20,8 @@ instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
 #endif
 -- Output bare memory dump instead of ION assembly.
 infixr 9 .;
-infixl 7 *;
-infixl 6 + , -;
+--infixl 7 *;
+--infixl 6 + , -;
 infixr 5 ++;
 infixl 4 <*> , <$> , <* , *>;
 infix 4 == , <=;
