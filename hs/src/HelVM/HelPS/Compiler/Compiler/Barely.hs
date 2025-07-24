@@ -1,3 +1,20 @@
+
+{- HLINT ignore -}
+{-# LANGUAGE BlockArguments #-}
+module HelVM.HelPS.Compiler.Compiler.Barely where
+import           Data.Char (chr, ord)
+import           Prelude   (Char, Int, String, succ)
+import qualified Prelude
+a <= b = if a Prelude.<= b then True else False
+(*) = (Prelude.*)
+(+) = (Prelude.+)
+(-) = (Prelude.-)
+(/) = Prelude.div
+(%) = Prelude.mod
+class Eq a where { (==) :: a -> a -> Bool };
+instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
+instance Eq Int where { (==) x y = if x Prelude.== y then True else False };
+
 -- Output bare memory dump instead of ION assembly.
 infixr 9 .;
 infixl 7 *;
