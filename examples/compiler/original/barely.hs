@@ -5,9 +5,10 @@ module HelVM.HelPS.Compiler.Compiler.Barely where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)
 import qualified Prelude
+import Prelude hiding (Bool, Either, Eq, Just, Left, Nothing, Ord, Right, concatMap, foldr, fst, id, maybe, map, last, second, snd, undefined, ($), (++), (.), (==))
 --a <= b = if a Prelude.<= b then True else False
-intLE = Prelude.(<=)
-intEq = Prelude.(==)
+intLE = (Prelude.<=)
+intEq = (Prelude.==)
 (*) = (Prelude.*)
 (+) = (Prelude.+)
 (-) = (Prelude.-)

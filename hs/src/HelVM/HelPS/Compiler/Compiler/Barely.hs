@@ -3,11 +3,13 @@
 {-# LANGUAGE BlockArguments #-}
 module HelVM.HelPS.Compiler.Compiler.Barely where
 import           Data.Char (chr, ord)
+import           Prelude   hiding (Bool, Either, Eq, Just, Left, Nothing, Ord, Right, concatMap, foldr, fst, id, last, map, maybe, second, snd, undefined, ($),
+                            (++), (.), (==))
 import           Prelude   (Char, Int, String, succ)
 import qualified Prelude
 --a <= b = if a Prelude.<= b then True else False
-intLE = Prelude.(<=)
-intEq = Prelude.(==)
+intLE = (Prelude.<=)
+intEq = (Prelude.==)
 (*) = (Prelude.*)
 (+) = (Prelude.+)
 (-) = (Prelude.-)
