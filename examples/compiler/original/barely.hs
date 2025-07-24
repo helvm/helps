@@ -5,15 +5,17 @@ module HelVM.HelPS.Compiler.Compiler.Barely where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)
 import qualified Prelude
-a <= b = if a Prelude.<= b then True else False
+--a <= b = if a Prelude.<= b then True else False
+intLE = Prelude.(<=)
+intEq = Prelude.(==)
 (*) = (Prelude.*)
 (+) = (Prelude.+)
 (-) = (Prelude.-)
 (/) = Prelude.div
 (%) = Prelude.mod
-class Eq a where { (==) :: a -> a -> Bool };
+--class Eq a where { (==) :: a -> a -> Bool };
 instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
-instance Eq Int where { (==) x y = if x Prelude.== y then True else False };
+--instance Eq Int where { (==) x y = if x Prelude.== y then True else False };
 #endif
 -- Output bare memory dump instead of ION assembly.
 infixr 9 .;
