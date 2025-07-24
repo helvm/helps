@@ -3,17 +3,18 @@
 {-# LANGUAGE BlockArguments #-}
 module HelVM.HelPS.Compiler.Compiler.Barely where
 import           Data.Char (chr, ord)
-import           Prelude   hiding (Bool, Either, Eq, Just, Left, Nothing, Ord, Right, concatMap, foldr, fst, id, last, map, maybe, second, snd, undefined, ($),
-                            (++), (.), (==))
+import           Prelude   hiding (Bool, Const, EQ, Either, Eq, False, GT, Just, LT, Left, Map, Nothing, Ord, Right, True, Type, all, compare, concat,
+                            concatMap, elem, filter, find, first, fix, flip, fmap, foldr, fst, id, last, liftA2, many, map, maybe, not, pure, reverse, second,
+                            snd, some, undefined, ($), (&&), (&), (*>), (++), (.), (<$>), (<*), (<*>), (<=), (<|>), (==), (>>=), (||))
 import           Prelude   (Char, Int, String, succ)
 import qualified Prelude
 --a <= b = if a Prelude.<= b then True else False
 intLE = (Prelude.<=)
 intEq = (Prelude.==)
-(*) = (Prelude.*)
-(+) = (Prelude.+)
-(-) = (Prelude.-)
-(/) = Prelude.div
+--(*) = (Prelude.*)
+--(+) = (Prelude.+)
+--(-) = (Prelude.-)
+--(/) = Prelude.div
 (%) = Prelude.mod
 --class Eq a where { (==) :: a -> a -> Bool };
 instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
