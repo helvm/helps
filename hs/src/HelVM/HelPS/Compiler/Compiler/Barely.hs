@@ -3,9 +3,9 @@
 {-# LANGUAGE BlockArguments #-}
 module HelVM.HelPS.Compiler.Compiler.Barely where
 import           Data.Char (chr, ord)
-import           Prelude   hiding (Bool, Const, EQ, Either, Eq, False, GT, Just, LT, Left, Map, Nothing, Ord, Right, True, Type, all, compare, concat,
-                            concatMap, elem, filter, find, first, fix, flip, fmap, foldr, fst, id, last, liftA2, many, map, maybe, not, pure, reverse, second,
-                            snd, some, undefined, ($), (&&), (&), (*>), (++), (.), (<$>), (<*), (<*>), (<=), (<|>), (==), (>>=), (||))
+import           Prelude   hiding (Const, EQ, Either, Eq, GT, Just, LT, Left, Map, Nothing, Ord, Right, Type, all, compare, concat, concatMap, elem, filter,
+                            find, first, fix, flip, fmap, foldr, fst, id, last, liftA2, many, map, maybe, not, prepAsm, pure, reverse, second, snd, some,
+                            undefined, ($), (&&), (&), (*>), (++), (.), (<$>), (<*), (<*>), (<=), (<|>), (==), (>>=), (||))
 import           Prelude   (Char, Int, String, succ)
 import qualified Prelude
 --a <= b = if a Prelude.<= b then True else False
@@ -19,6 +19,8 @@ intEq = (Prelude.==)
 --class Eq a where { (==) :: a -> a -> Bool };
 instance Eq Char where { (==) x y = if x Prelude.== y then True else False };
 --instance Eq Int where { (==) x y = if x Prelude.== y then True else False };
+instance Ord Char where { (<=) = (Prelude.<=) };
+
 
 -- Output bare memory dump instead of ION assembly.
 infixr 9 .;
@@ -37,7 +39,9 @@ undefined = undefined;
 id x = x;
 flip f x y = f y x;
 (&) x f = f x;
-data Bool = True | False;
+
+
+
 class Ord a where { (<=) :: a -> a -> Bool };
 instance Ord Int where { (<=) = intLE };
 data Ordering = LT | GT | EQ;

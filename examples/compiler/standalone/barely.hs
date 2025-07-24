@@ -18,6 +18,8 @@
 
 
 
+
+
 -- Output bare memory dump instead of ION assembly.
 infixr 9 .;
 --infixl 7 *;
@@ -35,7 +37,9 @@ undefined = undefined;
 id x = x;
 flip f x y = f y x;
 (&) x f = f x;
+
 data Bool = True | False;
+
 class Ord a where { (<=) :: a -> a -> Bool };
 instance Ord Int where { (<=) = intLE };
 data Ordering = LT | GT | EQ;
