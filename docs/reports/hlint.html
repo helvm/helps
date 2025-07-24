@@ -161,12 +161,38 @@ document.body.className = "script";
 
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
-<li>No hints</li>
+<li><a id="hint0" href="javascript:show('hint0')">Warning: Avoid lambda (2)</a></li>
+<li><a id="hint1" href="javascript:show('hint1')">Warning: Eta reduce (12)</a></li>
+<li><a id="hint2" href="javascript:show('hint2')">Warning: Redundant lambda (10)</a></li>
+<li><a id="hint3" href="javascript:show('hint3')">Warning: Use /= (3)</a></li>
+<li><a id="hint4" href="javascript:show('hint4')">Warning: Use and (1)</a></li>
+<li><a id="hint5" href="javascript:show('hint5')">Warning: Use const (1)</a></li>
+<li><a id="hint6" href="javascript:show('hint6')">Warning: Use fmap (2)</a></li>
+<li><a id="hint7" href="javascript:show('hint7')">Warning: Use fromMaybe (3)</a></li>
+<li><a id="hint8" href="javascript:show('hint8')">Warning: Use id (1)</a></li>
+<li><a id="hint9" href="javascript:show('hint9')">Suggestion: Avoid lambda (6)</a></li>
+<li><a id="hint10" href="javascript:show('hint10')">Suggestion: Avoid lambda using `infix` (3)</a></li>
+<li><a id="hint11" href="javascript:show('hint11')">Suggestion: Collapse lambdas (1)</a></li>
+<li><a id="hint12" href="javascript:show('hint12')">Suggestion: Fuse foldr/map (5)</a></li>
+<li><a id="hint13" href="javascript:show('hint13')">Suggestion: Redundant $ (1)</a></li>
+<li><a id="hint14" href="javascript:show('hint14')">Suggestion: Redundant bracket (5)</a></li>
+<li><a id="hint15" href="javascript:show('hint15')">Suggestion: Use $&gt; (2)</a></li>
+<li><a id="hint16" href="javascript:show('hint16')">Suggestion: Use (,) (1)</a></li>
+<li><a id="hint17" href="javascript:show('hint17')">Suggestion: Use =&lt;&lt; (1)</a></li>
+<li><a id="hint18" href="javascript:show('hint18')">Suggestion: Use const (2)</a></li>
+<li><a id="hint19" href="javascript:show('hint19')">Suggestion: Use if (9)</a></li>
+<li><a id="hint20" href="javascript:show('hint20')">Suggestion: Use infix (2)</a></li>
+<li><a id="hint21" href="javascript:show('hint21')">Suggestion: Use lambda (1)</a></li>
+<li><a id="hint22" href="javascript:show('hint22')">Suggestion: Use list literal (1)</a></li>
+<li><a id="hint23" href="javascript:show('hint23')">Suggestion: Use next (9)</a></li>
+<li><a id="hint24" href="javascript:show('hint24')">Suggestion: Use prev (6)</a></li>
+<li><a id="hint25" href="javascript:show('hint25')">Suggestion: Use section (1)</a></li>
+<li><a id="hint26" href="javascript:show('hint26')">Suggestion: Use tuple-section (1)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li>No files</li>
+<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs (92)</a></li>
 </ul>
 
 </div>
@@ -177,7 +203,1038 @@ v3.10
     - a tool to suggest improvements to your Haskell code.
 </p>
 
-No hints
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:14:1-13: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>$</span><span class='hs-layout'>)</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>$</span><span class='hs-layout'>)</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>f</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(22,15)-(28,3): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>x</span> <span class='hs-varop'>&lt;=</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span>
+    <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-varop'>&lt;=</span> <span class='hs-varid'>x</span> <span class='hs-keyword'>of</span>
+         <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>EQ</span>
+         <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>LT</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>GT</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>if</span> <span class='hs-varid'>x</span> <span class='hs-varop'>&lt;=</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>then</span>
+    <span class='hs-layout'>(</span><span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-varop'>&lt;=</span> <span class='hs-varid'>x</span> <span class='hs-keyword'>of</span>
+       <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>EQ</span>
+       <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>LT</span><span class='hs-layout'>)</span>
+<span class='hs-keyword'>else</span>
+    <span class='hs-conid'>GT</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(23,13)-(26,5): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-varop'>&lt;=</span> <span class='hs-varid'>x</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>EQ</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>LT</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-varid'>y</span> <span class='hs-varop'>&lt;=</span> <span class='hs-varid'>x</span> <span class='hs-keyword'>then</span> <span class='hs-conid'>EQ</span> <span class='hs-keyword'>else</span> <span class='hs-conid'>LT</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:43:1-46: Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>fpair</span> <span class='hs-varid'>p</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>p</span> <span class='hs-keyword'>of</span> <span class='hs-conid'>(,)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fpair</span> <span class='hs-varid'>p</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>p</span> <span class='hs-keyword'>of</span> <span class='hs-conid'>(,)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:48:13-48: Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>b</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>c</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>if</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>then</span> <span class='hs-varid'>b</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>c</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:49:9-50: Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>False</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>True</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>if</span> <span class='hs-varid'>a</span> <span class='hs-keyword'>then</span> <span class='hs-conid'>False</span> <span class='hs-keyword'>else</span> <span class='hs-conid'>True</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:51:1-23: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>||</span><span class='hs-layout'>)</span> <span class='hs-varid'>f</span> <span class='hs-varid'>g</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ife</span> <span class='hs-varid'>f</span> <span class='hs-conid'>True</span> <span class='hs-varid'>g</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>||</span><span class='hs-layout'>)</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ife</span> <span class='hs-varid'>f</span> <span class='hs-conid'>True</span></pre>
+
+</div>
+
+<div class="hint7 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:68:14-31: Warning: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-definition'>maybe</span> <span class='hs-varid'>undefined</span> <span class='hs-varid'>id</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Data.Maybe.fromMaybe</span> <span class='hs-varid'>undefined</span></pre>
+
+</div>
+
+<div class="hint8 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:69:45-51: Warning: Use id<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>x</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>id</span></pre>
+
+</div>
+
+<div class="hint9 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:70:34-52: Suggestion: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldl</span> <span class='hs-varid'>f</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldl</span> <span class='hs-varid'>f</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:71:1-56: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>elem</span> <span class='hs-varid'>k</span> <span class='hs-varid'>xs</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldr</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>ife</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varop'>==</span> <span class='hs-varid'>k</span><span class='hs-layout'>)</span> <span class='hs-conid'>True</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-conid'>False</span> <span class='hs-varid'>xs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>elem</span> <span class='hs-varid'>k</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldr</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>ife</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varop'>==</span> <span class='hs-varid'>k</span><span class='hs-layout'>)</span> <span class='hs-conid'>True</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-conid'>False</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:72:1-59: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>find</span> <span class='hs-varid'>f</span> <span class='hs-varid'>xs</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldr</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>ife</span> <span class='hs-layout'>(</span><span class='hs-varid'>f</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>Just</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-conid'>Nothing</span> <span class='hs-varid'>xs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>find</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldr</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>ife</span> <span class='hs-layout'>(</span><span class='hs-varid'>f</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>Just</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-conid'>Nothing</span></pre>
+
+</div>
+
+<div class="hint22 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:75:10-13: Suggestion: Use list literal<br/>
+Found<br/>
+<pre><span class='hs-definition'>c</span> <span class='hs-conop'>:</span> <span class='hs-conid'>[]</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>[</span><span class='hs-varid'>c</span><span class='hs-keyglyph'>]</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:85:21-24: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(109,19)-(130,3): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-varop'>+</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>1</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+  <span class='hs-conid'>False</span>
+    <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+         <span class='hs-conid'>True</span>
+           <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+                <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+                <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>rl</span> <span class='hs-varid'>rr</span>
+                  <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rr</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rl</span> <span class='hs-keyword'>of</span>
+                       <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleL</span>
+                       <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleL</span>
+         <span class='hs-conid'>False</span>
+           <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+                <span class='hs-conid'>True</span>
+                  <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+                       <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+                       <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ll</span> <span class='hs-varid'>lr</span>
+                         <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+                              <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+                              <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span>
+                <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-varop'>+</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>1</span> <span class='hs-keyword'>then</span>
+     <span class='hs-varid'>node</span>
+ <span class='hs-keyword'>else</span>
+     <span class='hs-layout'>(</span><span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+        <span class='hs-conid'>True</span>
+          <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+               <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+               <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>rl</span> <span class='hs-varid'>rr</span>
+                 <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rr</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rl</span> <span class='hs-keyword'>of</span>
+                      <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleL</span>
+                      <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleL</span>
+        <span class='hs-conid'>False</span>
+          <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+               <span class='hs-conid'>True</span>
+                 <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+                      <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+                      <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ll</span> <span class='hs-varid'>lr</span>
+                        <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+                             <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+                             <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span>
+               <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(111,14)-(129,5): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span>
+    <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+         <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+         <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>rl</span> <span class='hs-varid'>rr</span>
+           <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rr</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rl</span> <span class='hs-keyword'>of</span>
+                <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleL</span>
+                <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleL</span>
+  <span class='hs-conid'>False</span>
+    <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+         <span class='hs-conid'>True</span>
+           <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+                <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+                <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ll</span> <span class='hs-varid'>lr</span>
+                  <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+                       <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+                       <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span>
+         <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>then</span>
+     <span class='hs-layout'>(</span><span class='hs-keyword'>case</span> <span class='hs-varid'>r</span> <span class='hs-keyword'>of</span>
+        <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+        <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>rl</span> <span class='hs-varid'>rr</span>
+          <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rr</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rl</span> <span class='hs-keyword'>of</span>
+               <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleL</span>
+               <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleL</span><span class='hs-layout'>)</span>
+ <span class='hs-keyword'>else</span>
+     <span class='hs-layout'>(</span><span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+        <span class='hs-conid'>True</span>
+          <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+               <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+               <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ll</span> <span class='hs-varid'>lr</span>
+                 <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+                      <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+                      <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span>
+        <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(114,29)-(117,9): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rr</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rl</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleL</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleL</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rr</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>rl</span> <span class='hs-keyword'>then</span> <span class='hs-varid'>doubleL</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>singleL</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(119,16)-(128,7): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span>
+    <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+         <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+         <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ll</span> <span class='hs-varid'>lr</span>
+           <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+                <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+                <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-num'>5</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>r</span> <span class='hs-varop'>+</span> <span class='hs-num'>3</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>then</span>
+     <span class='hs-layout'>(</span><span class='hs-keyword'>case</span> <span class='hs-varid'>l</span> <span class='hs-keyword'>of</span>
+        <span class='hs-conid'>Tip</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>node</span>
+        <span class='hs-conid'>Bin</span> <span class='hs-varid'>sz</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ll</span> <span class='hs-varid'>lr</span>
+          <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+               <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+               <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span><span class='hs-layout'>)</span>
+ <span class='hs-keyword'>else</span>
+     <span class='hs-varid'>node</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint19 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(122,31)-(125,11): Suggestion: Use if<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>True</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>doubleR</span>
+  <span class='hs-conid'>False</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>singleR</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>if</span> <span class='hs-num'>3</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>ll</span> <span class='hs-varop'>&lt;=</span> <span class='hs-num'>2</span> <span class='hs-varop'>*</span> <span class='hs-varid'>size</span> <span class='hs-varid'>lr</span> <span class='hs-keyword'>then</span> <span class='hs-varid'>doubleR</span> <span class='hs-keyword'>else</span> <span class='hs-varid'>singleR</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:167:1-30: Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>pure</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Just</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span><span class='hs-layout'>,</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>pure</span> <span class='hs-varid'>x</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Just</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span><span class='hs-layout'>,</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:168:1-45: Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>sat'</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>ife</span> <span class='hs-layout'>(</span><span class='hs-varid'>f</span> <span class='hs-varid'>h</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>pure</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-conid'>Nothing</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>sat'</span> <span class='hs-varid'>f</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ife</span> <span class='hs-layout'>(</span><span class='hs-varid'>f</span> <span class='hs-varid'>h</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>pure</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-conid'>Nothing</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:174:1-73: Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>ap</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>inp</span>
+      <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>b</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>y</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>ap</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-varid'>inp</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>b</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>y</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint9 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:174:10-73: Suggestion: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>b</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>y</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>b</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varid'>u</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>y</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>x</span></pre>
+
+</div>
+
+<div class="hint9 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:174:38-57: Suggestion: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>b</span> <span class='hs-varid'>u</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span> <span class='hs-varid'>u</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>pure</span> <span class='hs-varop'>.</span> <span class='hs-varid'>a</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:176:1-24: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>fmap</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ap</span> <span class='hs-layout'>(</span><span class='hs-varid'>pure</span> <span class='hs-varid'>f</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fmap</span> <span class='hs-varid'>f</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ap</span> <span class='hs-layout'>(</span><span class='hs-varid'>pure</span> <span class='hs-varid'>f</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:178:1-48: Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>&gt;&gt;=</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>&gt;&gt;=</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint9 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:178:13-48: Suggestion: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>x</span> <span class='hs-varid'>inp</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>bind</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>x</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:178:26-40: Warning: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>a</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>y</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(179,1)-(182,3): Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>&lt;|&gt;</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>inp</span>
+      <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>x</span> <span class='hs-varid'>inp</span> <span class='hs-keyword'>of</span>
+           <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>inp</span>
+           <span class='hs-conid'>Just</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Just</span> <span class='hs-varid'>x</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>&lt;|&gt;</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-varid'>inp</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>x</span> <span class='hs-varid'>inp</span> <span class='hs-keyword'>of</span>
+      <span class='hs-conid'>Nothing</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>y</span> <span class='hs-varid'>inp</span>
+      <span class='hs-conid'>Just</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Just</span> <span class='hs-varid'>x</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:183:1-30: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>liftA2</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ap</span> <span class='hs-layout'>(</span><span class='hs-varid'>fmap</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span> <span class='hs-varid'>y</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>liftA2</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ap</span> <span class='hs-layout'>(</span><span class='hs-varid'>fmap</span> <span class='hs-varid'>f</span> <span class='hs-varid'>x</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint5 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:185:15-23: Warning: Use const<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>x</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>const</span></pre>
+
+</div>
+
+<div class="hint10 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:191:14-25: Suggestion: Avoid lambda using `infix`<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>x</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>x</span> <span class='hs-varop'>==</span> <span class='hs-varid'>c</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>==</span> <span class='hs-varid'>c</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:193:47-61: Warning: Use /=<br/>
+Found<br/>
+<pre><span class='hs-definition'>not</span> <span class='hs-layout'>(</span><span class='hs-varid'>c</span> <span class='hs-varop'>==</span> <span class='hs-chr'>'\n'</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>c</span> <span class='hs-varop'>/=</span> <span class='hs-chr'>'\n'</span></pre>
+<span class='note'>Note: incorrect if either value is NaN</span>
+</div>
+
+<div class="hint24 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:197:34-37: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:198:1-36: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>want</span> <span class='hs-varid'>f</span> <span class='hs-varid'>s</span> <span class='hs-varid'>inp</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>wantWith</span> <span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-varop'>==</span><span class='hs-layout'>)</span> <span class='hs-varid'>f</span> <span class='hs-varid'>inp</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>want</span> <span class='hs-varid'>f</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>wantWith</span> <span class='hs-layout'>(</span><span class='hs-varid'>s</span> <span class='hs-varop'>==</span><span class='hs-layout'>)</span> <span class='hs-varid'>f</span></pre>
+
+</div>
+
+<div class="hint10 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:208:19-56: Suggestion: Avoid lambda using `infix`<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>elem</span> <span class='hs-varid'>c</span> <span class='hs-str'>":!#$%&amp;*+./&lt;=&gt;?@\\^|-~"</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>`elem`</span> <span class='hs-str'>":!#$%&amp;*+./&lt;=&gt;?@\\^|-~"</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint20 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:208:26-55: Suggestion: Use infix<br/>
+Found<br/>
+<pre><span class='hs-definition'>elem</span> <span class='hs-varid'>c</span> <span class='hs-str'>":!#$%&amp;*+./&lt;=&gt;?@\\^|-~"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>c</span> <span class='hs-varop'>`elem`</span> <span class='hs-str'>":!#$%&amp;*+./&lt;=&gt;?@\\^|-~"</span></pre>
+
+</div>
+
+<div class="hint9 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:212:18-42: Suggestion: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>h</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-str'>":"</span><span class='hs-layout'>)</span> <span class='hs-varid'>h</span><span class='hs-layout'>)</span> <span class='hs-varid'>t</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>A</span> <span class='hs-varop'>.</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-str'>":"</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint14 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:213:25-52: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>sat</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>elem</span> <span class='hs-varid'>c</span> <span class='hs-str'>"'\"\\"</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;|&gt;</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-chr'>'\n'</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>char</span> <span class='hs-chr'>'n'</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>sat</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>elem</span> <span class='hs-varid'>c</span> <span class='hs-str'>"'\"\\"</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;|&gt;</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-chr'>'\n'</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>char</span> <span class='hs-chr'>'n'</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint10 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:213:30-51: Suggestion: Avoid lambda using `infix`<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>elem</span> <span class='hs-varid'>c</span> <span class='hs-str'>"'\"\\"</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>`elem`</span> <span class='hs-str'>"'\"\\"</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint20 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:213:37-50: Suggestion: Use infix<br/>
+Found<br/>
+<pre><span class='hs-definition'>elem</span> <span class='hs-varid'>c</span> <span class='hs-str'>"'\"\\"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>c</span> <span class='hs-varop'>`elem`</span> <span class='hs-str'>"'\"\\"</span></pre>
+
+</div>
+
+<div class="hint18 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:213:60-69: Suggestion: Use const<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-chr'>'\n'</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>const</span> <span class='hs-chr'>'\n'</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:214:38-53: Warning: Use /=<br/>
+Found<br/>
+<pre><span class='hs-definition'>not</span> <span class='hs-layout'>(</span><span class='hs-varid'>c</span> <span class='hs-varop'>==</span> <span class='hs-varid'>delim</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>c</span> <span class='hs-varop'>/=</span> <span class='hs-varid'>delim</span></pre>
+<span class='note'>Note: incorrect if either value is NaN</span>
+</div>
+
+<div class="hint9 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:229:32-48: Suggestion: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>v</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varid'>v</span><span class='hs-layout'>)</span> <span class='hs-varid'>a</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>A</span> <span class='hs-varop'>.</span> <span class='hs-conid'>V</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:237:14-25: Warning: Use /=<br/>
+Found<br/>
+<pre><span class='hs-definition'>not</span> <span class='hs-layout'>(</span><span class='hs-varid'>v</span> <span class='hs-varop'>==</span> <span class='hs-varid'>w</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>v</span> <span class='hs-varop'>/=</span> <span class='hs-varid'>w</span><span class='hs-layout'>)</span></pre>
+<span class='note'>Note: incorrect if either value is NaN</span>
+</div>
+
+<div class="hint15 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:246:69-100: Suggestion: Use $&gt;<br/>
+Found<br/>
+<pre><span class='hs-definition'>paren</span> <span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>','</span><span class='hs-layout'>)</span> <span class='hs-varop'>*&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-str'>","</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>paren</span> <span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>','</span><span class='hs-layout'>)</span> <span class='hs-conid'>Data.Functor</span><span class='hs-varop'>.$&gt;</span> <span class='hs-conid'>V</span> <span class='hs-str'>","</span></pre>
+
+</div>
+
+<div class="hint14 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:268:19-87: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>foldr</span>
+   <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span> <span class='hs-varid'>a</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>op</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varid'>op</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>id</span> <span class='hs-varid'>xs</span><span class='hs-layout'>)</span>
+  <span class='hs-varid'>e</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldr</span>
+  <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span> <span class='hs-varid'>a</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>op</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varid'>op</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>id</span> <span class='hs-varid'>xs</span> <span class='hs-varid'>e</span></pre>
+
+</div>
+
+<div class="hint11 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:268:44-78: Suggestion: Collapse lambdas<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>op</span> <span class='hs-varid'>y</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varid'>op</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>op</span> <span class='hs-varid'>y</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varid'>op</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>b</span> <span class='hs-varid'>y</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:273:70-73: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint16 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:273:94-106: Suggestion: Use (,)<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>a</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>a</span><span class='hs-layout'>,</span> <span class='hs-varid'>b</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>(,)</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:273:136-139: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:281:1-33: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>arr</span> <span class='hs-varid'>a</span> <span class='hs-varid'>b</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TC</span> <span class='hs-str'>"-&gt;"</span><span class='hs-layout'>)</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span> <span class='hs-varid'>b</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>arr</span> <span class='hs-varid'>a</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TAp</span> <span class='hs-layout'>(</span><span class='hs-conid'>TC</span> <span class='hs-str'>"-&gt;"</span><span class='hs-layout'>)</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint15 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:288:17-42: Suggestion: Use $&gt;<br/>
+Found<br/>
+<pre><span class='hs-definition'>spch</span> <span class='hs-chr'>']'</span> <span class='hs-varop'>*&gt;</span> <span class='hs-varid'>pure</span> <span class='hs-layout'>(</span><span class='hs-conid'>TC</span> <span class='hs-str'>"[]"</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>']'</span> <span class='hs-conid'>Data.Functor</span><span class='hs-varop'>.$&gt;</span> <span class='hs-conid'>TC</span> <span class='hs-str'>"[]"</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint14 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:292:93-144: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-conid'>Adt</span>
+  <span class='hs-varop'>&lt;$&gt;</span>
+    <span class='hs-varid'>between</span>
+      <span class='hs-layout'>(</span><span class='hs-varid'>keyword</span> <span class='hs-str'>"data"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>'='</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>simpleType</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>conId</span> <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-varid'>many</span> <span class='hs-varid'>varId</span><span class='hs-layout'>)</span>
+  <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>sepBy</span> <span class='hs-layout'>(</span><span class='hs-conid'>Constr</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>conId</span> <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-varid'>many</span> <span class='hs-varid'>aType</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>'|'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Adt</span>
+  <span class='hs-varop'>&lt;$&gt;</span>
+    <span class='hs-varid'>between</span>
+      <span class='hs-layout'>(</span><span class='hs-varid'>keyword</span> <span class='hs-str'>"data"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>'='</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>simpleType</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>conId</span> <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-varid'>many</span> <span class='hs-varid'>varId</span><span class='hs-layout'>)</span>
+  <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-varid'>sepBy</span> <span class='hs-layout'>(</span><span class='hs-conid'>Constr</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>conId</span> <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-varid'>many</span> <span class='hs-varid'>aType</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>spch</span> <span class='hs-chr'>'|'</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:295:1-46: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>fixityList</span> <span class='hs-varid'>a</span> <span class='hs-varid'>n</span> <span class='hs-varid'>os</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>o</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>o</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span><span class='hs-layout'>,</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>os</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fixityList</span> <span class='hs-varid'>a</span> <span class='hs-varid'>n</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>o</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>o</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span><span class='hs-layout'>,</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint26 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:295:26-42: Suggestion: Use tuple-section<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>o</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>o</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span><span class='hs-layout'>,</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span><span class='hs-layout'>,</span> <span class='hs-varid'>a</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+<span class='note'>Note: may require <tt>{-# LANGUAGE TupleSections #-}</tt> adding to the top of the file</span>
+</div>
+
+<div class="hint13 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:332:46: Suggestion: Redundant $<br/>
+Found<br/>
+<pre><span class='hs-conid'>Const</span> <span class='hs-varop'>$</span> <span class='hs-num'>1</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Const</span> <span class='hs-num'>1</span></pre>
+
+</div>
+
+<div class="hint14 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:339:24-40: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>showInt'</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>/</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>chr</span> <span class='hs-layout'>(</span><span class='hs-num'>48</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>%</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>showInt'</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>/</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>chr</span> <span class='hs-layout'>(</span><span class='hs-num'>48</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>%</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint25 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:339:44-66: Suggestion: Use section<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>chr</span> <span class='hs-layout'>(</span><span class='hs-num'>48</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>%</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varid'>chr</span> <span class='hs-layout'>(</span><span class='hs-num'>48</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>%</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint14 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:339:44-66: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>showInt'</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>/</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>chr</span> <span class='hs-layout'>(</span><span class='hs-num'>48</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>%</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>showInt'</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>/</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>chr</span> <span class='hs-layout'>(</span><span class='hs-num'>48</span> <span class='hs-varop'>+</span> <span class='hs-layout'>(</span><span class='hs-varid'>n</span> <span class='hs-varop'>%</span> <span class='hs-num'>10</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:340:1-41: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>showInt</span> <span class='hs-varid'>n</span> <span class='hs-varid'>s</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ifz</span> <span class='hs-varid'>n</span> <span class='hs-layout'>(</span><span class='hs-chr'>'0'</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>showInt'</span> <span class='hs-varid'>n</span><span class='hs-layout'>)</span> <span class='hs-varid'>s</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>showInt</span> <span class='hs-varid'>n</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>ifz</span> <span class='hs-varid'>n</span> <span class='hs-layout'>(</span><span class='hs-chr'>'0'</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>showInt'</span> <span class='hs-varid'>n</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint7 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:355:12-57: Warning: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-definition'>maybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>fmaybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>mlookup</span> <span class='hs-varid'>v</span> <span class='hs-varid'>m</span><span class='hs-layout'>)</span> <span class='hs-varid'>undefined</span> <span class='hs-conid'>Pass</span><span class='hs-layout'>)</span> <span class='hs-varid'>id</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Data.Maybe.fromMaybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>fmaybe</span> <span class='hs-layout'>(</span><span class='hs-varid'>mlookup</span> <span class='hs-varid'>v</span> <span class='hs-varid'>m</span><span class='hs-layout'>)</span> <span class='hs-varid'>undefined</span> <span class='hs-conid'>Pass</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint6 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:356:48-72: Warning: Use fmap<br/>
+Found<br/>
+<pre><span class='hs-definition'>maybe</span> <span class='hs-conid'>Nothing</span> <span class='hs-layout'>(</span><span class='hs-conid'>Just</span> <span class='hs-varop'>.</span> <span class='hs-conid'>Su</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fmap</span> <span class='hs-conid'>Su</span></pre>
+
+</div>
+
+<div class="hint17 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:356:48-78: Suggestion: Use =&lt;&lt;<br/>
+Found<br/>
+<pre><span class='hs-definition'>maybe</span> <span class='hs-conid'>Nothing</span> <span class='hs-layout'>(</span><span class='hs-conid'>Just</span> <span class='hs-varop'>.</span> <span class='hs-conid'>Su</span><span class='hs-layout'>)</span> <span class='hs-varid'>found</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>Just</span> <span class='hs-varop'>.</span> <span class='hs-conid'>Su</span><span class='hs-layout'>)</span> <span class='hs-varop'>=&lt;&lt;</span> <span class='hs-varid'>found</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(368,1)-(373,3): Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>ldef</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>r</span> <span class='hs-varid'>y</span>
+      <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+           <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'T'</span><span class='hs-layout'>)</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Need</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Weak</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'T'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>ldef</span> <span class='hs-varid'>r</span> <span class='hs-varid'>y</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+      <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'T'</span><span class='hs-layout'>)</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Need</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Weak</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'T'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(375,1)-(380,3): Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>lclo</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>r</span> <span class='hs-varid'>d</span> <span class='hs-varid'>y</span>
+      <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+           <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Closed</span> <span class='hs-varid'>dd</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-varid'>d</span> <span class='hs-varid'>dd</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Need</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'B'</span><span class='hs-layout'>)</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Weak</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Weak</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>lclo</span> <span class='hs-varid'>r</span> <span class='hs-varid'>d</span> <span class='hs-varid'>y</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+      <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Closed</span> <span class='hs-varid'>dd</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-varid'>d</span> <span class='hs-varid'>dd</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Need</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'B'</span><span class='hs-layout'>)</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Weak</span> <span class='hs-varid'>e</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Weak</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(382,1)-(387,3): Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>lnee</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-varid'>y</span>
+      <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+           <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'R'</span><span class='hs-layout'>)</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Need</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Weak</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'C'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>lnee</span> <span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-varid'>y</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+      <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'I'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-conid'>Nd</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'R'</span><span class='hs-layout'>)</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Need</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'S'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Weak</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'C'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(389,1)-(394,3): Warning: Redundant lambda<br/>
+Found<br/>
+<pre><span class='hs-definition'>lwea</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-varid'>y</span>
+      <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+           <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-varid'>e</span>
+           <span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Weak</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Need</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'B'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span>
+           <span class='hs-conid'>Weak</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Weak</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>lwea</span> <span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-varid'>y</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>y</span> <span class='hs-keyword'>of</span>
+      <span class='hs-conid'>Defer</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-varid'>e</span>
+      <span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Weak</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-varid'>d</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Need</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Need</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-layout'>(</span><span class='hs-conid'>Closed</span> <span class='hs-layout'>(</span><span class='hs-varid'>lf</span> <span class='hs-chr'>'B'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span>
+      <span class='hs-conid'>Weak</span> <span class='hs-varid'>ee</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>Weak</span> <span class='hs-layout'>(</span><span class='hs-varid'>r</span> <span class='hs-varid'>e</span> <span class='hs-varid'>ee</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:(435,1)-(437,22): Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>asm</span> <span class='hs-varid'>qas</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldl</span>
+      <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>tabmem</span> <span class='hs-varid'>def</span>
+         <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span>
+              <span class='hs-varid'>def</span>
+              <span class='hs-keyglyph'>\</span> <span class='hs-varid'>s</span> <span class='hs-varid'>qt</span>
+                <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span>
+                     <span class='hs-varid'>tabmem</span>
+                     <span class='hs-keyglyph'>\</span> <span class='hs-varid'>tab</span> <span class='hs-varid'>mem</span>
+                       <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span>
+                            <span class='hs-layout'>(</span><span class='hs-varid'>enc</span> <span class='hs-varid'>mem</span> <span class='hs-varop'>$</span> <span class='hs-varid'>nolam</span> <span class='hs-varid'>tab</span> <span class='hs-varop'>$</span> <span class='hs-varid'>snd</span> <span class='hs-varid'>qt</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>p</span> <span class='hs-varid'>m'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>insert</span> <span class='hs-varid'>s</span> <span class='hs-varid'>p</span> <span class='hs-varid'>tab</span><span class='hs-layout'>,</span> <span class='hs-varid'>m'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+      <span class='hs-layout'>(</span><span class='hs-conid'>Tip</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-num'>128</span><span class='hs-layout'>,</span> <span class='hs-varid'>id</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span> <span class='hs-varid'>qas</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>asm</span>
+  <span class='hs-keyglyph'>=</span> <span class='hs-varid'>foldl</span>
+      <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>tabmem</span> <span class='hs-varid'>def</span>
+         <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span>
+              <span class='hs-varid'>def</span>
+              <span class='hs-keyglyph'>\</span> <span class='hs-varid'>s</span> <span class='hs-varid'>qt</span>
+                <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span>
+                     <span class='hs-varid'>tabmem</span>
+                     <span class='hs-keyglyph'>\</span> <span class='hs-varid'>tab</span> <span class='hs-varid'>mem</span>
+                       <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>fpair</span>
+                            <span class='hs-layout'>(</span><span class='hs-varid'>enc</span> <span class='hs-varid'>mem</span> <span class='hs-varop'>$</span> <span class='hs-varid'>nolam</span> <span class='hs-varid'>tab</span> <span class='hs-varop'>$</span> <span class='hs-varid'>snd</span> <span class='hs-varid'>qt</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>\</span> <span class='hs-varid'>p</span> <span class='hs-varid'>m'</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>insert</span> <span class='hs-varid'>s</span> <span class='hs-varid'>p</span> <span class='hs-varid'>tab</span><span class='hs-layout'>,</span> <span class='hs-varid'>m'</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+      <span class='hs-layout'>(</span><span class='hs-conid'>Tip</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-num'>128</span><span class='hs-layout'>,</span> <span class='hs-varid'>id</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint6 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:477:14-37: Warning: Use fmap<br/>
+Found<br/>
+<pre><span class='hs-definition'>maybe</span> <span class='hs-conid'>Nothing</span> <span class='hs-layout'>(</span><span class='hs-conid'>Just</span> <span class='hs-varop'>.</span> <span class='hs-varid'>f</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>fmap</span> <span class='hs-varid'>f</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:485:58-61: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint24 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:494:33-36: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:524:36-39: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:527:99-102: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint24 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:530:22-25: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:553:1-38: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>predApply</span> <span class='hs-varid'>sub</span> <span class='hs-varid'>p</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>onType</span> <span class='hs-layout'>(</span><span class='hs-varid'>apply</span> <span class='hs-varid'>sub</span><span class='hs-layout'>)</span> <span class='hs-varid'>p</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>predApply</span> <span class='hs-varid'>sub</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>onType</span> <span class='hs-layout'>(</span><span class='hs-varid'>apply</span> <span class='hs-varid'>sub</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint4 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:555:9-23: Warning: Use and<br/>
+Found<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-layout'>(</span><span class='hs-varop'>&amp;&amp;</span><span class='hs-layout'>)</span> <span class='hs-conid'>True</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>and</span></pre>
+
+</div>
+
+<div class="hint12 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:555:9-31: Suggestion: Fuse foldr/map<br/>
+Found<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-layout'>(</span><span class='hs-varop'>&amp;&amp;</span><span class='hs-layout'>)</span> <span class='hs-conid'>True</span> <span class='hs-varop'>.</span> <span class='hs-varid'>map</span> <span class='hs-varid'>f</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-varop'>&amp;&amp;</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>f</span><span class='hs-layout'>)</span> <span class='hs-conid'>True</span></pre>
+
+</div>
+
+<div class="hint18 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:559:64-73: Suggestion: Use const<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-conid'>True</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>const</span> <span class='hs-conid'>True</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:595:66-69: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint24 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:602:56-59: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint24 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:603:21-24: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint24 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:605:49-52: Suggestion: Use prev<br/>
+Found<br/>
+<pre><span class='hs-definition'>pred</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>prev</span></pre>
+<span class='note'>Note: <tt>pred</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>prev</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint12 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:626:37-58: Suggestion: Fuse foldr/map<br/>
+Found<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-conid'>L</span> <span class='hs-varid'>x</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>snd</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-layout'>(</span><span class='hs-conid'>L</span> <span class='hs-varop'>.</span> <span class='hs-varid'>snd</span><span class='hs-layout'>)</span> <span class='hs-varid'>x</span> <span class='hs-varid'>ps</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:630:88-91: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint12 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:657:47-147: Suggestion: Fuse foldr/map<br/>
+Found<br/>
+<pre><span class='hs-definition'>foldr</span>
+  <span class='hs-conid'>L</span> <span class='hs-layout'>(</span><span class='hs-conid'>L</span> <span class='hs-str'>"@"</span> <span class='hs-varop'>$</span> <span class='hs-varid'>foldl</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-str'>"@"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-varid'>inferMethod</span> <span class='hs-varid'>ienv</span> <span class='hs-varid'>typed</span> <span class='hs-varid'>q</span><span class='hs-layout'>)</span> <span class='hs-varid'>ds</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+  <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>snd</span> <span class='hs-varop'>$</span> <span class='hs-varid'>fst</span> <span class='hs-varop'>$</span> <span class='hs-varid'>dictVars</span> <span class='hs-varid'>ps</span> <span class='hs-num'>0</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldr</span>
+  <span class='hs-layout'>(</span><span class='hs-conid'>L</span> <span class='hs-varop'>.</span> <span class='hs-varid'>snd</span><span class='hs-layout'>)</span>
+  <span class='hs-layout'>(</span><span class='hs-conid'>L</span> <span class='hs-str'>"@"</span> <span class='hs-varop'>$</span> <span class='hs-varid'>foldl</span> <span class='hs-conid'>A</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-str'>"@"</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-varid'>inferMethod</span> <span class='hs-varid'>ienv</span> <span class='hs-varid'>typed</span> <span class='hs-varid'>q</span><span class='hs-layout'>)</span> <span class='hs-varid'>ds</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+  <span class='hs-layout'>(</span><span class='hs-varid'>fst</span> <span class='hs-varop'>$</span> <span class='hs-varid'>dictVars</span> <span class='hs-varid'>ps</span> <span class='hs-num'>0</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint12 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:672:22-112: Suggestion: Fuse foldr/map<br/>
+Found<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-varid'>arr</span> <span class='hs-layout'>(</span><span class='hs-conid'>TV</span> <span class='hs-str'>"case"</span><span class='hs-layout'>)</span>
+  <span class='hs-varop'>$</span> <span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>c</span> <span class='hs-keyword'>of</span> <span class='hs-conid'>Constr</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ts</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldr</span> <span class='hs-varid'>arr</span> <span class='hs-layout'>(</span><span class='hs-conid'>TV</span> <span class='hs-str'>"case"</span><span class='hs-layout'>)</span> <span class='hs-varid'>ts</span><span class='hs-layout'>)</span> <span class='hs-varid'>cs</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldr</span>
+  <span class='hs-layout'>(</span><span class='hs-varid'>arr</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>c</span> <span class='hs-keyword'>of</span> <span class='hs-conid'>Constr</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ts</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldr</span> <span class='hs-varid'>arr</span> <span class='hs-layout'>(</span><span class='hs-conid'>TV</span> <span class='hs-str'>"case"</span><span class='hs-layout'>)</span> <span class='hs-varid'>ts</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span>
+  <span class='hs-layout'>(</span><span class='hs-conid'>TV</span> <span class='hs-str'>"case"</span><span class='hs-layout'>)</span> <span class='hs-varid'>cs</span></pre>
+
+</div>
+
+<div class="hint21 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:672:51-108: Suggestion: Use lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>c</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-keyword'>case</span> <span class='hs-varid'>c</span> <span class='hs-keyword'>of</span> <span class='hs-conid'>Constr</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ts</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldr</span> <span class='hs-varid'>arr</span> <span class='hs-layout'>(</span><span class='hs-conid'>TV</span> <span class='hs-str'>"case"</span><span class='hs-layout'>)</span> <span class='hs-varid'>ts</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-layout'>(</span><span class='hs-conid'>Constr</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>ts</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>foldr</span> <span class='hs-varid'>arr</span> <span class='hs-layout'>(</span><span class='hs-conid'>TV</span> <span class='hs-str'>"case"</span><span class='hs-layout'>)</span> <span class='hs-varid'>ts</span></pre>
+
+</div>
+
+<div class="hint23 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:675:25-28: Suggestion: Use next<br/>
+Found<br/>
+<pre><span class='hs-definition'>succ</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>next</span></pre>
+<span class='note'>Note: <tt>succ</tt> from <tt>Prelude</tt> is a pure function but it may throw exception. Consider using <tt>next</tt> from <tt>Relude.Extra.Enum</tt> instead.</span>
+</div>
+
+<div class="hint12 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:697:34-76: Suggestion: Fuse foldr/map<br/>
+Found<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-conid'>L</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varop'>$</span> <span class='hs-chr'>'*'</span> <span class='hs-conop'>:</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span> <span class='hs-varop'>$</span> <span class='hs-varid'>map</span> <span class='hs-layout'>(</span><span class='hs-layout'>(</span><span class='hs-chr'>'*'</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>fst</span><span class='hs-layout'>)</span> <span class='hs-varid'>ms</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>foldr</span> <span class='hs-layout'>(</span><span class='hs-conid'>L</span> <span class='hs-varop'>.</span> <span class='hs-layout'>(</span><span class='hs-chr'>'*'</span> <span class='hs-conop'>:</span><span class='hs-layout'>)</span> <span class='hs-varop'>.</span> <span class='hs-varid'>fst</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-conid'>V</span> <span class='hs-varop'>$</span> <span class='hs-chr'>'*'</span> <span class='hs-conop'>:</span> <span class='hs-varid'>s</span><span class='hs-layout'>)</span> <span class='hs-varid'>ms</span></pre>
+
+</div>
+
+<div class="hint7 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:719:3-20: Warning: Use fromMaybe<br/>
+Found<br/>
+<pre><span class='hs-definition'>maybe</span> <span class='hs-varid'>undefined</span> <span class='hs-varid'>id</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>Data.Maybe.fromMaybe</span> <span class='hs-varid'>undefined</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/Compiler/Compiler/Barely.hs:721:24-42: Warning: Avoid lambda<br/>
+Found<br/>
+<pre><span class='hs-keyglyph'>\</span> <span class='hs-varid'>y</span> <span class='hs-varid'>yt</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>last'</span> <span class='hs-varid'>y</span> <span class='hs-varid'>yt</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>last'</span></pre>
+
+</div>
+
 </div>
 <script type='text/javascript'>
 show(window.location.hash.slice(1), true);
