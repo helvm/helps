@@ -9,10 +9,14 @@ import           HelVM.HelIO.Extra
 
 import           HelVM.GoldenExpectations
 
+import           Data.Char                     (toLower)
+
 import           Test.Hspec
 
 spec :: Spec
-spec = describe "compiler" $ do
-  it "typically" $ ( compileText Compiler.Typically <$> readFileTextUtf8 "examples/compiler/standalone/typically.hs") `goldenShouldIO` "compiler/typically"
-  it "classy" $ ( compileText Compiler.Classy <$> readFileTextUtf8 "examples/compiler/standalone/classy.hs") `goldenShouldIO` "compiler/classy"
-  it "barely" $ ( compileText Compiler.Barely <$> readFileTextUtf8 "examples/compiler/standalone/barely.hs") `goldenShouldIO` "compiler/barely"
+spec = describe "compiler" $
+  forM_ Compiler.compilers $ \compiler ->
+    let label  = map toLower (show compiler)
+        path   = "examples/compiler/standalone/" <> label <> ".hs"
+        golden = "compiler/" <> label
+    in it label $ (compileText compiler <$> readFileTextUtf8 path) `goldenShouldIO` golden

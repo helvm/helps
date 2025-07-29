@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.4.0 -- 2025-07-31
+* Add Effectively compiler
+
 ## 0.2.3.0 -- 2025-07-29
 * Add Barely compiler
 
