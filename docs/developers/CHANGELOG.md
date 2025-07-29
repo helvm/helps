@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.5.0 -- 2025-01-01
+* Add Lonely compiler
+
 ## 0.2.4.0 -- 2025-07-31
 * Add Effectively compiler
 

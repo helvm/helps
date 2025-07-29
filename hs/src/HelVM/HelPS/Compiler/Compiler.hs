@@ -6,5 +6,5 @@ defaultCompiler = minBound
 compilers :: NonEmpty Compiler
 compilers = universeNonEmpty
 
-data Compiler = Effectively | Barely | Classy | Typically
+data Compiler = Lonely | Effectively | Barely | Classy | Typically
   deriving stock (Bounded , Enum , Eq , Read , Show)

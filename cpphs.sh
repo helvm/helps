@@ -16,3 +16,6 @@ cpphs --noline --strip -DSTANDALONE examples/compiler/original/barely.hs > examp
 
 cpphs --noline --strip -DEMBEDDED   examples/compiler/original/effectively.hs > hs/src/HelVM/HelPS/Compiler/Compiler/Effectively.hs
 cpphs --noline --strip -DSTANDALONE examples/compiler/original/effectively.hs > examples/compiler/standalone/effectively.hs
+
+cpphs --noline --strip -DEMBEDDED   examples/compiler/original/lonely.hs > hs/src/HelVM/HelPS/Compiler/Compiler/Lonely.hs
+cpphs --noline --strip -DSTANDALONE examples/compiler/original/lonely.hs > examples/compiler/standalone/lonely.hs
