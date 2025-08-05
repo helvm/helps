@@ -1,6 +1,8 @@
 module HelVM.HelPS.HS2Lazy.Optimizer where
 import           HelVM.HelPS.HS2Lazy.Syntax
 
+import Prelude hiding (Alt, Ap)
+
 optimizeExpr :: Expr -> Expr
 optimizeExpr = optExpr
 

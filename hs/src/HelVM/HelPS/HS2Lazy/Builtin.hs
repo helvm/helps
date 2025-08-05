@@ -3,6 +3,8 @@ import Data.List (find)
 import Data.Char (ord)
 import HelVM.HelPS.HS2Lazy.Syntax
 
+import Data.List ((!!), lookup)
+
 churchnums = [
  SLit $ LitStr "`ki", -- 0
  SLit $ LitStr "i", -- 1
