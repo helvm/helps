@@ -14,6 +14,8 @@ import Data.List(nub, (\\), intersect, union, partition)
 import Control.Monad(msum)
 import HelVM.HelPS.HS2Lazy.Syntax
 
+import Prelude hiding (Alt, Ap, Type, newTVar)
+
 enumId  :: Int -> Id
 enumId n = "v" ++ show n
 

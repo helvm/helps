@@ -3,6 +3,11 @@ import           Data.Char (chr, ord)
 import           Data.List (find, intersect, nub, union, (\\))
 import           HelVM.HelPS.HS2Lazy.SCC
 
+import qualified Text.Show
+import           Text.Show (shows, showParen, showsPrec)
+import Prelude hiding (Alt, Ap, Const, Type)
+import Data.List (foldl, foldl1, foldr1, lookup)
+
 type Id  = String
 type Alt = ([Pat], Rhs)
 type Expl = (Id, Scheme, [Alt])
@@ -240,7 +245,7 @@ instance Types Assump where
   apply s (i :>: sc) = i :>: (apply s sc)
   tv (i :>: sc)      = tv sc
 
-findAssump :: Monad m => Id -> [Assump] -> m Scheme
+findAssump :: MonadFail m => Id -> [Assump] -> m Scheme
 findAssump id []            = fail ("unbound identifier: " ++ id)
 findAssump id ((i:>:sc):as) = if i == id then return sc else findAssump id as
 
