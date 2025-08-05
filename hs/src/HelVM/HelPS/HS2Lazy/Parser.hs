@@ -2,7 +2,7 @@ module HelVM.HelPS.HS2Lazy.Parser where
 import Control.Monad (liftM)
 import Text.ParserCombinators.Parsec hiding (satisfy)
 import Text.ParserCombinators.Parsec.Expr
-import Lexer
+import HelVM.HelPS.HS2Lazy.Lexer
 
 data TopDecl = Decl Decl
 	     | DataDecl (Context, String, [String], [Constr])

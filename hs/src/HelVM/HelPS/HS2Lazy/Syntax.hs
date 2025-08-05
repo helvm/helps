@@ -1,7 +1,7 @@
 module HelVM.HelPS.HS2Lazy.Syntax where
-import Data.Char(chr, ord)
-import Data.List(find, nub, union, intersect, (\\))
-import SCC
+import           Data.Char (chr, ord)
+import           Data.List (find, intersect, nub, union, (\\))
+import           HelVM.HelPS.HS2Lazy.SCC
 
 type Id  = String
 type Alt = ([Pat], Rhs)
@@ -16,7 +16,7 @@ data Kind  = Star | Kfun Kind Kind
 class Assoc a where
     assocKey :: a -> String
     assoc :: String -> [a] -> Maybe a
-    assoc key [] = Nothing
+    assoc key []     = Nothing
     assoc key (x:xs) = if assocKey x == key then Just x else assoc key xs
 
 -----------------------------------------------------------------------------
@@ -58,17 +58,17 @@ instance Show Type where
 
 fromTAp :: Type -> [Type]
 fromTAp (TAp t1 t2) = fromTAp t1 ++ [t2]
-fromTAp t = [t]
+fromTAp t           = [t]
 
 data Tyvar = Tyvar Id Kind deriving Eq
 
 instance Show Tyvar where
     show (Tyvar id _) = id
 
-data Tycon = Tycon { tyconName::Id,
-                     tyconKind::Kind,
-                     tyconNumCon::Int,
-                     tyconArities::[Int]
+data Tycon = Tycon { tyconName    :: Id,
+                     tyconKind    :: Kind,
+                     tyconNumCon  :: Int,
+                     tyconArities :: [Int]
                    } deriving Eq
 
 instance Show Tycon where
@@ -241,7 +241,7 @@ instance Types Assump where
   tv (i :>: sc)      = tv sc
 
 findAssump :: Monad m => Id -> [Assump] -> m Scheme
-findAssump id [] = fail ("unbound identifier: " ++ id)
+findAssump id []            = fail ("unbound identifier: " ++ id)
 findAssump id ((i:>:sc):as) = if i == id then return sc else findAssump id as
 
 -- Literals
@@ -251,9 +251,9 @@ data Literal = LitInt  Int
                deriving Eq
 
 instance Show Literal where
-    show (LitInt n) = show n
+    show (LitInt n)  = show n
     show (LitChar c) = c
-    show (LitStr s) = s
+    show (LitStr s)  = s
 
 -- Patterns
 data Pat  = PVar Id
@@ -277,11 +277,11 @@ data Rhs = Rhs Expr
          | Where BindGroup Rhs
          | Guarded [(Expr, Expr)]
 
-data Const = Const { conName::Id,
-                     conArity::Int,
-                     conTag::Int,
-                     conTycon::Tycon,
-                     conScheme::Scheme }
+data Const = Const { conName   :: Id,
+                     conArity  :: Int,
+                     conTag    :: Int,
+                     conTycon  :: Tycon,
+                     conScheme :: Scheme }
 
 instance Eq Const where
     c1 == c2 = conName c1 == conName c2
@@ -324,10 +324,10 @@ fvAlt :: Alt -> [Id]
 fvAlt (ps, rhs) = freeVars rhs \\ concat (map patVars ps)
 
 patVars :: Pat -> [Id]
-patVars (PVar i) = [i]
-patVars (PAs i p) = i : patVars p
+patVars (PVar i)    = [i]
+patVars (PAs i p)   = i : patVars p
 patVars (PCon _ ps) = concat (map patVars ps)
-patVars _ = []
+patVars _           = []
 
 tupcon :: Int -> Const
 tupcon n = Const "(,)" n 1 tycon sc

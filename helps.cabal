@@ -117,11 +117,14 @@ library
     HelVM.HelPS.Compiler.Compiler.Effectively
     HelVM.HelPS.Compiler.Compiler.Typically
 
+    HelVM.HelPS.HS2Lazy.Main
+
     HelVM.HelPS.MiniHaskell.Classy
     HelVM.HelPS.MiniHaskell.ClassyAdapter
 
   build-depends:
       helio
+    , array
 
   ghc-options:
 

@@ -75,10 +75,10 @@ alexInputPrevChar :: AlexInput -> Char
 alexInputPrevChar (p,c,bs,s) = c
 
 alexGetByte :: AlexInput -> Maybe (Byte,AlexInput)
-alexGetByte (p,c,(b:bs),s) = Just (b,(p,c,bs,s))
+alexGetByte (p,c,(b : bs),s) = Just (b,(p,c,bs,s))
 alexGetByte (p,c,[],[]) = Nothing
-alexGetByte (p,_,[],(c:s))  = let p' = alexMove p c 
-                                  (b:bs) = utf8Encode c
+alexGetByte (p,_,[],(c : s))  = let p' = alexMove p c
+                                  (b : bs) = utf8Encode c
                               in p' `seq`  Just (b, (p', c, bs, s))
 
 

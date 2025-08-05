@@ -1,8 +1,8 @@
 
 {- HLINT ignore -}
 module HelVM.HelPS.Compiler.Compiler.Effectively where
-import           Data.Char (chr, ord)
-import           Prelude   (Bool (..), Char, Int, String, succ)
+import Prelude (Bool(..), Char, Int, String, succ)
+import Data.Char (chr, ord)
 import qualified Prelude
 intLE = (Prelude.<=)
 intEq = (Prelude.==)
@@ -39,7 +39,7 @@ instance Ord Int where { (<=) = intLE };
 data Ordering = LT | GT | EQ;
 compare x y = case x <= y of
   { True -> case y <= x of
-    { True  -> EQ
+    { True -> EQ
     ; False -> LT
     }
   ; False -> GT
@@ -71,11 +71,11 @@ not a = case a of { True -> False; False -> True };
 flst xs n c = case xs of { [] -> n; (:) h t -> c h t };
 instance Eq a => Eq [a] where { (==) xs ys = case xs of
   { [] -> case ys of
-    { []      -> True
+    { [] -> True
     ; (:) _ _ -> False
     }
   ; (:) x xt -> case ys of
-    { []       -> False
+    { [] -> False
     ; (:) y yt -> x == y && xt == yt
     }
   }};
@@ -103,24 +103,24 @@ size m = case m of { Tip -> 0 ; Bin sz _ _ _ _ -> sz };
 node k x l r = Bin (succ $ size l + size r) k x l r;
 singleton k x = Bin 1 k x Tip Tip;
 singleL k x l r = case r of
-  { Tip                -> undefined
+  { Tip -> undefined
   ; Bin _ rk rkx rl rr -> node rk rkx (node k x l rl) rr
   };
 singleR k x l r = case l of
-  { Tip                -> undefined
+  { Tip -> undefined
   ; Bin _ lk lkx ll lr -> node lk lkx ll (node k x lr r)
   };
 doubleL k x l r = case r of
   { Tip -> undefined
   ; Bin _ rk rkx rl rr -> case rl of
-    { Tip                    -> undefined
+    { Tip -> undefined
     ; Bin _ rlk rlkx rll rlr -> node rlk rlkx (node k x l rll) (node rk rkx rlr rr)
     }
   };
 doubleR k x l r = case l of
   { Tip -> undefined
   ; Bin _ lk lkx ll lr -> case lr of
-    { Tip                    -> undefined
+    { Tip -> undefined
     ; Bin _ lrk lrkx lrl lrr -> node lrk lrkx (node lk lkx ll lrl) (node k x lrr r)
     }
   };
@@ -130,7 +130,7 @@ balance k x l r = case size l + size r <= 1 of
     { True -> case r of
       { Tip -> node
       ; Bin sz _ _ rl rr -> case 3 * size rr <= 2 * size rl of
-        { True  -> doubleL
+        { True -> doubleL
         ; False -> singleL
         }
       }
@@ -138,7 +138,7 @@ balance k x l r = case size l + size r <= 1 of
       { True -> case l of
         { Tip -> node
         ; Bin sz _ _ ll lr -> case 3 * size ll <= 2 * size lr of
-          { True  -> doubleR
+          { True -> doubleR
           ; False -> singleR
           }
         }
@@ -171,7 +171,7 @@ fromList = let
 
 foldrWithKey f = let
   { go z t = case t of
-    { Tip            -> z
+    { Tip -> z
     ; Bin _ kx x l r -> go (f kx x (go z r)) l
     }
   } in go;
@@ -190,7 +190,7 @@ sat' f = \h t -> ife (f h) (pure h t) Nothing;
 sat f inp = flst inp Nothing (sat' f);
 bind f m = case m of
   { Nothing -> Nothing
-  ; Just x  -> fpair x f
+  ; Just x -> fpair x f
   };
 ap x y = \inp -> bind (\a t -> bind (\b u -> pure (a b) u) (y t)) (x inp);
 (<*>) = ap;
@@ -199,7 +199,7 @@ fmap f x = ap (pure f) x;
 (>>=) x y = \inp -> bind (\a t -> y a t) (x inp);
 (<|>) x y = \inp -> case x inp of
   { Nothing -> y inp
-  ; Just x  -> Just x
+  ; Just x -> Just x
   };
 liftA2 f x y = ap (fmap f x) y;
 (*>) = liftA2 \x y -> y;
@@ -252,8 +252,8 @@ rightSect r = ((\v a -> L "@" $ A (A (V v) $ V "@") a) <$> (op <|> (wrap <$> spc
 section r = spch '(' *> (parenExpr r <* spch ')' <|> rightSect r <* spch ')' <|> spch ')' *> pure (V "()"));
 
 isFree v expr = case expr of
-  { E _   -> False
-  ; V s   -> s == v
+  { E _ -> False
+  ; V s -> s == v
   ; A x y -> isFree v x || isFree v y
   ; L w t -> not (v == w) && isFree v t
   };
@@ -283,7 +283,7 @@ opFold precTab e xs = case xs of
   ; (:) x xt -> case find (\y -> not (eqAssoc (assocOf (fst x) precTab) (assocOf (fst y) precTab))) xt of
     { Nothing -> case assocOf (fst x) precTab of
       { NAssoc -> case xt of
-        { []       -> fpair x (\op y -> A (A (V op) e) y)
+        { [] -> fpair x (\op y -> A (A (V op) e) y)
         ; (:) y yt -> undefined
         }
       ; LAssoc -> foldl (\a b -> fpair b (\op y -> A (A (V op) a) y)) e xs
@@ -375,10 +375,10 @@ data LC = Ze | Su LC | Pass Int | La LC | App LC LC;
 
 debruijn m n e = case e of
   { E x -> case x of
-    { Basic b  -> Pass b
-    ; Const c  -> App (Pass $ ord '#') (Pass c)
+    { Basic b -> Pass b
+    ; Const c -> App (Pass $ ord '#') (Pass c)
     ; StrCon s -> foldr (\h t -> App (App (Pass $ ord ':') (App (Pass $ ord '#') (Pass $ ord h))) t) (Pass $ ord 'K') s
-    ; Proof _  -> undefined
+    ; Proof _ -> undefined
     }
   ; V v -> maybe (fmaybe (mlookup v m) undefined Pass) id $
     foldr (\h found -> ife (h == v) (Just Ze) (maybe Nothing (Just . Su) found)) Nothing n
@@ -394,38 +394,38 @@ data Sem = Defer | Closed IntTree | Need Sem | Weak Sem;
 lf = Lf . ord;
 
 ldef = \r y -> case y of
-  { Defer    -> Need (Closed (Nd (Nd (lf 'S') (lf 'I')) (lf 'I')))
+  { Defer -> Need (Closed (Nd (Nd (lf 'S') (lf 'I')) (lf 'I')))
   ; Closed d -> Need (Closed (Nd (lf 'T') d))
-  ; Need e   -> Need (r (Closed (Nd (lf 'S') (lf 'I'))) e)
-  ; Weak e   -> Need (r (Closed (lf 'T')) e)
+  ; Need e -> Need (r (Closed (Nd (lf 'S') (lf 'I'))) e)
+  ; Weak e -> Need (r (Closed (lf 'T')) e)
   };
 
 lclo = \r d y -> case y of
-  { Defer     -> Need (Closed d)
+  { Defer -> Need (Closed d)
   ; Closed dd -> Closed (Nd d dd)
-  ; Need e    -> Need (r (Closed (Nd (lf 'B') d)) e)
-  ; Weak e    -> Weak (r (Closed d) e)
+  ; Need e -> Need (r (Closed (Nd (lf 'B') d)) e)
+  ; Weak e -> Weak (r (Closed d) e)
   };
 
 lnee = \r e y -> case y of
-  { Defer    -> Need (r (r (Closed (lf 'S')) e) (Closed (lf 'I')))
+  { Defer -> Need (r (r (Closed (lf 'S')) e) (Closed (lf 'I')))
   ; Closed d -> Need (r (Closed (Nd (lf 'R') d)) e)
-  ; Need ee  -> Need (r (r (Closed (lf 'S')) e) ee)
-  ; Weak ee  -> Need (r (r (Closed (lf 'C')) e) ee)
+  ; Need ee -> Need (r (r (Closed (lf 'S')) e) ee)
+  ; Weak ee -> Need (r (r (Closed (lf 'C')) e) ee)
   };
 
 lwea = \r e y -> case y of
-  { Defer    -> Need e
+  { Defer -> Need e
   ; Closed d -> Weak (r e (Closed d))
-  ; Need ee  -> Need (r (r (Closed (lf 'B')) e) ee)
-  ; Weak ee  -> Weak (r e ee)
+  ; Need ee -> Need (r (r (Closed (lf 'B')) e) ee)
+  ; Weak ee -> Weak (r e ee)
   };
 
 babsa x y = case x of
-  { Defer    -> ldef babsa y
+  { Defer -> ldef babsa y
   ; Closed d -> lclo babsa d y
-  ; Need e   -> lnee babsa e y
-  ; Weak e   -> lwea babsa e y
+  ; Need e -> lnee babsa e y
+  ; Weak e -> lwea babsa e y
   };
 
 babs t = case t of
@@ -433,19 +433,19 @@ babs t = case t of
   ; Su x -> Weak (babs x)
   ; Pass n -> Closed (Lf n)
   ; La t -> case babs t of
-    { Defer    -> Closed (lf 'I')
+    { Defer -> Closed (lf 'I')
     ; Closed d -> Closed (Nd (lf 'K') d)
-    ; Need e   -> e
-    ; Weak e   -> babsa (Closed (lf 'K')) e
+    ; Need e -> e
+    ; Weak e -> babsa (Closed (lf 'K')) e
     }
   ; App x y -> babsa (babs x) (babs y)
   };
 
 nolam m x = case babs $ debruijn m [] x of
-  { Defer    -> undefined
+  { Defer -> undefined
   ; Closed d -> d
-  ; Need e   -> undefined
-  ; Weak e   -> undefined
+  ; Need e -> undefined
+  ; Weak e -> undefined
   };
 
 enc mem t = case t of
@@ -467,22 +467,22 @@ asm qas = foldl (\tabmem def -> fpair def \s qt -> fpair tabmem \tab mem ->
 -- Type checking.
 
 apply sub t = case t of
-  { TC v    -> t
-  ; TV v    -> fmaybe (lookup v sub) t id
+  { TC v -> t
+  ; TV v -> fmaybe (lookup v sub) t id
   ; TAp a b -> TAp (apply sub a) (apply sub b)
   };
 
 (@@) s1 s2 = map (second (apply s1)) s2 ++ s1;
 
 occurs s t = case t of
-  { TC v    -> False
-  ; TV v    -> s == v
+  { TC v -> False
+  ; TV v -> s == v
   ; TAp a b -> occurs s a || occurs s b
   };
 
 varBind s t = case t of
-  { TC v    -> Just [(s, t)]
-  ; TV v    -> ife (v == s) (Just []) (Just [(s, t)])
+  { TC v -> Just [(s, t)]
+  ; TV v -> ife (v == s) (Just []) (Just [(s, t)])
   ; TAp a b -> ife (occurs s t) Nothing (Just [(s, t)])
   };
 
@@ -490,14 +490,14 @@ charIsInt s = ife (s == "Char") "Int" s;
 
 mgu unify t u = case t of
   { TC a -> case u of
-    { TC b    -> ife (charIsInt a == charIsInt b) (Just []) Nothing
-    ; TV b    -> varBind b t
+    { TC b -> ife (charIsInt a == charIsInt b) (Just []) Nothing
+    ; TV b -> varBind b t
     ; TAp a b -> Nothing
     }
   ; TV a -> varBind a u
   ; TAp a b -> case u of
-    { TC b    -> Nothing
-    ; TV b    -> varBind b t
+    { TC b -> Nothing
+    ; TV b -> varBind b t
     ; TAp c d -> unify b d (mgu unify a c)
     }
   };
@@ -511,7 +511,7 @@ instantiate' t n tab = case t of
   { TC s -> ((t, n), tab)
   ; TV s -> case lookup s tab of
     { Nothing -> let { va = TV (showInt n "") } in ((va, n + 1), (s, va):tab)
-    ; Just v  -> ((v, n), tab)
+    ; Just v -> ((v, n), tab)
     }
   ; TAp x y ->
     fpair (instantiate' x n tab) \tn1 tab1 ->
@@ -559,18 +559,18 @@ onType f pred = case pred of { Pred s t -> Pred s (f t) };
 
 instance Eq Type where { (==) t u = case t of
   { TC s -> case u of
-    { TC t    -> t == s
-    ; TV _    -> False
+    { TC t -> t == s
+    ; TV _ -> False
     ; TAp _ _ -> False
     }
   ; TV s ->  case u of
-    { TC _    -> False
-    ; TV t    -> t == s
+    { TC _ -> False
+    ; TV t -> t == s
     ; TAp _ _ -> False
     }
   ; TAp a b -> case u of
-    { TC _    -> False
-    ; TV _    -> False
+    { TC _ -> False
+    ; TV _ -> False
     ; TAp c d -> a == c && b == d
     }
   }};
@@ -591,8 +591,8 @@ merge s1 s2 = ife (all (\v -> apply s1 (TV v) == apply s2 (TV v))
 
 match h t = case h of
   { TC a -> case t of
-    { TC b    -> ife (a == b) (Just []) Nothing
-    ; TV b    -> Nothing
+    { TC b -> ife (a == b) (Just []) Nothing
+    ; TV b -> Nothing
     ; TAp a b -> Nothing
     }
   ; TV a -> Just [(a, t)]
@@ -612,8 +612,8 @@ match h t = case h of
 matchPred h p = case p of { Pred _ t -> match h t };
 
 showType t = case t of
-  { TC s    -> s
-  ; TV s    -> s
+  { TC s -> s
+  ; TV s -> s
   ; TAp a b -> concat ["(", showType a, " ", showType b, ")"]
   };
 showPred p = case p of { Pred s t -> s ++ (' ':showType t) ++ " => "};
@@ -629,7 +629,7 @@ findInst r qn p insts = case insts of
 
 findProof is pred psn = fpair psn \ps n -> case lookup pred ps of
   { Nothing -> case pred of { Pred s t -> case lookup s is of
-    { Nothing    -> undefined  -- No instances!
+    { Nothing -> undefined  -- No instances!
     ; Just insts -> findInst (findProof is) psn pred insts
     }}
   ; Just s -> (psn, V s)
@@ -637,9 +637,9 @@ findProof is pred psn = fpair psn \ps n -> case lookup pred ps of
 
 prove' ienv sub psn a = case a of
   { E x -> case x of
-    { Basic _   -> (psn, a)
-    ; Const _   -> (psn, a)
-    ; StrCon _  -> (psn, a)
+    { Basic _ -> (psn, a)
+    ; Const _ -> (psn, a)
+    ; StrCon _ -> (psn, a)
     ; Proof raw -> findProof ienv (predApply sub raw) psn
     }
   ; V _ -> (psn, a)
@@ -676,7 +676,7 @@ inferMethod ienv typed qi def = fpair def \s expr ->
             fpair (instantiate (Qual psi $ apply subc tc) n1) \q2 n2 ->
             case q2 of { Qual ps2 t2 -> fpair ta \tx ax ->
               case match (apply sub tx) t2 of
-                { Nothing   -> undefined  -- Class/instance type conflict.
+                { Nothing -> undefined  -- Class/instance type conflict.
                 ; Just subx -> snd $ prove' ienv (subx @@ sub) (dictVars ps2 0) ax
               }}}}}}}}};
 
@@ -726,7 +726,7 @@ fneat neat f = case neat of { Neat a b c d e -> f a b c d e };
 select f xs acc = flst xs (Nothing, acc) \x xt -> ife (f x) (Just x, xt ++ acc) (select f xt (x:acc));
 
 addInstance s q is = fpair (select (\kv -> s == fst kv) is []) \m xs -> case m of
-  { Nothing  -> (s, [q]):xs
+  { Nothing -> (s, [q]):xs
   ; Just sqs -> second (q:) sqs:xs
   };
 
@@ -739,8 +739,8 @@ mkFFIHelper n t acc = case t of
     { TC s -> ife (s == "IO") acc undefined
     ; TV s -> undefined
     ; TAp f x -> case f of
-      { TC s    -> ife (s == "->") (L (showInt n "") $ mkFFIHelper (n + 1) y $ A (V $ showInt n "") acc) undefined
-      ; TV s    -> undefined
+      { TC s -> ife (s == "->") (L (showInt n "") $ mkFFIHelper (n + 1) y $ A (V $ showInt n "") acc) undefined
+      ; TV s -> undefined
       ; TAp _ _ -> undefined
       }
     }
@@ -749,7 +749,7 @@ mkFFIHelper n t acc = case t of
 untangle = foldr (\top acc -> fneat acc \ienv fs typed ffis exs -> case top of
   { Adt t cs -> Neat ienv fs (mkAdtDefs t cs ++ typed) ffis exs
   ; Def e f -> Neat ienv (Left f : fs) typed ffis $ case e of
-    { Nothing   -> id
+    { Nothing -> id
     ; Just name -> ((name, fst f):)
     }
     exs
@@ -765,7 +765,7 @@ showQual q = case q of { Qual ps t -> concatMap showPred ps ++ showType t };
 
 dumpTypes s = fmaybe (program s) "parse error" \progRest ->
   fpair progRest \prog rest -> fneat (untangle prog) \ienv fs typed ffis exs -> case inferDefs ienv fs typed of
-  { Left err    -> err
+  { Left err -> err
   ; Right typed -> concatMap (\p -> fpair p \s qa -> s ++ " :: " ++ showQual (fst qa) ++ "\n") typed
   };
 
@@ -779,14 +779,14 @@ argList t = case t of
   ; TV s -> [TV s]
   ; TAp g y -> case g of
     { TC s -> case y of
-      { TC u    -> ife (s == "IO") [TC u] undefined
-      ; TV _    -> undefined
+      { TC u -> ife (s == "IO") [TC u] undefined
+      ; TV _ -> undefined
       ; TAp _ _ -> undefined
       }
     ; TV s -> undefined
     ; TAp f x -> case f of
-      { TC s    -> ife (s == "->") (x : argList y) undefined
-      ; TV s    -> undefined
+      { TC s -> ife (s == "->") (x : argList y) undefined
+      ; TV s -> undefined
       ; TAp _ _ -> undefined
       }
     }
@@ -814,14 +814,14 @@ ffiArgs n t = case t of
   ; TV s -> undefined
   ; TAp g y -> case g of
     { TC s -> case y of
-      { TC u    -> ife (s == "IO") ("", ((False, u), n)) undefined
-      ; TV _    -> undefined
+      { TC u -> ife (s == "IO") ("", ((False, u), n)) undefined
+      ; TV _ -> undefined
       ; TAp _ _ -> undefined
       }
     ; TV s -> undefined
     ; TAp f x -> case f of
-      { TC s    -> ife (s == "->") (first ((ife (3 <= n) ", " "" ++ "num(" ++ showInt n ")") ++) $ ffiArgs (n + 1) y) undefined
-      ; TV s    -> undefined
+      { TC s -> ife (s == "->") (first ((ife (3 <= n) ", " "" ++ "num(" ++ showInt n ")") ++) $ ffiArgs (n + 1) y) undefined
+      ; TV s -> undefined
       ; TAp _ _ -> undefined
       }
     }

@@ -1,16 +1,16 @@
 module HelVM.HelPS.HS2Lazy.Main where
 import System.Environment
 import System.IO
-import Syntax
-import qualified Lexer as L
-import qualified Parser as P
-import qualified Static as S
-import qualified Type as T
-import Compiler (programToExpr, expandCon, skiCompile)
-import PatComp (compilePatternMatch)
-import Optimizer (optimizeExpr)
-import Builtin (expandBltin)
-import PPrint (showProgram)
+import HelVM.HelPS.HS2Lazy.Syntax
+import qualified HelVM.HelPS.HS2Lazy.Lexer as L
+import qualified HelVM.HelPS.HS2Lazy.Parser as P
+import qualified HelVM.HelPS.HS2Lazy.Static as S
+import qualified HelVM.HelPS.HS2Lazy.Type as T
+import HelVM.HelPS.HS2Lazy.Compiler (programToExpr, expandCon, skiCompile)
+import HelVM.HelPS.HS2Lazy.PatComp (compilePatternMatch)
+import HelVM.HelPS.HS2Lazy.Optimizer (optimizeExpr)
+import HelVM.HelPS.HS2Lazy.Builtin (expandBltin)
+import PHelVM.HelPS.HS2Lazy.Print (showProgram)
 
 compile s = (prog, as ++ a, expr2, ski2, ce')
     where (prog, is, ce', as) = S.analyze ce topdecls

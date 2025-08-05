@@ -1,17 +1,17 @@
 module HelVM.HelPS.HS2Lazy.Optimizer where
-import Syntax
+import           HelVM.HelPS.HS2Lazy.Syntax
 
 optimizeExpr :: Expr -> Expr
 optimizeExpr = optExpr
 
 optExpr :: Expr -> Expr
-optExpr e@(Var _) = e
-optExpr e@(Lit _) = e
-optExpr e@(Con _) = e
-optExpr (Ap e1 e2) = Ap (optExpr e1) (optExpr e2)
-optExpr (Let bg e) = optLet bg e
+optExpr e@(Var _)            = e
+optExpr e@(Lit _)            = e
+optExpr e@(Con _)            = e
+optExpr (Ap e1 e2)           = Ap (optExpr e1) (optExpr e2)
+optExpr (Let bg e)           = optLet bg e
 optExpr (Lambda (vs, Rhs e)) = Lambda (vs, Rhs (optExpr e))
-optExpr (ESign e sc) = optExpr e
+optExpr (ESign e sc)         = optExpr e
 
 optBindGroup :: [Impl] -> BindGroup
 optBindGroup is = ([], [is'])
@@ -20,7 +20,7 @@ optBindGroup is = ([], [is'])
 optLet :: BindGroup -> Expr -> Expr
 optLet bg e = case bindings bg of
                 [(v, [([], Rhs e')])] | simple e' -> optExpr (substVar e' v e)
-                is -> Let (optBindGroup is) (optExpr e)
+                is                                -> Let (optBindGroup is) (optExpr e)
     where simple (Var _) = True
           simple (Lit _) = True
           simple (Con _) = True

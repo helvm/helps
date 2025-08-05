@@ -2,12 +2,29 @@ module HelVM.HelPS.HS2Lazy.SCC (scc) where
 import Data.List (elemIndex)
 import Control.Monad (when)
 import Data.Array
+import Data.List ((!!), foldl)
 
 data SM s a = SM (s -> (a, s))
 
+instance Functor (SM s) where
+  fmap f (SM c) = SM $ \s -> let (a, s') = c s in (f a, s')
+
+instance Applicative (SM s) where
+  pure a = SM $ \s -> (a, s)
+  SM cf <*> SM ca = SM $ \s ->
+    let (f, s1) = cf s
+        (a, s2) = ca s1
+    in (f a, s2)
+
 instance Monad (SM s) where
-    SM c1 >>= fc2 = SM (\s0 -> let (r,s1) = c1 s0; SM c2 = fc2 r in c2 s1)
-    return k = SM (\s -> (k,s))
+  SM c1 >>= fc2 = SM $ \s0 ->
+    let (r, s1) = c1 s0
+        SM c2 = fc2 r
+    in c2 s1
+
+--instance Monad (SM s) where
+--    SM c1 >>= fc2 = SM (\s0 -> let (r,s1) = c1 s0; SM c2 = fc2 r in c2 s1)
+--    return k = SM (\s -> (k,s))
 
 readSM :: (s -> a) -> SM s a
 readSM f = SM (\s -> (f s, s))

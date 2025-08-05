@@ -1,8 +1,8 @@
 
 {- HLINT ignore -}
 module HelVM.HelPS.Compiler.Compiler.Typically where
-import           Data.Char (chr, ord)
-import           Prelude   (Char, Int, String, succ)
+import Prelude (Char, Int, String, succ)
+import Data.Char (chr, ord)
 import qualified Prelude
 a <= b = if a Prelude.<= b then True else False
 (*) = (Prelude.*)
@@ -44,7 +44,7 @@ not a = case a of { True -> False; False -> True };
 (&&) f g = ife f g False;
 flst xs n c = case xs of { [] -> n; (:) h t -> c h t };
 lstEq xs ys = case xs of
-  { []       -> flst ys True (\h t -> False)
+  { [] -> flst ys True (\h t -> False)
   ; (:) x xt -> flst ys False (\y yt -> ife (x == y) (lstEq xt yt) False)
   };
 
@@ -69,7 +69,7 @@ sat' f = \h t -> ife (f h) (pure h t) Nothing;
 sat f inp = flst inp Nothing (sat' f);
 bind f m = case m of
   { Nothing -> Nothing
-  ; Just x  -> uncurry f x
+  ; Just x -> uncurry f x
   };
 ap x y = \inp -> bind (\a t -> bind (\b u -> pure (a b) u) (y t)) (x inp);
 (<*>) = ap;
@@ -78,7 +78,7 @@ fmap f x = ap (pure f) x;
 (>>=) x y = \inp -> bind (\a t -> y a t) (x inp);
 (<|>) x y = \inp -> case x inp of
   { Nothing -> y inp
-  ; Just x  -> Just x
+  ; Just x -> Just x
   };
 liftA2 f x y = ap (fmap f x) y;
 (*>) = liftA2 \x y -> y;
@@ -129,8 +129,8 @@ rightSect r = ((\v a -> L "@" $ A (A (V v) $ V "@") a) <$> (op <|> (wrap <$> spc
 section r = paren (parenExpr r <|> rightSect r);
 
 isFree v expr = case expr of
-  { R s   -> False
-  ; V s   -> lstEq s v
+  { R s -> False
+  ; V s -> lstEq s v
   ; A x y -> isFree v x || isFree v y
   ; L w t -> not ((lstEq v w) || not (isFree v t))
   };
@@ -157,7 +157,7 @@ opFold precTab e xs = case xs of
   ; (:) x xt -> case find (\y -> not (eqAssoc (assocOf (fst x) precTab) (assocOf (fst y) precTab))) xt of
     { Nothing -> case assocOf (fst x) precTab of
       { NAssoc -> case xt of
-        { []       -> uncurry (\op y -> A (A (V op) e) y) x
+        { [] -> uncurry (\op y -> A (A (V op) e) y) x
         ; (:) y yt -> undefined
         }
       ; LAssoc -> foldl (\a b -> uncurry (\op y -> A (A (V op) a) y) b) e xs
@@ -229,16 +229,16 @@ showInt n s = ifz n ('0':) (showInt' n) s;
 
 rank ds v = foldr (\d t -> ife (lstEq v (fst d)) (\n -> ('[':) . showInt n . (']':)) (t . succ)) undefined ds 0;
 shows f t = case t of
-  { R s   -> (s++)
-  ; V v   -> f v
+  { R s -> (s++)
+  ; V v -> f v
   ; A x y -> ('`':) . shows f x . shows f y
   ; L w t -> undefined
   };
 data LC = Ze | Su LC | Pass Ast | La LC | App LC LC;
 
 debruijn n e = case e of
-  { R s   -> Pass (R s)
-  ; V v   -> foldr (\h m -> ife (lstEq h v) Ze (Su m)) (Pass (V v)) n
+  { R s -> Pass (R s)
+  ; V v -> foldr (\h m -> ife (lstEq h v) Ze (Su m)) (Pass (V v)) n
   ; A x y -> App (debruijn n x) (debruijn n y)
   ; L s t -> La (debruijn (s:n) t)
   };
@@ -246,38 +246,38 @@ debruijn n e = case e of
 data Sem = Defer | Closed Ast | Need Sem | Weak Sem;
 
 ldef = \r y -> case y of
-  { Defer    -> Need (Closed (A (A (R "S") (R "I")) (R "I")))
+  { Defer -> Need (Closed (A (A (R "S") (R "I")) (R "I")))
   ; Closed d -> Need (Closed (A (R "T") d))
-  ; Need e   -> Need (r (Closed (A (R "S") (R "I"))) e)
-  ; Weak e   -> Need (r (Closed (R "T")) e)
+  ; Need e -> Need (r (Closed (A (R "S") (R "I"))) e)
+  ; Weak e -> Need (r (Closed (R "T")) e)
   };
 
 lclo = \r d y -> case y of
-  { Defer     -> Need (Closed d)
+  { Defer -> Need (Closed d)
   ; Closed dd -> Closed (A d dd)
-  ; Need e    -> Need (r (Closed (A (R "B") d)) e)
-  ; Weak e    -> Weak (r (Closed d) e)
+  ; Need e -> Need (r (Closed (A (R "B") d)) e)
+  ; Weak e -> Weak (r (Closed d) e)
   };
 
 lnee = \r e y -> case y of
-  { Defer    -> Need (r (r (Closed (R "S")) e) (Closed (R "I")))
+  { Defer -> Need (r (r (Closed (R "S")) e) (Closed (R "I")))
   ; Closed d -> Need (r (Closed (A (R "R") d)) e)
-  ; Need ee  -> Need (r (r (Closed (R "S")) e) ee)
-  ; Weak ee  -> Need (r (r (Closed (R "C")) e) ee)
+  ; Need ee -> Need (r (r (Closed (R "S")) e) ee)
+  ; Weak ee -> Need (r (r (Closed (R "C")) e) ee)
   };
 
 lwea = \r e y -> case y of
-  { Defer    -> Need e
+  { Defer -> Need e
   ; Closed d -> Weak (r e (Closed d))
-  ; Need ee  -> Need (r (r (Closed (R "B")) e) ee)
-  ; Weak ee  -> Weak (r e ee)
+  ; Need ee -> Need (r (r (Closed (R "B")) e) ee)
+  ; Weak ee -> Weak (r e ee)
   };
 
 babsa x y = case x of
-  { Defer    -> ldef babsa y
+  { Defer -> ldef babsa y
   ; Closed d -> lclo babsa d y
-  ; Need e   -> lnee babsa e y
-  ; Weak e   -> lwea babsa e y
+  ; Need e -> lnee babsa e y
+  ; Weak e -> lwea babsa e y
   };
 
 babs t = case t of
@@ -285,19 +285,19 @@ babs t = case t of
   ; Su x -> Weak (babs x)
   ; Pass s -> Closed s
   ; La t -> case babs t of
-    { Defer    -> Closed (R "I")
+    { Defer -> Closed (R "I")
     ; Closed d -> Closed (A (R "K") d)
-    ; Need e   -> e
-    ; Weak e   -> babsa (Closed (R "K")) e
+    ; Need e -> e
+    ; Weak e -> babsa (Closed (R "K")) e
     }
   ; App x y -> babsa (babs x) (babs y)
   };
 
 nolam x = case babs (debruijn [] x) of
-  { Defer    -> undefined
+  { Defer -> undefined
   ; Closed d -> d
-  ; Need e   -> undefined
-  ; Weak e   -> undefined
+  ; Need e -> undefined
+  ; Weak e -> undefined
   };
 
 dump tab = foldr (\h t -> shows (rank tab) (nolam (snd h)) (';':t)) "" tab;
@@ -306,35 +306,35 @@ asm = dump . uncurry \typed defs -> map (second snd) typed ++ defs;
 compile s = maybe "?" fst $ (asm <$> program) s;
 
 apply sub t = case t of
-  { TC v    -> t
-  ; TV v    -> maybe t id $ lstLookup v sub
+  { TC v -> t
+  ; TV v -> maybe t id $ lstLookup v sub
   ; TAp a b -> TAp (apply sub a) (apply sub b)
   };
 
 (@@) s1 s2 = map (second (apply s1)) s2 ++ s1;
 
 occurs s t = case t of
-  { TC v    -> False
-  ; TV v    -> lstEq s v
+  { TC v -> False
+  ; TV v -> lstEq s v
   ; TAp a b -> occurs s a || occurs s b
   };
 
 varBind s t = case t of
-  { TC v    -> Just [(s, t)]
-  ; TV v    -> ife (lstEq v s) (Just []) (Just [(s, t)])
+  { TC v -> Just [(s, t)]
+  ; TV v -> ife (lstEq v s) (Just []) (Just [(s, t)])
   ; TAp a b -> ife (occurs s t) Nothing (Just [(s, t)])
   };
 
 mgu unify t u = case t of
   { TC a -> case u of
-    { TC b    -> ife (lstEq a b) (Just []) Nothing
-    ; TV b    -> varBind b t
+    { TC b -> ife (lstEq a b) (Just []) Nothing
+    ; TV b -> varBind b t
     ; TAp a b -> Nothing
     }
   ; TV a -> varBind a u
   ; TAp a b -> case u of
-    { TC b    -> Nothing
-    ; TV b    -> varBind b t
+    { TC b -> Nothing
+    ; TV b -> varBind b t
     ; TAp c d -> unify b d (mgu unify a c)
     }
   };
@@ -348,7 +348,7 @@ instantiate' t n tab = case t of
   { TC s -> ((t, n), tab)
   ; TV s -> case lstLookup s tab of
     { Nothing -> let { va = TV (s ++ '_':showInt n "") } in ((va, n + 1), (s, va):tab)
-    ; Just v  -> ((v, n), tab)
+    ; Just v -> ((v, n), tab)
     }
   ; TAp x y ->
     fpair (instantiate' x n tab) \tn1 tab1 ->
@@ -383,23 +383,23 @@ data Either a b = Left a | Right b;
 inferDefs typed defs = flst defs (Right typed) \def rest -> fpair def \s expr ->
   case apSub (infer' typed [] expr (Just [], 0)) of
     { Nothing -> Left ("bad type: " ++ s)
-    ; Just t  -> inferDefs ((s, (t, expr)) : typed) rest
+    ; Just t -> inferDefs ((s, (t, expr)) : typed) rest
     };
 
 infer = uncurry inferDefs;
 
 showType t = case t of
-  { TC s    -> s
-  ; TV s    -> s
+  { TC s -> s
+  ; TV s -> s
   ; TAp a b -> concat ["(", showType a, " ", showType b, ")"]
   };
 
 dumpTypes s = maybe "parse error" (uncurry \prog rest -> case infer prog of
-  { Left err    -> err
+  { Left err -> err
   ; Right typed -> concatMap (uncurry \s ta -> s ++ " :: " ++ showType (fst ta) ++ "\n") typed
   }) (program s);
 
 typedCompile s = maybe "parse error" (uncurry \prog rest -> case infer prog of
   { Left err -> err
-  ; Right _  -> asm prog
+  ; Right _ -> asm prog
   }) (program s);
