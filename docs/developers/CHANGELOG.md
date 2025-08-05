@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.4.1 -- 2025-08-05
+* Add example for hs2lazy
+
 ## 0.2.4.0 -- 2025-07-31
 * Add Effectively compiler
 
