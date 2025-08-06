@@ -75,9 +75,9 @@ alexInputPrevChar :: AlexInput -> Char
 alexInputPrevChar (p,c,bs,s) = c
 
 alexGetByte :: AlexInput -> Maybe (Byte,AlexInput)
-alexGetByte (p,c,(b : bs),s) = Just (b,(p,c,bs,s))
+alexGetByte (p,c, (b : bs),s) = Just (b, (p,c,bs,s))
 alexGetByte (p,c,[],[]) = Nothing
-alexGetByte (p,_,[],(c : s))  = let p' = alexMove p c
+alexGetByte (p,_,[], (c : s))  = let p' = alexMove p c
                                   (b : bs) = utf8Encode c
                               in p' `seq`  Just (b, (p', c, bs, s))
 
@@ -145,7 +145,7 @@ alexMove (AlexPn a l c) _    = AlexPn (a+1)  l     (c+1)
 
 --alexScanTokens :: String -> [token]
 alexScanTokens str = go (alexStartPos,'\n',[],str)
-  where go inp@(pos,_,_,str) =
+  where go inp @ (pos,_,_,str) =
           case alexScan inp 0 of
                 AlexEOF -> []
                 AlexError ((AlexPn _ line column),_,_,_) -> error $ "lexical error at " ++ (show line) ++ " line, " ++ (show column) ++ " column"
@@ -225,7 +225,7 @@ ide' "type" = TokenType
 ide' "class" = TokenClass
 ide' "instance" = TokenInstance
 ide' "where" = TokenWhere
-ide' s@(c:_)
+ide' s @ (c:_)
     | isUpper c = TokenConId s
     | isLower c = TokenId s
 ide' s = error ("unknown token " ++ s)
@@ -307,7 +307,7 @@ annotate tps = annotate2 0 tps
 
 annotate1 :: Int -> [(Token, AlexPosn)] -> [AnToken]
 annotate1 line [] = []
-annotate1 line (t@(tok, AlexPn _ ln col) : tps)
+annotate1 line (t @ (tok, AlexPn _ ln col) : tps)
     | line < ln = Indent col : rest
     | otherwise = rest
     where rest = Token t : (next tok) ln tps
@@ -317,8 +317,8 @@ annotate1 line (t@(tok, AlexPn _ ln col) : tps)
 	  next _ = annotate1
 
 annotate2 :: Int -> [(Token, AlexPosn)] -> [AnToken]
-annotate2 line tps@((TokenLBrace, _):_) = annotate1 line tps
-annotate2 line tps@((_, AlexPn _ ln col):_) = Layout col : annotate1 ln tps
+annotate2 line tps @ ((TokenLBrace, _):_) = annotate1 line tps
+annotate2 line tps @ ((_, AlexPn _ ln col):_) = Layout col : annotate1 ln tps
 
 layout :: [AnToken] -> [(Token, AlexPosn)]
 layout ts = layout' ts []
@@ -327,22 +327,22 @@ nullPosn :: AlexPosn
 nullPosn = AlexPn 0 0 0
 
 layout' :: [AnToken] -> [Int] -> [(Token, AlexPosn)]
-layout' ts@(Indent n : ts') ms@(m:ms')
+layout' ts @ (Indent n : ts') ms @ (m : ms')
     | n == m = (TokenSemicolon, nullPosn) : layout' ts' ms
     | n < m  = (TokenRBrace, nullPosn)  : layout' ts ms'
 layout' (Indent n : ts) ms = layout' ts ms
-layout' (Layout n : ts) ms@(m:_)
+layout' (Layout n : ts) ms @ (m : _)
     | n > m     = (TokenLBrace, nullPosn) : layout' ts (n:ms)
     | otherwise = (TokenLBrace, nullPosn)
                   : (TokenRBrace, nullPosn)
                   : layout' (Indent n : ts) ms
 layout' (Layout n : ts) [] = (TokenLBrace, nullPosn) : layout' ts [n]
-layout' (Token t@(TokenRBrace, _) : ts) (0:ms) = t : layout' ts ms
+layout' (Token t @ (TokenRBrace, _) : ts) (0:ms) = t : layout' ts ms
 layout' (Token (TokenRBrace, _) : ts) ms = error "parse-error: `}' expected"
-layout' (Token t@(TokenLBrace, _) : ts) ms = t : layout' ts (0:ms)
+layout' (Token t @ (TokenLBrace, _) : ts) ms = t : layout' ts (0 : ms)
 layout' (Token t : ts) ms = t : layout' ts ms
 layout' [] [] = []
-layout' [] (m:ms) = (TokenRBrace, nullPosn) : layout' [] ms
+layout' [] (m : ms) = (TokenRBrace, nullPosn) : layout' [] ms
 
 alex_action_3 =  single 
 alex_action_4 =  dec 
