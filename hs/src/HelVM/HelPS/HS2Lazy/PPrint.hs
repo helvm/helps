@@ -4,6 +4,9 @@ import HelVM.HelPS.HS2Lazy.Syntax
 import qualified Text.Show
 import           Text.Show (shows, showParen, showsPrec)
 
+import Prelude hiding (Alt, Ap, join)
+import Data.List (foldr1)
+
 --import IOExts (trace)
 
 --traceProgram :: Program -> Program
@@ -12,25 +15,25 @@ import           Text.Show (shows, showParen, showsPrec)
 showProgram :: Program -> String
 showProgram p = join ";\n" (map ssBindGroup p) ""
 
-join :: String -> [ShowS] -> ShowS
+join :: String -> [Text.Show.ShowS] -> Text.Show.ShowS
 join _ [] = id
 join sep ss = foldr1 (\l r -> l . (sep++) . r) ss
 
-ssBindGroup :: BindGroup -> ShowS
+ssBindGroup :: BindGroup -> Text.Show.ShowS
 ssBindGroup (es, iss) = join ";\n" (showses ++ showsis)
     where showses = concatMap ssExpl es
 	  showsis = concatMap ssImpl (concat iss)
 	  ssExpl (i, sc, alts) = ssSig i sc : map (ssDef i) alts
 	  ssImpl (i, alts)     = map (ssDef i) alts
 
-ssSig :: Id -> Scheme -> ShowS
+ssSig :: Id -> Scheme -> Text.Show.ShowS
 ssSig i sc = (i++) . (" :: "++) . shows sc
 
-ssDef :: Id -> Alt -> ShowS
+ssDef :: Id -> Alt -> Text.Show.ShowS
 ssDef i (ps, rhs) = lhs . ssRhs " = " rhs
     where lhs = join " " ((i++) : map (showsPrec 1) ps)
 
-ssRhs :: String -> Rhs -> ShowS
+ssRhs :: String -> Rhs -> Text.Show.ShowS
 ssRhs sep (Rhs e) = (sep++) . showsPrec 0 e
 ssRhs sep (Guarded gds) = join "\n\t" gds'
     where gds' = [(" | "++) . showsPrec 0 cond . (sep++) . showsPrec 0 e
