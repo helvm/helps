@@ -3,9 +3,9 @@ import HelVM.HelPS.HS2Lazy.Syntax
 import HelVM.HelPS.HS2Lazy.PatComp (compilePatternMatch)
 import HelVM.HelPS.HS2Lazy.PPrint () -- for (Show Expr)
 
-import Data.List ((!!))
+import Data.List ((!!), init, last)
 
-import Prelude hiding (Alt, Ap)
+import Prelude hiding (Alt, Ap, init, last)
 
 programToExpr :: Program -> Expr
 programToExpr bgs = foldr Let (mainExpr (last bgs)) bgs'
@@ -86,7 +86,7 @@ uAbs (i:is) e = SVar "U" `SAp` abstract i (uAbs is e)
 compileAlt :: Alt -> SKI
 compileAlt ([], Rhs e) = compileExpr e
 compileAlt (PVar v : as, e) = abstract v (compileAlt (as, e))
-compileAlt (p:ps, e) = error ("malformed pattern " ++ show p)
+compileAlt (p:ps, e) = error $ toText ("malformed pattern " ++ show p)
 
 abstract :: Id -> SKI -> SKI
 abstract i v@(SVar i') | i == i' = SVar "I"

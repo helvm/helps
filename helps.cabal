@@ -117,7 +117,18 @@ library
     HelVM.HelPS.Compiler.Compiler.Effectively
     HelVM.HelPS.Compiler.Compiler.Typically
 
+    HelVM.HelPS.HS2Lazy.Builtin
+    HelVM.HelPS.HS2Lazy.Compiler
+    HelVM.HelPS.HS2Lazy.Lexer
     HelVM.HelPS.HS2Lazy.Main
+    HelVM.HelPS.HS2Lazy.Optimizer
+    HelVM.HelPS.HS2Lazy.PPrint
+    HelVM.HelPS.HS2Lazy.Parser
+    HelVM.HelPS.HS2Lazy.PatComp
+    HelVM.HelPS.HS2Lazy.SCC
+    HelVM.HelPS.HS2Lazy.Static
+    HelVM.HelPS.HS2Lazy.Syntax
+    HelVM.HelPS.HS2Lazy.Type
 
     HelVM.HelPS.MiniHaskell.Classy
     HelVM.HelPS.MiniHaskell.ClassyAdapter
