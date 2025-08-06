@@ -1,9 +1,11 @@
 module HelVM.HelPS.HS2Lazy.PatComp (compilePatternMatch, patBindings) where
 import Data.List
 import Control.Monad hiding (ap)
-import Control.Monad.State hiding (ap)
+--import Control.Monad.State hiding (ap)
 import HelVM.HelPS.HS2Lazy.Syntax
 import HelVM.HelPS.HS2Lazy.PPrint ()
+
+import Prelude hiding (Ap, Alt, Const, head, init, last, tail)
 
 type PatComp = State Int
 
