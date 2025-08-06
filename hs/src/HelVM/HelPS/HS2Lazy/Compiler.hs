@@ -3,6 +3,10 @@ import HelVM.HelPS.HS2Lazy.Syntax
 import HelVM.HelPS.HS2Lazy.PatComp (compilePatternMatch)
 import HelVM.HelPS.HS2Lazy.PPrint () -- for (Show Expr)
 
+import Data.List ((!!))
+
+import Prelude hiding (Alt, Ap)
+
 programToExpr :: Program -> Expr
 programToExpr bgs = foldr Let (mainExpr (last bgs)) bgs'
     where bgs' = regroup (init bgs)
@@ -26,7 +30,7 @@ expandCon (Con con) = Lambda ([PVar v | v <- as++fs], Rhs body)
     where as = ["@a" ++ show i | i <- [1..conArity con]]
           fs = ["@f" ++ show i | i <- [1..(tyconNumCon $ conTycon con)]]
           body = ap (Var $ fs !! (tag - 1)) [Var v | v <- as]
-          tag = if conTag con < 1 then error ("bad tag " ++ conName con) else conTag con
+          tag = if conTag con < 1 then error $ toText ("bad tag " ++ conName con) else conTag con
 
 expandConBG :: BindGroup -> BindGroup
 expandConBG (es, iss) = (es', map expandConImpls iss)
@@ -55,7 +59,7 @@ compileExpr (Lambda a) = compileAlt a
 compileExpr (Var i) = SVar i
 compileExpr (Lit l) = SLit l
 compileExpr (Con con) = SCon (conTag con) (conArity con)
-compileExpr e = error ("compileExpr: " ++ show e)
+compileExpr e = error $ toText ("compileExpr: " ++ show e)
 
 compileDef :: (Id, [Alt]) -> (Id, SKI)
 compileDef (i, [a]) = (i, compileAlt a)
