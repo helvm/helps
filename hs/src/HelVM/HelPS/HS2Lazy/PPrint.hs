@@ -1,5 +1,9 @@
 module HelVM.HelPS.HS2Lazy.PPrint where
 import HelVM.HelPS.HS2Lazy.Syntax
+
+import qualified Text.Show
+import           Text.Show (shows, showParen, showsPrec)
+
 --import IOExts (trace)
 
 --traceProgram :: Program -> Program
