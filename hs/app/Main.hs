@@ -5,10 +5,8 @@ import           HelVM.HelPS.Compiler.Compiler
 
 import qualified HelVM.HelPS.MiniHaskell.ClassyAdapter as MH
 
-import           HelVM.HelIO.Extra
-
 import qualified AppOptions                            as App
-import qualified Data.Text.IO                          as T
+import           Data.Text.IO
 import           Lang
 
 import           Options.Applicative
@@ -16,6 +14,8 @@ import           Options.Applicative
 import qualified System.IO                             as IO
 
 import           RIO
+
+import           Prelude                               hiding (putStrLn)
 
 main :: IO ()
 main = run =<< execParser opts where
@@ -26,8 +26,8 @@ main = run =<< execParser opts where
 
 run :: App.AppOptions -> IO ()
 run o = do
-  source <- readFileTextUtf8 $ App.file o
-  T.putStrLn $ runText (App.lang o) (App.compiler o) source
+  source <- readFileUtf8 $ App.file o
+  putStrLn $ runText (App.lang o) (App.compiler o) source
 
 runText :: Lang -> Compiler -> Text -> Text
 runText MiniHaskell _ = MH.compileText

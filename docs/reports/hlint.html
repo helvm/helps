@@ -162,14 +162,11 @@ document.body.className = "script";
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
 <li><a id="hint0" href="javascript:show('hint0')">Warning: Use putTextLn (1)</a></li>
-<li><a id="hint1" href="javascript:show('hint1')">Suggestion: Use universe (2)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li><a id="file0" href="javascript:show('file0')">hs/app/Lang.hs (1)</a></li>
-<li><a id="file1" href="javascript:show('file1')">hs/app/Main.hs (1)</a></li>
-<li><a id="file2" href="javascript:show('file2')">hs/src/HelVM/HelPS/Compiler/Compiler.hs (1)</a></li>
+<li><a id="file0" href="javascript:show('file0')">hs/app/Main.hs (1)</a></li>
 </ul>
 
 </div>
@@ -180,31 +177,13 @@ v3.10
     - a tool to suggest improvements to your Haskell code.
 </p>
 
-<div class="hint1 file0">
-hs/app/Lang.hs:10:21-42: Suggestion: Use universe<br/>
+<div class="hint0 file0">
+hs/app/Main.hs:30:3-10: Warning: Use putTextLn<br/>
 Found<br/>
-<pre><span class='hs-keyglyph'>[</span><span class='hs-varid'>minBound</span> <span class='hs-keyglyph'>..</span> <span class='hs-varid'>maxBound</span><span class='hs-keyglyph'>]</span></pre>
-Perhaps<br/>
-<pre><span class='hs-definition'>universe</span></pre>
-<span class='note'>Note: Use <tt>universe</tt> from <tt>Relude.Extra.Enum</tt></span>
-</div>
-
-<div class="hint0 file1">
-hs/app/Main.hs:30:3-12: Warning: Use putTextLn<br/>
-Found<br/>
-<pre><span class='hs-conid'>T.putStrLn</span></pre>
+<pre><span class='hs-definition'>putStrLn</span></pre>
 Perhaps<br/>
 <pre><span class='hs-definition'>putTextLn</span></pre>
 
-</div>
-
-<div class="hint1 file2">
-hs/src/HelVM/HelPS/Compiler/Compiler.hs:10:25-46: Suggestion: Use universe<br/>
-Found<br/>
-<pre><span class='hs-keyglyph'>[</span><span class='hs-varid'>minBound</span> <span class='hs-keyglyph'>..</span> <span class='hs-varid'>maxBound</span><span class='hs-keyglyph'>]</span></pre>
-Perhaps<br/>
-<pre><span class='hs-definition'>universe</span></pre>
-<span class='note'>Note: Use <tt>universe</tt> from <tt>Relude.Extra.Enum</tt></span>
 </div>
 
 </div>

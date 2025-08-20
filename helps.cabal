@@ -34,6 +34,8 @@ common common-options
   build-depends:
       base                 <  4.21
     , rio
+    , relude
+    , helio
   default-language:    Haskell2010
   default-extensions:
     EmptyDataDecls
@@ -118,7 +120,6 @@ library
     HelVM.HelPS.MiniHaskell.ClassyAdapter
 
   build-depends:
-      helio
 
   ghc-options:
 
@@ -132,7 +133,6 @@ executable helps
 
   build-depends:
       helps
-    , helio
     , optparse-applicative
     , text
 

@@ -11,8 +11,6 @@ module HelVM.GoldenExpectations (
 import           HelVM.HelIO.Control.Control
 import           HelVM.HelIO.Control.Safe
 
-import           HelVM.HelIO.Extra
-
 import           Control.Type.Operator
 import           System.FilePath.Posix
 
@@ -48,7 +46,7 @@ goldenShouldBe actualOutput fileName =
     output = actualOutput,
     encodePretty = show,
     writeToFile = writeFileUtf8,
-    readFromFile = readFileTextUtf8,
+    readFromFile = readFileUtf8,
     goldenFile = ".output" </> "golden" </> fileName,
     actualFile = Just (".output" </> "actual" </> fileName),
     failFirstTime = False
