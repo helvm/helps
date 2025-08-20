@@ -5,3 +5,8 @@ source-repository-package
   location: https://github.com/helvm/helio.git
   branch: master
   tag: 0.2.0.0
+
+source-repository-package
+  type: git
+  location: https://github.com/helvm/hspec-slow.git
+  branch: master

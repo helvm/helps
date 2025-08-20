@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.2.4.1 -- 2025-08-20
+* Use hspec-slow 
+
 ## 0.2.4.1 -- 2025-08-05
 * Add example for hs2lazy
 
