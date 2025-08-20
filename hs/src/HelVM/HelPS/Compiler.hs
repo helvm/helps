@@ -9,6 +9,8 @@ import qualified HelVM.HelPS.Compiler.Compiler.Typically   as Typically
 
 import           HelVM.HelPS.Util
 
+import           RIO
+
 compileText :: Compiler.Compiler -> Text -> Text
 compileText = mapTextWithString . compile
 

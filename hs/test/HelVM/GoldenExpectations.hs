@@ -19,6 +19,8 @@ import           System.FilePath.Posix
 import           Test.Hspec.Core.Spec
 import           Test.Hspec.Golden
 
+import           RIO
+
 infixl 1 <->
 (<->) :: FilePath -> FilePath -> FilePath
 (<->) major minor = major <> "-" <> minor
@@ -45,7 +47,7 @@ goldenShouldBe actualOutput fileName =
   Golden {
     output = actualOutput,
     encodePretty = show,
-    writeToFile = writeFileText,
+    writeToFile = writeFileUtf8,
     readFromFile = readFileTextUtf8,
     goldenFile = ".output" </> "golden" </> fileName,
     actualFile = Just (".output" </> "actual" </> fileName),

@@ -13,6 +13,8 @@ import           Data.Char                     (toLower)
 
 import           Test.Hspec
 
+import           RIO
+
 spec :: Spec
 spec = describe "compiler" $
   forM_ Compiler.compilers $ \compiler ->
