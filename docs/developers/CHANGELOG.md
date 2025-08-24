@@ -1,7 +1,10 @@
 # 📅 Revision history for HelPS
 
+## 0.2.4.4 -- 2025-08-24
+* Add Stack, Remove Cabal
+
 ## 0.2.4.3 -- 2025-08-24
-* Add RIO - Remove relude
+* Add RIO, Remove Relude
 
 ## 0.2.4.2 -- 2025-08-20
 * Use hspec-slow 

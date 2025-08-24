@@ -13,8 +13,6 @@ import           HelVM.HelIO.Control.Safe
 
 import           Test.Hspec.Expectations.Pretty
 
-import           RIO
-
 infix 1 `ioShouldSafe`
 ioShouldSafe :: (Show a , Eq a) => IO (Safe a) -> IO a -> Expectation
 ioShouldSafe action expected = liftA2 shouldSafe action expected & join

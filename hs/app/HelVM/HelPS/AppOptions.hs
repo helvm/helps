@@ -1,8 +1,8 @@
-module AppOptions where
+module HelVM.HelPS.AppOptions where
 
 import           HelVM.HelPS.Compiler.Compiler
+import           HelVM.HelPS.Lang
 
-import           Lang
 import           Options.Applicative
 
 optionParser :: Parser AppOptions
@@ -24,7 +24,7 @@ optionParser = AppOptions
   <*> argument str (  metavar "FILE")
 
 data AppOptions = AppOptions
-  { lang     :: Lang
-  , compiler :: Compiler
-  , file     :: String
+  { lang     :: !Lang
+  , compiler :: !Compiler
+  , file     :: !String
   }

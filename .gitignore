@@ -38,3 +38,8 @@ out/
 /stan.html
 *.tix
 *.log
+
+*~
+*.swp
+tarballs/
+.stack-work/

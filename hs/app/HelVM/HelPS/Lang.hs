@@ -1,8 +1,4 @@
-module Lang where
-
-import qualified Data.List.NonEmpty as NE
-import           Relude.Enum
-import           RIO
+module HelVM.HelPS.Lang where
 
 defaultLang :: Lang
 defaultLang = minBound

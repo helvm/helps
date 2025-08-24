@@ -1,9 +1,5 @@
 module HelVM.HelPS.Compiler.Compiler where
 
-import qualified Data.List.NonEmpty as NE
-import           Relude.Enum
-import           RIO
-
 defaultCompiler :: Compiler
 defaultCompiler = minBound
 

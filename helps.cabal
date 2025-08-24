@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.2.4.3
+version:               0.2.4.4
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -32,10 +32,12 @@ flag ghcoptions
 
 common common-options
   build-depends:
-      base                 <  4.21
-    , rio
+      base                 <  5
     , relude
     , helio
+  mixins:
+      base hiding (Prelude)
+    , relude (Relude as Prelude, Relude.Extra, Data.Text)
   default-language:    Haskell2010
   default-extensions:
     EmptyDataDecls
@@ -128,11 +130,13 @@ executable helps
   hs-source-dirs:      hs/app
   main-is:             Main.hs
   other-modules:
-    AppOptions
-    Lang
+    HelVM.HelPS.AppOptions
+    HelVM.HelPS.Lang
 
   build-depends:
       helps
+    , rio
+    , optparse-simple
     , optparse-applicative
     , text
 
