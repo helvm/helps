@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.2.4.4
+version:               0.3.0.0
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -35,6 +35,7 @@ common common-options
       base                 <  5
     , relude
     , helio
+    , hs2lazy
   mixins:
       base hiding (Prelude)
     , relude (Relude as Prelude, Relude.Extra, Data.Text)
@@ -106,7 +107,6 @@ library
   import:              common-options
   hs-source-dirs:      hs/src
   exposed-modules:
-    HelVM.HelPS.HelPS
     HelVM.HelPS.Util
 
     HelVM.HelPS.Compiler
@@ -120,6 +120,8 @@ library
 
     HelVM.HelPS.MiniHaskell.Classy
     HelVM.HelPS.MiniHaskell.ClassyAdapter
+
+    HelVM.HelPS.HS2Lazy.Adapter
 
   build-depends:
 
@@ -158,6 +160,7 @@ test-suite helps-test
     HelVM.GoldenExpectations
 
     HelVM.HelPS.CompilerSpec
+    HelVM.HelPS.HS2LazySpec
     HelVM.HelPS.MiniHaskellSpec
 
   build-depends:
@@ -169,6 +172,7 @@ test-suite helps-test
 
     , helio
     , helps
+    , rio
 
     , filepath
     , stm

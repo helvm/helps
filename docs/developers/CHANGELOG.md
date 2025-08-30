@@ -1,5 +1,8 @@
 # 📅 Revision history for HelPS
 
+## 0.3.0.0 -- 2025-08-31
+* Add HS2Lazy
+
 ## 0.2.4.4 -- 2025-08-24
 * Add Stack, Remove Cabal
 

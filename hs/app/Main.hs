@@ -5,6 +5,8 @@ import           HelVM.HelPS.Compiler.Compiler
 
 import qualified HelVM.HelPS.MiniHaskell.ClassyAdapter as MH
 
+import qualified HelVM.HelPS.HS2Lazy.Adapter           as HS2Lazy
+
 import qualified HelVM.HelPS.AppOptions                as App
 
 import           HelVM.HelIO.Extra
@@ -27,5 +29,6 @@ run o = do
   putTextLn $ runText (App.lang o) (App.compiler o) source
 
 runText :: Lang -> Compiler -> Text -> Text
+runText HS2Lazy     _ = HS2Lazy.compileText
 runText MiniHaskell _ = MH.compileText
 runText Compiler    c = C.compileText c
