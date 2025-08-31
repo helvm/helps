@@ -111,8 +111,8 @@ foldl f z (x:xs) =  foldl f (f z x) xs
 
 foldr :: (a -> b -> b) -> b -> [a] -> b
 foldr f z xs = if null xs
-	       then z
-	       else f (head xs) (foldr f z (tail xs))
+           then z
+           else f (head xs) (foldr f z (tail xs))
 
 elem :: Eq a => a -> [a] -> Bool
 elem e [] = False
