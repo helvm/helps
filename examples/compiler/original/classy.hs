@@ -1,5 +1,6 @@
 #ifdef EMBEDDED
 {- HLINT ignore -}
+{-# OPTIONS_GHC -w #-}
 module HelVM.HelPS.Compiler.Impl.Classy where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)

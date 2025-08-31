@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.3.0.1
+version:               0.3.0.2
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -85,23 +85,22 @@ common common-options
     BlockArguments
   if flag(ghcoptions)
     ghc-options:
---      -Wall
---      -Wcompat
---      -Widentities
---      -Wincomplete-uni-patterns
---      -Wincomplete-record-updates
---      -Wredundant-constraints
---      -Wnoncanonical-monad-instances
---      -fhide-source-paths
-----      -Wmissing-export-lists FIXME
---       -Wpartial-fields
---      -Wmissing-deriving-strategies
+      -Wall
+      -Wcompat
+      -Widentities
+      -Wincomplete-uni-patterns
+      -Wincomplete-record-updates
+      -Wredundant-constraints
+      -Wnoncanonical-monad-instances
+      -fhide-source-paths
+--      -Wmissing-export-lists FIXME
+       -Wpartial-fields
+      -Wmissing-deriving-strategies
       -fwrite-ide-info
       -hiedir=.hie
-----      -Wunused-packages Remove comment when use base library
+--      -Wunused-packages
       -fprint-potential-instances
---      -Werror
-      -fno-warn-unused-binds
+      -Werror
 
 library
   import:              common-options

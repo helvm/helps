@@ -1,5 +1,6 @@
 
 {- HLINT ignore -}
+{-# OPTIONS_GHC -w #-}
 module HelVM.HelPS.Compiler.Impl.Barely where
 import           Data.Char (chr, ord)
 import           Prelude   (Bool (..), Char, Int, String, succ)

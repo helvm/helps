@@ -12,8 +12,6 @@ import qualified HelVM.HelPS.AppOptions                as App
 import           HelVM.HelIO.Extra
 import           HelVM.HelPS.Lang
 
-import qualified Data.Text.IO                          as IO
-
 import           Options.Applicative
 
 main :: IO ()

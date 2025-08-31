@@ -1,5 +1,6 @@
 
 {- HLINT ignore -}
+{-# OPTIONS_GHC -w #-}
 module HelVM.HelPS.Compiler.Impl.Typically where
 import           Data.Char (chr, ord)
 import           Prelude   (Char, Int, String, succ)

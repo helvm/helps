@@ -5,6 +5,7 @@
 -- Delete code below and uncomment the block to compile in GHC
 #ifdef EMBEDDED
 {- HLINT ignore -}
+{-# OPTIONS_GHC -w #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# LANGUAGE CPP #-}
