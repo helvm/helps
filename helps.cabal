@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.3.0.3
+version:               0.3.0.4
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -38,7 +38,7 @@ common common-options
     , hs2lazy
   mixins:
       base hiding (Prelude)
-    , relude (Relude as Prelude, Relude.Extra, Data.Text)
+    , relude (Relude as Prelude, Relude.Extra, Data.Text, Relude.Unsafe)
   default-language:    Haskell2010
   default-extensions:
     EmptyDataDecls
@@ -120,6 +120,10 @@ library
     HelVM.HelPS.MiniHaskell.Adapter
 
     HelVM.HelPS.HS2Lazy.Adapter
+    HelVM.HelPS.HS2Lazy.Builtin
+    HelVM.HelPS.HS2Lazy.Compiler
+    HelVM.HelPS.HS2Lazy.Optimizer
+    HelVM.HelPS.HS2Lazy.Run
 
   build-depends:
 

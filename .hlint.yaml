@@ -3296,3 +3296,16 @@
     lhs: "(,) a <$> f a"
     note: "Use `traverseToSnd` from `Relude.Extra.Tuple`"
     rhs: traverseToSnd f a
+
+- warn:
+    lhs: "let _ = _ in _"
+    rhs: "_"
+    note: "Avoid using let"
+- warn:
+    lhs: "if _ then _ else _"
+    rhs: "_"
+    note: "Avoid using 'if'; consider pattern matching or guards"
+- warn:
+    lhs: "case _ of { _ -> _ }"
+    rhs: "_"
+    note: "Avoid using 'case'; consider pattern matching in function arguments"
