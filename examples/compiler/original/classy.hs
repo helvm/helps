@@ -1,6 +1,6 @@
 #ifdef EMBEDDED
 {- HLINT ignore -}
-module HelVM.HelPS.Compiler.Compiler.Classy where
+module HelVM.HelPS.Compiler.Impl.Classy where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)
 import qualified Prelude

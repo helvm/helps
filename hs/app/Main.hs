@@ -1,7 +1,7 @@
 module Main where
 
-import qualified HelVM.HelPS.Compiler                  as C
-import           HelVM.HelPS.Compiler.Compiler
+import qualified HelVM.HelPS.Compiler.Adapter          as Compiler
+import           HelVM.HelPS.Compiler.Impl
 
 import qualified HelVM.HelPS.MiniHaskell.ClassyAdapter as MH
 
@@ -26,9 +26,9 @@ main = run =<< execParser opts where
 run :: App.AppOptions -> IO ()
 run o = do
   source <- readFileTextUtf8 $ App.file o
-  putTextLn $ runText (App.lang o) (App.compiler o) source
+  putTextLn $ runText (App.lang o) (App.impl o) source
 
-runText :: Lang -> Compiler -> Text -> Text
+runText :: Lang -> Impl -> Text -> Text
 runText HS2Lazy     _ = HS2Lazy.compileText
 runText MiniHaskell _ = MH.compileText
-runText Compiler    c = C.compileText c
+runText Compiler    i = Compiler.compileText i
