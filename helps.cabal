@@ -121,6 +121,7 @@ library
 
     HelVM.HelPS.HS2Lazy.Adapter
     HelVM.HelPS.HS2Lazy.Builtin
+    HelVM.HelPS.HS2Lazy.Compiler
     HelVM.HelPS.HS2Lazy.Run
 
   build-depends:
