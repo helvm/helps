@@ -2,7 +2,7 @@ module HelVM.HelPS.HS2Lazy.Run where
 
 import           HelVM.HelPS.HS2Lazy.Builtin (expandBltin)
 
-import           HS2Lazy.Compiler            (expandCon, programToExpr, skiCompile)
+import           HelVM.HelPS.HS2Lazy.Compiler            (expandCon, programToExpr, skiCompile)
 import qualified HS2Lazy.Lexer               as Lexer
 import           HS2Lazy.Optimizer           (optimizeExpr)
 import qualified HS2Lazy.Parser              as Parser

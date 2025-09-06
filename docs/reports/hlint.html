@@ -161,12 +161,16 @@ document.body.className = "script";
 
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
-<li>No hints</li>
+<li><a id="hint0" href="javascript:show('hint0')">Warning: Redundant map (1)</a></li>
+<li><a id="hint1" href="javascript:show('hint1')">Warning: Use concatMap (1)</a></li>
+<li><a id="hint2" href="javascript:show('hint2')">Suggestion: Move brackets to avoid $ (1)</a></li>
+<li><a id="hint3" href="javascript:show('hint3')">Suggestion: Redundant bracket (7)</a></li>
+<li><a id="hint4" href="javascript:show('hint4')">Suggestion: Use section (1)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li>No files</li>
+<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs (11)</a></li>
 </ul>
 
 </div>
@@ -177,7 +181,109 @@ v3.10
     - a tool to suggest improvements to your Haskell code.
 </p>
 
-No hints
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:22:29-53: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bgs</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bgs</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:30:39-62: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>ESign</span> <span class='hs-layout'>(</span><span class='hs-varid'>expandCon</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-conid'>ESign</span> <span class='hs-layout'>(</span><span class='hs-varid'>expandCon</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-varid'>sc</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:35:23-33: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-conid'>Where</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-conid'>Where</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:36:23-33: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-conid'>Guarded</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-conid'>Guarded</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:49:22-57: Suggestion: Move brackets to avoid $<br/>
+Found<br/>
+<pre><span class='hs-str'>"bad tag "</span> <span class='hs-varop'>&lt;&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>toText</span> <span class='hs-varop'>$</span> <span class='hs-varid'>conName</span> <span class='hs-varid'>con</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-str'>"bad tag "</span> <span class='hs-varop'>&lt;&gt;</span> <span class='hs-varid'>toText</span> <span class='hs-layout'>(</span><span class='hs-varid'>conName</span> <span class='hs-varid'>con</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:81:19-33: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-layout'>(</span><span class='hs-varid'>abstract</span> <span class='hs-varid'>i</span> <span class='hs-varid'>e'</span><span class='hs-layout'>)</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>SVar</span> <span class='hs-str'>"K"</span> <span class='hs-varop'>`SAp`</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+  <span class='hs-varid'>e''</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e''</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>removeSelfRec</span> <span class='hs-varid'>i</span> <span class='hs-varid'>v</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>abstract</span> <span class='hs-varid'>i</span> <span class='hs-varid'>e'</span> <span class='hs-keyword'>of</span>
+  <span class='hs-conid'>SVar</span> <span class='hs-str'>"K"</span> <span class='hs-varop'>`SAp`</span> <span class='hs-keyword'>_</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e'</span>
+  <span class='hs-varid'>e''</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>e''</span> <span class='hs-varop'>`SAp`</span> <span class='hs-varid'>removeSelfRec</span> <span class='hs-varid'>i</span> <span class='hs-varid'>v</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:88:16-22: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-keyword'>_</span> <span class='hs-conop'>:</span> <span class='hs-keyword'>_</span> <span class='hs-conop'>:</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>,</span> <span class='hs-keyword'>_</span> <span class='hs-conop'>:</span> <span class='hs-keyword'>_</span> <span class='hs-conop'>:</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:97:13-46: Warning: Redundant map<br/>
+Found<br/>
+<pre><span class='hs-definition'>any</span> <span class='hs-layout'>(</span><span class='hs-varid'>flip</span> <span class='hs-varid'>refers</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>fst</span> <span class='hs-varid'>defs</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>any</span> <span class='hs-layout'>(</span><span class='hs-varid'>flip</span> <span class='hs-varid'>refers</span> <span class='hs-varid'>e</span> <span class='hs-varop'>.</span> <span class='hs-varid'>fst</span><span class='hs-layout'>)</span> <span class='hs-varid'>defs</span></pre>
+
+</div>
+
+<div class="hint4 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:97:17-31: Suggestion: Use section<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>flip</span> <span class='hs-varid'>refers</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varop'>`refers`</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:114:17-27: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-conid'>Where</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-conid'>Where</span> <span class='hs-keyword'>_</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:115:17-27: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-layout'>(</span><span class='hs-conid'>Guarded</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-conid'>[]</span><span class='hs-layout'>,</span> <span class='hs-conid'>Guarded</span> <span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+
+</div>
+
 </div>
 <script type='text/javascript'>
 show(window.location.hash.slice(1), true);
