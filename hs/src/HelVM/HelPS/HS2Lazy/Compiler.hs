@@ -1,11 +1,11 @@
 module HelVM.HelPS.HS2Lazy.Compiler where
 
-import           HS2Lazy.PPrint  ()
+import           HS2Lazy.PPrint ()
 import           HS2Lazy.Syntax
 
-import qualified Relude.Unsafe   as Unsafe
+import qualified Relude.Unsafe  as Unsafe
 
-import           Prelude         hiding (Alt, Ap)
+import           Prelude        hiding (Alt, Ap)
 
 
 programToExpr :: Program -> Expr
@@ -21,17 +21,26 @@ regroup bgs = [([], [is]) | is <- iss]
     where iss = dependency (concat (map bindings bgs))
 
 expandCon :: Expr -> Expr
-expandCon e@(Var _) = e
-expandCon e@(Lit _) = e
-expandCon (Ap e1 e2) = Ap (expandCon e1) (expandCon e2)
-expandCon (Let bg e) = Let (expandConBG bg) (expandCon e)
-expandCon (Lambda (vs, Rhs e)) = Lambda (vs, Rhs (expandCon e))
-expandCon (ESign e sc) = (ESign (expandCon e) sc)
-expandCon (Con con) = Lambda ([PVar v | v <- as<>fs], Rhs body)
-    where as = ["@a" <> show i | i <- [1..conArity con]]
-          fs = ["@f" <> show i | i <- [1..(tyconNumCon $ conTycon con)]]
-          body = ap (Var $ fs Unsafe.!! (tag - 1)) [Var v | v <- as]
-          tag = calculateTag con
+expandCon e@(Var _)                 = e
+expandCon e@(Lit _)                 = e
+expandCon (Ap e1 e2)                = Ap (expandCon e1) (expandCon e2)
+expandCon (Let bg e)                = Let (expandConBG bg) (expandCon e)
+expandCon (Lambda (vs, Rhs e))      = Lambda (vs, Rhs (expandCon e))
+expandCon (ESign e sc)              = (ESign (expandCon e) sc)
+expandCon (Con con)                 = conCon con
+expandCon (Case _ _)                = error "Case"
+expandCon (RecPH _)                 = error "RecPH"
+expandCon (ClassPH _)               = error "ClassPH"
+expandCon (Lambda (_, (Where _ _))) = error "Lambda Where"
+expandCon (Lambda (_, (Guarded _))) = error "Lambda Guarded"
+
+
+conCon :: HS2Lazy.Syntax.Const -> Expr
+conCon con = Lambda ([PVar v | v <- as<>fs], Rhs body) where
+  as = ["@a" <> show i | i <- [1..conArity con]]
+  fs = ["@f" <> show i | i <- [1..(tyconNumCon $ conTycon con)]]
+  body = ap (Var $ fs Unsafe.!! (tag - 1)) [Var v | v <- as]
+  tag = calculateTag con
 
 calculateTag :: HS2Lazy.Syntax.Const -> Int
 calculateTag con = go $ conTag con < 1 where
