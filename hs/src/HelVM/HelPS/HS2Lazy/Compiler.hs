@@ -11,10 +11,11 @@ import           Prelude        hiding (Alt, Ap)
 programToExpr :: Program -> Expr
 programToExpr bgs = foldr Let (mainExpr (Unsafe.last bgs)) bgs'
     where bgs' = regroup (Unsafe.init bgs)
-	  mainExpr :: BindGroup -> Expr
-	  mainExpr bg = case bindings bg of
-			[("@main", [([], Rhs e)])] -> e
-			_ -> error "Illegal pro                         gram entry point"
+
+mainExpr :: BindGroup -> Expr
+mainExpr bg = case bindings bg of
+  [("@main", [([], Rhs e)])] -> e
+  _                          -> error "Illegal program entry point"
 
 regroup :: [BindGroup] -> [BindGroup]
 regroup bgs = [([], [is]) | is <- iss]
@@ -71,14 +72,15 @@ compileExpr (Con con)  = SCon (conTag con) (conArity con)
 compileExpr e          = error ("compileExpr: " <> show e)
 
 letBGE :: BindGroup -> Expr -> SKI
-letBGE bg e
-          = case map compileDef (bindings bg) of
-            [(i, v)] -> case (abstract i e') of
-      		  SVar "K" `SAp` _ -> e'
-      		  e''                      -> e'' `SAp` removeSelfRec i v
-            defs     -> compileMultipleDefs e' defs
-          where e' = compileExpr e
+letBGE bg e = case map compileDef (bindings bg) of
+    [(i, v)] -> ive i v e'
+    defs     -> compileMultipleDefs e' defs
+  where e' = compileExpr e
 
+ive :: Id -> SKI -> SKI -> SKI
+ive i v e' = case (abstract i e') of
+  SVar "K" `SAp` _ -> e'
+  e''              -> e'' `SAp` removeSelfRec i v
 
 compileDef :: (Id, [Alt]) -> (Id, SKI)
 compileDef (i, [a])     = (i, compileAlt a)
@@ -113,13 +115,12 @@ compileAlt ([], (Where _ _)) = error "Where"
 compileAlt ([], (Guarded _)) = error "Guarded"
 
 abstract :: Id -> SKI -> SKI
-abstract i v@(SVar i') | i == i' = SVar "I"
-		       | otherwise = SVar "K" `SAp` v
+abstract i v@(SVar i')
+  | i == i' = SVar "I"
+  | otherwise = SVar "K" `SAp` v
 abstract i (SAp e1 e2)
-    | refers i e1 || refers i e2 =
-        sap (SVar "S") [abstract i e1, abstract i e2]
-    | otherwise =
-        SAp (SVar "K") (SAp e1 e2)
+  | refers i e1 || refers i e2 = sap (SVar "S") [abstract i e1, abstract i e2]
+  | otherwise = SAp (SVar "K") (SAp e1 e2)
 abstract _ l@(SLit _) = SVar "K" `SAp` l
 abstract _ c@(SCon _ _) = SVar "K" `SAp` c
 
