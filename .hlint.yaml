@@ -3296,3 +3296,13 @@
     lhs: "(,) a <$> f a"
     note: "Use `traverseToSnd` from `Relude.Extra.Tuple`"
     rhs: traverseToSnd f a
+
+- error: "Avoid using `let` expressions"
+  lhs: let x = _ in _
+  rhs: "Prefer alternative approaches to define bindings outside `let`."
+- error: "Avoid using `if` expressions"
+  lhs: if _ then _ else _
+  rhs: "Consider using guards or pattern matching instead of `if`."
+- error: "Avoid using `case` expressions"
+  lhs: case _ of _ -> _
+  rhs: "Consider using pattern matching or alternative control structures instead of `case`."

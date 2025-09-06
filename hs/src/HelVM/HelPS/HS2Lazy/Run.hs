@@ -1,18 +1,18 @@
 module HelVM.HelPS.HS2Lazy.Run where
 
-import           HelVM.HelPS.HS2Lazy.Builtin (expandBltin)
+import           HelVM.HelPS.HS2Lazy.Builtin  (expandBltin)
 
-import           HelVM.HelPS.HS2Lazy.Compiler            (expandCon, programToExpr, skiCompile)
-import qualified HS2Lazy.Lexer               as Lexer
-import           HS2Lazy.Optimizer           (optimizeExpr)
-import qualified HS2Lazy.Parser              as Parser
-import           HS2Lazy.PatComp             (compilePatternMatch)
-import qualified HS2Lazy.Static              as Static
+import           HelVM.HelPS.HS2Lazy.Compiler (expandCon, programToExpr, skiCompile)
+import qualified HS2Lazy.Lexer                as Lexer
+import           HS2Lazy.Optimizer            (optimizeExpr)
+import qualified HS2Lazy.Parser               as Parser
+import           HS2Lazy.PatComp              (compilePatternMatch)
+import qualified HS2Lazy.Static               as Static
 import           HS2Lazy.Syntax
-import qualified HS2Lazy.Type                as Type
+import qualified HS2Lazy.Type                 as Type
 
-import           Data.Char                   (toLower)
-import qualified Relude.Unsafe               as Unsafe
+import           Data.Char                    (toLower)
+import qualified Relude.Unsafe                as Unsafe
 
 run :: String -> String
 run source = insertNewline 80 $ map toLower $ show $ compile source
