@@ -1,7 +1,7 @@
 
 {- HLINT ignore -}
 {-# OPTIONS_GHC -w #-}
-module HelVM.HelPS.Compiler.Impl.Effectively where
+module HelVM.Hel.Compiler.Effectively where
 import           Data.Char (chr, ord)
 import           Prelude   (Bool (..), Char, Int, String, succ)
 import qualified Prelude

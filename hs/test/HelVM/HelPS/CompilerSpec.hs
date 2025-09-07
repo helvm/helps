@@ -1,7 +1,7 @@
 module HelVM.HelPS.CompilerSpec (spec) where
 
 import           HelVM.HelPS.Compiler.Adapter (compileText)
-import qualified HelVM.HelPS.Compiler.Impl    as Impl
+import           HelVM.HelPS.Compiler.How
 
 import           HelVM.HelIO.Extra
 
@@ -13,8 +13,8 @@ import           Test.Hspec
 
 spec :: Spec
 spec = describe "compiler" $
-  forM_ Impl.impls $ \impl ->
-    let label  = map toLower (show impl)
+  forM_ hows $ \how ->
+    let label  = map toLower (show how)
         path   = "examples/compiler/standalone/" <> label <> ".hs"
         golden = "compiler/" <> label
-    in it label $ (compileText impl <$> readFileTextUtf8 path) `goldenShouldIO` golden
+    in it label $ (compileText how <$> readFileTextUtf8 path) `goldenShouldIO` golden

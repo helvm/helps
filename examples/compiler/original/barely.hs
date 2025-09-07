@@ -1,7 +1,7 @@
 #ifdef EMBEDDED
 {- HLINT ignore -}
 {-# OPTIONS_GHC -w #-}
-module HelVM.HelPS.Compiler.Impl.Barely where
+module HelVM.Hel.Compiler.Barely where
 import Prelude (Bool(..), Char, Int, String, succ)
 import Data.Char (chr, ord)
 import qualified Prelude

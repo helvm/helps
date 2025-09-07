@@ -1,4 +1,4 @@
-.PHONY: all bench build check check-whitespace clean configure exec fast golden haddock hlint hpack install main output repl report run sdist stan stylish test tix update
+.PHONY: all bench build check check-whitespace clean configure exec fast grep golden haddock hlint hpack install main output repl report run sdist stan stylish test tix update
 
 all: update cpphs fast blynn check_compile
 
@@ -31,6 +31,9 @@ exec:
 
 fast: main report sdist install
 
+grep:
+	./grep.sh
+
 golden:
 	if test -d .output/golden; then rm -r .output/golden; fi
 
@@ -56,7 +59,7 @@ repl:
 	cabal new-repl lib:helps
 
 report:
-	make haddock stan hlint
+	make haddock stan hlint grep
 	./report.sh
 
 run:

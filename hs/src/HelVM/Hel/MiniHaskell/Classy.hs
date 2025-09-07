@@ -11,7 +11,7 @@
 {-# LANGUAGE NoMonomorphismRestriction #-}
 {-# LANGUAGE TupleSections             #-}
 {-# LANGUAGE TypeSynonymInstances      #-}
-module HelVM.HelPS.MiniHaskell.Classy where
+module HelVM.Hel.MiniHaskell.Classy where
 import           Data.Char (chr, ord)
 import           Prelude   (Char, Int, String, succ)
 import qualified Prelude

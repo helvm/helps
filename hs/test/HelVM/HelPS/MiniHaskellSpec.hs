@@ -1,6 +1,6 @@
 module HelVM.HelPS.MiniHaskellSpec (spec) where
 
-import           HelVM.HelPS.MiniHaskell.ClassyAdapter (compileText)
+import           HelVM.HelPS.MiniHaskell.Adapter (compileText)
 
 import           HelVM.HelIO.Extra
 

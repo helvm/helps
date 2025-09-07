@@ -1,7 +1,7 @@
 #ifdef EMBEDDED
 {- HLINT ignore -}
 {-# OPTIONS_GHC -w #-}
-module HelVM.HelPS.Compiler.Impl.Typically where
+module HelVM.Hel.Compiler.Typically where
 import Prelude (Char, Int, String, succ)
 import Data.Char (chr, ord)
 import qualified Prelude
