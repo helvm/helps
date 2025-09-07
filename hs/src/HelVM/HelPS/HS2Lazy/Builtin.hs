@@ -1,9 +1,9 @@
 module HelVM.HelPS.HS2Lazy.Builtin where
 
-import           HS2Lazy.Syntax
+import           HelVM.HelPS.HS2Lazy.Syntax
 
-import           Data.List      (lookup)
-import qualified Relude.Unsafe  as Unsafe
+import           Data.List                  (lookup)
+import qualified Relude.Unsafe              as Unsafe
 
 churchnums :: [SKI]
 churchnums = [
@@ -304,6 +304,4 @@ expandBltin (SAp e1 e2)              = SAp (expandBltin e1) (expandBltin e2)
 expandBltin (SVar v)                 = fromMaybe (SVar v) $ lookup v builtins
 expandBltin (SLit (LitInt n))        = churchnums Unsafe.!! n
 expandBltin (SLit (LitChar (c : _))) = churchnums Unsafe.!! ord c
-expandBltin (SCon _ _)               = error "SCon"
-expandBltin (SLit (LitStr _))        = error "LitStr"
-expandBltin (SLit (LitChar []))      = error "LitChar"
+expandBltin _                        = error "expandBltin"

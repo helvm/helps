@@ -4,12 +4,13 @@ import           HelVM.HelPS.HS2Lazy.Builtin   (expandBltin)
 
 import           HelVM.HelPS.HS2Lazy.Compiler  (expandCon, programToExpr, skiCompile)
 import           HelVM.HelPS.HS2Lazy.Optimizer (optimizeExpr)
-import qualified HS2Lazy.Lexer                 as Lexer
-import qualified HS2Lazy.Parser                as Parser
-import           HS2Lazy.PatComp               (compilePatternMatch)
-import qualified HS2Lazy.Static                as Static
-import           HS2Lazy.Syntax
-import qualified HS2Lazy.Type                  as Type
+import           HelVM.HelPS.HS2Lazy.PatComp   (compilePatternMatch)
+import qualified HelVM.HelPS.HS2Lazy.Static    as Static
+import qualified HelVM.HelPS.HS2Lazy.Type      as Type
+
+import qualified HelVM.HelPS.HS2Lazy.Lexer     as Lexer
+import qualified HelVM.HelPS.HS2Lazy.Parser    as Parser
+import           HelVM.HelPS.HS2Lazy.Syntax
 
 import           Data.Char                     (toLower)
 import qualified Relude.Unsafe                 as Unsafe
@@ -26,7 +27,7 @@ compile source = expandBltin $ skiCompile $ optimizeExpr $ expandCon $ programTo
 analyze :: String -> (Program, [Impl], ClassEnv, [Assump])
 analyze source = Static.analyze classEnv topDecls where
   classEnv = Unsafe.fromJust $ Type.addCoreClasses Type.initialEnv
-  topDecls = Parser.Decl (Parser.VarDecl ("@main", [], Parser.Rhs (Parser.Var "main") []))  : Parser.parse (Lexer.lexer "argf" source)
+  topDecls = Parser.Decl (Parser.VarDecl ("@main", [], Parser.Rhs (Parser.Var "main") [])) : Parser.parse (Lexer.lexer "argf" source)
 
 insertNewline :: Int -> String -> String
 insertNewline _ []     = []

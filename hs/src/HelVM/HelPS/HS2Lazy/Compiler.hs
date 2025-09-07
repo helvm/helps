@@ -1,11 +1,12 @@
 module HelVM.HelPS.HS2Lazy.Compiler where
 
-import           HS2Lazy.PPrint ()
-import           HS2Lazy.Syntax
+import           HelVM.HelPS.HS2Lazy.PPrint            ()
+import           HelVM.HelPS.HS2Lazy.Syntax
+import           HelVM.HelPS.HS2Lazy.Syntax.Dependency
 
-import qualified Relude.Unsafe  as Unsafe
+import qualified Relude.Unsafe                         as Unsafe
 
-import           Prelude        hiding (Alt, Ap)
+import           Prelude                               hiding (Alt, Ap, Const, Type, join, lift, lookupEnv, modify, newTVar)
 
 programToExpr :: Program -> Expr
 programToExpr bgs = foldr Let (mainExpr (Unsafe.last bgs)) bgs' where
@@ -34,14 +35,14 @@ expandCon (ClassPH _)              = error "ClassPH"
 expandCon (Lambda (_ , Where _ _)) = error "Lambda Where"
 expandCon (Lambda (_ , Guarded _)) = error "Lambda Guarded"
 
-conCon :: HS2Lazy.Syntax.Const -> Expr
+conCon :: Const -> Expr
 conCon con = Lambda ([PVar v | v <- as<>fs], Rhs body) where
-  as = ["@a" <> show i | i <- [1..conArity con]]
-  fs = ["@f" <> show i | i <- [1..(tyconNumCon $ conTycon con)]]
+  as = ["@a" <> show i | i <- [1 .. conArity con]]
+  fs = ["@f" <> show i | i <- [1 .. (tyconNumCon $ conTycon con)]]
   body = ap (Var $ fs Unsafe.!! (tag - 1)) [Var v | v <- as]
   tag = calculateTag con
 
-calculateTag :: HS2Lazy.Syntax.Const -> Int
+calculateTag :: Const -> Int
 calculateTag con = go $ conTag con < 1 where
   go False = conTag con
   go True  = error $ "bad tag " <> toText (conName con)
@@ -78,9 +79,8 @@ ive i v e' = go (abstract i e') where
   go e''                = e'' `SAp` removeSelfRec i v
 
 compileDef :: (Id , [Alt]) -> (Id , SKI)
-compileDef (i , [a])       = (i , compileAlt a)
-compileDef (_ , [])        = error "compileDef"
-compileDef (_ , _ : _ : _) = error "compileDef"
+compileDef (i , [a]) = (i , compileAlt a)
+compileDef _         = error "compileDef"
 
 removeSelfRec :: Id -> SKI -> SKI
 removeSelfRec i e
@@ -106,8 +106,7 @@ compileAlt :: Alt -> SKI
 compileAlt ([] , Rhs e)      = compileExpr e
 compileAlt (PVar v : as , e) = abstract v (compileAlt (as , e))
 compileAlt (p : _ , _)       = error ("malformed pattern " <> show p)
-compileAlt ([] , Where _ _)  = error "Where"
-compileAlt ([] , Guarded _)  = error "Guarded"
+compileAlt _                 = error "compileAlt"
 
 abstract :: Id -> SKI -> SKI
 abstract i v@(SVar i')

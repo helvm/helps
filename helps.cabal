@@ -35,6 +35,11 @@ common common-options
       base                 <  5
     , relude
     , helio
+    , array
+    , extra
+    , safe
+    , utility-ht
+    , parsec
     , hs2lazy
   mixins:
       base hiding (Prelude)
@@ -122,8 +127,18 @@ library
     HelVM.HelPS.HS2Lazy.Adapter
     HelVM.HelPS.HS2Lazy.Builtin
     HelVM.HelPS.HS2Lazy.Compiler
+    HelVM.HelPS.HS2Lazy.Lexer
     HelVM.HelPS.HS2Lazy.Optimizer
+    HelVM.HelPS.HS2Lazy.Parser
+    HelVM.HelPS.HS2Lazy.PatComp
+    HelVM.HelPS.HS2Lazy.PPrint
     HelVM.HelPS.HS2Lazy.Run
+    HelVM.HelPS.HS2Lazy.SCC
+    HelVM.HelPS.HS2Lazy.Static
+    HelVM.HelPS.HS2Lazy.Syntax
+    HelVM.HelPS.HS2Lazy.Syntax.Dependency
+    HelVM.HelPS.HS2Lazy.Type
+    HelVM.HelPS.HS2Lazy.Unsafe
 
   build-depends:
 
