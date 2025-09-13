@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-orphans #-}
 module HelVM.HelPS.HS2Lazy.Syntax
   ( Alt
   , Assump (..)
@@ -76,6 +77,10 @@ import           HS2Lazy.Syntax hiding (ap, bindings, dependency, eCons, eFalse,
 import           Data.List      (foldl, foldl1, union, (\\))
 
 import           Safe
+
+import qualified Text.Show
+--import           Text.Show      (ShowS, showParen, shows, showsPrec)
+import           Text.Show      (shows, showsPrec)
 
 import           Prelude        hiding (Alt, Ap, Const, Type)
 
@@ -242,3 +247,12 @@ infixr 5 <:>
 
 sap :: SKI -> [SKI] -> SKI
 sap = foldl SAp
+
+----
+
+instance Show SKI where
+    show e = showsPrec 1 e ""
+    showsPrec _ (SVar i)    = (i++)
+    showsPrec _ (SLit l)    = shows l
+    showsPrec _ (SCon k n)  = ('@':) . shows k . ('_':) . shows n
+    showsPrec _ (SAp e1 e2) = ('`':) . shows e1 . shows e2
