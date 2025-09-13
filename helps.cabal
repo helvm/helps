@@ -40,7 +40,7 @@ common common-options
     , safe
     , utility-ht
     , parsec
-    , hs2lazy
+    , hs2lazy-syntax
   mixins:
       base hiding (Prelude)
     , relude (Relude as Prelude, Relude.Extra, Data.Text, Relude.Unsafe)
