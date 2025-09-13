@@ -250,6 +250,15 @@ sap = foldl SAp
 
 ----
 
+instance Show Synonym where
+    show (Synonym id _ _ _) = id
+
+instance Assoc Tycon where
+    assocKey tc = tyconName tc
+
+instance Assoc Synonym where
+    assocKey (Synonym i _ _ _) = i
+
 instance Show SKI where
     show e = showsPrec 1 e ""
     showsPrec _ (SVar i)    = (i++)
