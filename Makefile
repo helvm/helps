@@ -1,4 +1,4 @@
-.PHONY: all bench build check check-whitespace clean configure exec fast grep golden haddock hlint hpack install main output repl report run sdist stan stylish test tix update
+.PHONY: all bench build check check-whitespace clean configure exec fast fourmolu grep golden haddock hlint hpack install main ormolu output repl report run sdist stan stylish test tix update
 
 all: update cpphs fast blynn check_compile
 
@@ -96,3 +96,9 @@ cpphs:
 check_compile:
 	./check_compile.sh examples/mini-haskell/standalone/classy.hs
 	echo 'n' | ./build/blynn .output/actual/mini-haskell/bignum .output/actual/mini-haskell/bignum build/bugnum
+
+ormolu:
+	find hs/src/HelVM/HelPS -name "*.hs" | xargs ormolu -i
+
+fourmolu:
+	find hs/src/HelVM/HelPS -name "*.hs" | xargs fourmolu -i
