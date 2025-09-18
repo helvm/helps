@@ -74,13 +74,12 @@ import           HS2Lazy.Syntax hiding (ap, bindings, dependency, eCons, eFalse,
                                  quantifyAll', sap, tArrow, tBool, tChar, tInt, tList, tString, tUnit, toScheme, tupTycon, tupcon, tuple, tupleSelector,
                                  unsynonym, (<:>))
 
-import           Data.List      (foldl, foldl1, union, (\\))
+import           Data.List      (foldl, foldl1, foldr1, lookup, nub, union, (\\))
 
 import           Safe
 
 import qualified Text.Show
---import           Text.Show      (ShowS, showParen, shows, showsPrec)
-import           Text.Show      (shows, showsPrec)
+import           Text.Show      (ShowS, showParen, shows, showsPrec)
 
 import           Prelude        hiding (Alt, Ap, Const, Type)
 
@@ -88,9 +87,9 @@ class Types t where
   apply :: Subst -> t -> t
   tv    :: t -> [Tyvar]
 
-  tv (TVar u)  = [u]
-  tv (TAp l r) = tv l `union` tv r
-  tv t         = []
+--  tv (TVar u)  = [u]
+--  tv (TAp l r) = tv l `union` tv r
+--  tv t         = []
 
 fromTAp :: Type -> [Type]
 fromTAp (TAp t1 t2) = fromTAp t1 ++ [t2]
@@ -381,11 +380,11 @@ instance Types Type where
                        Just t  -> t
                        Nothing -> TVar u
   apply s (TAp l r) = TAp (apply s l) (apply s r)
-  apply s t         = t
+  apply _ t         = t
 
 instance Show Scheme where
     showsPrec _ (Forall _ qt) = shows qt
 
 instance Types Scheme where
   apply s (Forall ks t) = Forall ks (apply s t)
-  tv (Forall ks t)      = tv t
+  tv (Forall _ t)      = tv t
