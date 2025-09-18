@@ -180,6 +180,27 @@ list       = TAp tList
 pair       :: Type -> Type -> Type
 pair a b    = TCon (tupTycon 2) `fn` a `fn` b
 
+----
+
+preludeConstrs :: [Const]
+preludeConstrs = [Const { conName = i,
+                          conArity = a,
+                          conTag = tag,
+                          conTycon = tycon,
+                          conScheme = quantifyAll' t }
+                      | (i, a, tag, TCon tycon, t) <- constrs]
+    where a = TVar (Tyvar "a" Star)
+          constrs = [("True", 0, 1, tBool, tBool),
+		     ("False", 0, 2, tBool, tBool),
+                     (":", 2, 1, tList, a `fn` list a `fn` list a),
+		     ("[]", 0, 2, tList, list a)]
+
+quantifyAll :: Qual Type -> Scheme
+quantifyAll t = quantify (tv t) t
+
+quantifyAll' :: Type -> Scheme
+quantifyAll' t = quantify (tv t) ([] :=> t)
+
 quantify      :: [Tyvar] -> Qual Type -> Scheme
 quantify vs qt = Forall ks (apply s qt) where
   vs' = [ v | v <- tv qt, v `elem` vs ]
@@ -248,6 +269,23 @@ infixr 5 <:>
 sap :: SKI -> [SKI] -> SKI
 sap = foldl SAp
 
+--
+
+quantify      :: [Tyvar] -> Qual Type -> Scheme
+quantify vs qt = Forall ks (apply s qt)
+ where vs' = [ v | v <- tv qt, v `elem` vs ]
+       ks  = map kind vs'
+       s   = zip vs' (map TGen [0..])
+
+fvBindGroup :: BindGroup -> [Id]
+fvBindGroup bg = fvAlts (concat altss) \\ is
+    where (is, altss) = unzip (bindings bg)
+
+fvAlts :: [Alt] -> [Id]
+fvAlts alts = foldl1 union (map fvAlt alts)
+fvAlt :: Alt -> [Id]
+fvAlt (ps, rhs) = freeVars rhs \\ concat (map patVars ps)
+
 ----
 
 instance Show Synonym where
@@ -259,9 +297,123 @@ instance Assoc Tycon where
 instance Assoc Synonym where
     assocKey (Synonym i _ _ _) = i
 
+instance Show Tyvar where
+    show (Tyvar id _) = id
+
 instance Show SKI where
     show e = showsPrec 1 e ""
     showsPrec _ (SVar i)    = (i++)
     showsPrec _ (SLit l)    = shows l
     showsPrec _ (SCon k n)  = ('@':) . shows k . ('_':) . shows n
     showsPrec _ (SAp e1 e2) = ('`':) . shows e1 . shows e2
+
+instance Show Type where
+    showsPrec _ (TVar v) = shows v
+    showsPrec _ (TCon c) = shows c
+    showsPrec _ (TSynonym syn []) = shows syn
+    showsPrec p (TSynonym syn ts) = showParen (p > 2) f
+        where f = shows syn . (' ':) . g
+              g = foldr1 (\l r -> l . (' ':) . r) (map (showsPrec 3) ts)
+    showsPrec _ (TGen n) = (chr (ord 'a' + n) :)
+    showsPrec p tap@(TAp _ _) =
+	case t of
+	  TCon tc | tyconName tc == "[]"
+               -> ('[':) . showsPrec 0 t1 . (']':)
+	      where [t1] = ts
+	  TCon tc | tyconName tc == "(->)"
+               -> showParen (p > 0) $
+		  showsPrec 1 t1 . (" -> " ++) . showsPrec 0 t2
+	      where [t1, t2] = ts
+	  TCon tc | tyconName tc == "(,)"
+               -> showParen True $
+		  foldr1 (\f g -> f . (", " ++) . g)
+                         (map (showsPrec 0) ts)
+	  _    -> showParen (p > 2) $
+		  foldr1 (\f g -> f . (' ':) . g)
+                         (map (showsPrec 3) (t:ts))
+	where (t:ts) = fromTAp tap
+
+instance Types a => Types [a] where
+  apply s = map (apply s)
+  tv      = nub . concat . map tv
+
+instance Types t => Types (Qual t) where
+  apply s (ps :=> t) = apply s ps :=> apply s t
+  tv (ps :=> t)      = tv ps `union` tv t
+
+instance Types Pred where
+  apply s (IsIn i t) = IsIn i (apply s t)
+  tv (IsIn i t)      = tv t
+
+instance (Show t) => Show (Qual t) where
+    showsPrec _ ([] :=> t) = shows t
+    showsPrec _ (p :=> t) = showsContext . (" => " ++) . shows t
+        where showsContext = showParen True $
+                             foldr1 (\f g -> f . (", " ++) . g) (map shows p)
+
+instance Show Pred where
+    showsPrec _ (IsIn id t) = (id ++) . (' ':) . shows t
+
+instance Show Assump where
+    show (i :>: sc) = show i ++ " :: " ++ show sc
+
+instance Types Assump where
+  apply s (i :>: sc) = i :>: (apply s sc)
+  tv (i :>: sc)      = tv sc
+
+instance Show Literal where
+    show (LitInt n)  = show n
+    show (LitChar c) = c
+    show (LitStr s)  = s
+
+instance Eq Const where
+    c1 == c2 = conName c1 == conName c2
+
+instance HasVar Expr where
+    freeVars (Var i) = [i]
+    freeVars (Ap e1 e2) = freeVars e1 `union` freeVars e2
+    freeVars (Let bg e) = fvBindGroup bg `union`
+                         (freeVars e \\ map fst (bindings bg))
+    freeVars (Case e pses) = foldr union fve fvas
+        where fve = freeVars e
+	      fvas = [freeVars e' \\ patVars p | (p, e') <- pses]
+    freeVars (Lambda a) = fvAlt a
+    freeVars (ESign e _) = freeVars e
+    freeVars _ = []
+
+instance HasVar Rhs where
+    freeVars (Rhs e) = freeVars e
+    freeVars (Where bg rhs) =
+        fvBindGroup bg `union` (freeVars rhs \\ map fst (bindings bg))
+    freeVars (Guarded pairs) =
+        foldr union [] [freeVars e `union` freeVars e' | (e, e') <- pairs]
+
+instance Show Tycon where
+    show tc = tyconName tc
+
+instance HasKind Tyvar where
+  kind (Tyvar v k) = k
+instance HasKind Tycon where
+  kind tc = tyconKind tc
+instance HasKind Synonym where
+  kind (Synonym _ k _ _) = k
+instance HasKind Type where
+  kind (TCon tc) = kind tc
+  kind (TVar u)  = kind u
+  kind (TAp t _) = case (kind t) of
+                     (Kfun _ k) -> k
+  kind (TSynonym syn ts) = kind (unsynonym syn ts)
+
+instance Types Type where
+  apply s (TVar u)  = case lookup u s of
+                       Just t  -> t
+                       Nothing -> TVar u
+  apply s (TAp l r) = TAp (apply s l) (apply s r)
+  apply s t         = t
+
+instance Show Scheme where
+    showsPrec _ (Forall _ qt) = shows qt
+
+instance Types Scheme where
+  apply s (Forall ks t) = Forall ks (apply s t)
+  tv (Forall ks t)      = tv t
