@@ -84,6 +84,14 @@ import           Text.Show      (shows, showsPrec)
 
 import           Prelude        hiding (Alt, Ap, Const, Type)
 
+class Types t where
+  apply :: Subst -> t -> t
+  tv    :: t -> [Tyvar]
+
+  tv (TVar u)  = [u]
+  tv (TAp l r) = tv l `union` tv r
+  tv t         = []
+
 fromTAp :: Type -> [Type]
 fromTAp (TAp t1 t2) = fromTAp t1 ++ [t2]
 fromTAp t           = [t]
@@ -182,19 +190,6 @@ pair a b    = TCon (tupTycon 2) `fn` a `fn` b
 
 ----
 
-preludeConstrs :: [Const]
-preludeConstrs = [Const { conName = i,
-                          conArity = a,
-                          conTag = tag,
-                          conTycon = tycon,
-                          conScheme = quantifyAll' t }
-                      | (i, a, tag, TCon tycon, t) <- constrs]
-    where a = TVar (Tyvar "a" Star)
-          constrs = [("True", 0, 1, tBool, tBool),
-		     ("False", 0, 2, tBool, tBool),
-                     (":", 2, 1, tList, a `fn` list a `fn` list a),
-		     ("[]", 0, 2, tList, list a)]
-
 quantifyAll :: Qual Type -> Scheme
 quantifyAll t = quantify (tv t) t
 
@@ -206,12 +201,6 @@ quantify vs qt = Forall ks (apply s qt) where
   vs' = [ v | v <- tv qt, v `elem` vs ]
   ks  = map kind vs'
   s   = zip vs' (map TGen [0..])
-
-quantifyAll :: Qual Type -> Scheme
-quantifyAll t = quantify (tv t) t
-
-quantifyAll' :: Type -> Scheme
-quantifyAll' t = quantify (tv t) ([] :=> t)
 
 toScheme      :: Type -> Scheme
 toScheme t     = Forall [] ([] :=> t)
@@ -268,23 +257,6 @@ infixr 5 <:>
 
 sap :: SKI -> [SKI] -> SKI
 sap = foldl SAp
-
---
-
-quantify      :: [Tyvar] -> Qual Type -> Scheme
-quantify vs qt = Forall ks (apply s qt)
- where vs' = [ v | v <- tv qt, v `elem` vs ]
-       ks  = map kind vs'
-       s   = zip vs' (map TGen [0..])
-
-fvBindGroup :: BindGroup -> [Id]
-fvBindGroup bg = fvAlts (concat altss) \\ is
-    where (is, altss) = unzip (bindings bg)
-
-fvAlts :: [Alt] -> [Id]
-fvAlts alts = foldl1 union (map fvAlt alts)
-fvAlt :: Alt -> [Id]
-fvAlt (ps, rhs) = freeVars rhs \\ concat (map patVars ps)
 
 ----
 
