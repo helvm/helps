@@ -382,6 +382,7 @@ instance Types Type where
   apply s (TAp l r) = TAp (apply s l) (apply s r)
   apply _ t         = t
 
+
 instance Show Scheme where
     showsPrec _ (Forall _ qt) = shows qt
 
