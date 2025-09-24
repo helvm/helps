@@ -14,6 +14,8 @@ import           HelVM.HelPS.Lang
 
 import           Options.Applicative
 
+import qualified Relude.Unsafe                   as Unsafe
+
 main :: IO ()
 main = run =<< execParser opts where
   opts = info (App.optionParser <**> helper)
@@ -24,9 +26,9 @@ main = run =<< execParser opts where
 run :: App.AppOptions -> IO ()
 run o = do
   source <- readFileTextUtf8 $ App.file o
-  putTextLn $ runText (App.lang o) (App.how o) source
+  putTextLn $ Unsafe.fromJust $ runText (App.lang o) (App.how o) source
 
-runText :: Lang -> How -> Text -> Text
-runText HS2Lazy     _ = HS2Lazy.compileText
-runText MiniHaskell _ = MH.compileText
-runText Compiler    i = Compiler.compileText i
+runText :: Lang -> How -> Text -> Maybe Text
+runText HS2Lazy     _ = HS2Lazy.compileTextMaybe
+runText MiniHaskell _ = MH.compileTextMaybe
+runText Compiler    i = Compiler.compileTextMaybe i

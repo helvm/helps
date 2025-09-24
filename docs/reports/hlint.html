@@ -161,12 +161,12 @@ document.body.className = "script";
 
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
-<li>No hints</li>
+<li><a id="hint0" href="javascript:show('hint0')">Suggestion: Redundant bracket (1)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li>No files</li>
+<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Facade.hs (1)</a></li>
 </ul>
 
 </div>
@@ -177,7 +177,15 @@ v3.10
     - a tool to suggest improvements to your Haskell code.
 </p>
 
-No hints
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Facade.hs:18:14-52: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-varid'>insertNewline</span> <span class='hs-num'>80</span> <span class='hs-varop'>.</span> <span class='hs-varid'>map</span> <span class='hs-varid'>toLower</span> <span class='hs-varop'>.</span> <span class='hs-varid'>show</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>compile</span> <span class='hs-varid'>source</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>insertNewline</span> <span class='hs-num'>80</span> <span class='hs-varop'>.</span> <span class='hs-varid'>map</span> <span class='hs-varid'>toLower</span> <span class='hs-varop'>.</span> <span class='hs-varid'>show</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>compile</span> <span class='hs-varid'>source</span></pre>
+
+</div>
+
 </div>
 <script type='text/javascript'>
 show(window.location.hash.slice(1), true);

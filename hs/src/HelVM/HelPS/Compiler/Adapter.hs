@@ -9,6 +9,11 @@ import qualified HelVM.Hel.Compiler.Classy      as Classy
 import qualified HelVM.Hel.Compiler.Effectively as Effectively
 import qualified HelVM.Hel.Compiler.Typically   as Typically
 
+import           UniPatterns
+
+compileTextMaybe :: How -> Text -> Maybe Text
+compileTextMaybe = maybeMatch . compileText
+
 compileText :: How -> Text -> Text
 compileText = mapTextWithString . compile
 

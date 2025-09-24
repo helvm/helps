@@ -8,6 +8,7 @@ import           HelVM.GoldenExpectations
 
 import           Test.Hspec
 
+import qualified Relude.Unsafe               as Unsafe
 import           RIO.FilePath
 
 spec :: Spec
@@ -27,3 +28,6 @@ spec = describe "hs2lazy" $
           outPath = "hs2lazy" </> filename <.> ".lazy"
           sourceIO = mconcat <$> traverse readFileTextUtf8 [libPath , appPath]
       in it filename $ (compileText <$> sourceIO) `goldenShouldIO` outPath
+
+compileText :: Text -> Text
+compileText = Unsafe.fromJust . compileTextMaybe

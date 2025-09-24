@@ -2,7 +2,7 @@ module HelVM.HelPS.HS2Lazy.Adapter where
 
 import           HelVM.HelPS.Util
 
-import qualified HS2Lazy.Run      as Run
+import qualified HelVM.HelPS.HS2Lazy.Facade as Facade
 
-compileText :: Text -> Text
-compileText = mapTextWithString Run.run
+compileTextMaybe :: Text -> Maybe Text
+compileTextMaybe = mapTextWithStringF Facade.run
