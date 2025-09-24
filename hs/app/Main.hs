@@ -9,12 +9,13 @@ import qualified HelVM.HelPS.HS2Lazy.Adapter     as HS2Lazy
 
 import qualified HelVM.HelPS.AppOptions          as App
 
-import           HelVM.HelIO.Extra
 import           HelVM.HelPS.Lang
 
-import           Options.Applicative
+import           HelVM.HelIO.Control.Safe
 
-import qualified Relude.Unsafe                   as Unsafe
+import           HelVM.HelIO.Extra
+
+import           Options.Applicative
 
 main :: IO ()
 main = run =<< execParser opts where
@@ -26,9 +27,10 @@ main = run =<< execParser opts where
 run :: App.AppOptions -> IO ()
 run o = do
   source <- readFileTextUtf8 $ App.file o
-  putTextLn $ Unsafe.fromJust $ runText (App.lang o) (App.how o) source
+  result <- safeToIO $ runText (App.lang o) (App.how o) source
+  putTextLn result
 
-runText :: Lang -> How -> Text -> Maybe Text
-runText HS2Lazy     _ = HS2Lazy.compileTextMaybe
-runText MiniHaskell _ = MH.compileTextMaybe
-runText Compiler    i = Compiler.compileTextMaybe i
+runText :: MonadSafe m => Lang -> How -> Text -> m Text
+runText HS2Lazy     _ = HS2Lazy.compileTextSafe
+runText MiniHaskell _ = MH.compileTextSafe
+runText Compiler    i = Compiler.compileTextSafe i

@@ -2,13 +2,14 @@ module HelVM.HelPS.HS2LazySpec (spec) where
 
 import           HelVM.HelPS.HS2Lazy.Adapter
 
+import           HelVM.HelIO.Control.Safe
+
 import           HelVM.HelIO.Extra
 
 import           HelVM.GoldenExpectations
 
 import           Test.Hspec
 
-import qualified Relude.Unsafe               as Unsafe
 import           RIO.FilePath
 
 spec :: Spec
@@ -30,4 +31,4 @@ spec = describe "hs2lazy" $
       in it filename $ (compileText <$> sourceIO) `goldenShouldIO` outPath
 
 compileText :: Text -> Text
-compileText = Unsafe.fromJust . compileTextMaybe
+compileText = unsafe . compileTextSafe

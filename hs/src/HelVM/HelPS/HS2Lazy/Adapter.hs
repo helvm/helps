@@ -4,5 +4,7 @@ import           HelVM.HelPS.Util
 
 import qualified HelVM.HelPS.HS2Lazy.Facade as Facade
 
-compileTextMaybe :: Text -> Maybe Text
-compileTextMaybe = mapTextWithStringF Facade.run
+import           HelVM.HelIO.Control.Safe
+
+compileTextSafe :: MonadSafe m => Text -> m Text
+compileTextSafe = mapTextWithStringF Facade.run

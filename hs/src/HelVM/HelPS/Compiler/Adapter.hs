@@ -4,12 +4,17 @@ import           HelVM.HelPS.Compiler.How
 
 import           HelVM.HelPS.Util
 
+import           HelVM.HelIO.Control.Safe
+
 import qualified HelVM.Hel.Compiler.Barely      as Barely
 import qualified HelVM.Hel.Compiler.Classy      as Classy
 import qualified HelVM.Hel.Compiler.Effectively as Effectively
 import qualified HelVM.Hel.Compiler.Typically   as Typically
 
 import           UniPatterns
+
+compileTextSafe :: MonadSafe m => How -> Text -> m Text
+compileTextSafe how = liftMaybeOrError "Compiler" . compileTextMaybe how
 
 compileTextMaybe :: How -> Text -> Maybe Text
 compileTextMaybe = maybeMatch . compileText
