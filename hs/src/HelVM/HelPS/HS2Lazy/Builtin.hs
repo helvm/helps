@@ -301,7 +301,7 @@ skiError = SVar "I"
 
 expandBltin :: MonadSafe m => SKI -> m SKI
 expandBltin (SAp (SVar "error") _)   = pure skiError
-expandBltin (SAp e1 e2)              = SAp <$> (expandBltin e1) <*> (expandBltin e2)
+expandBltin (SAp e1 e2)              = SAp <$> expandBltin e1 <*> expandBltin e2
 expandBltin (SVar v)                 = pure $ fromMaybe (SVar v) $ Map.lookup v builtins
 expandBltin (SLit (LitInt n))        = liftMaybeOrError "expandBltin n" $ churchnums !!? n
 expandBltin (SLit (LitChar (c : _))) = liftMaybeOrError "expandBltin c" $ churchnums !!? ord c

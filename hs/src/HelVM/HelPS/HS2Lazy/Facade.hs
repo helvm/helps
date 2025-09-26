@@ -18,7 +18,7 @@ import           HS2Lazy.Syntax
 import           Data.Char                   (toLower)
 
 run :: MonadSafe m => String -> m String
-run source = (insertNewline 80 . map toLower . show) <$> compile source
+run source = insertNewline 80 . map toLower . show <$> compile source
 
 compile :: MonadSafe m => String -> m SKI
 compile source = compile' =<< analyze source where
