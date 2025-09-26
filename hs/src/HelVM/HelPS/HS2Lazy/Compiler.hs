@@ -44,7 +44,7 @@ compileMultipleDefs e defs
       rhs = SVar "Y" `SAp` uAbs is (mklist vals)
 
 mklist :: [SKI] -> SKI
-mklist = foldr (\ x -> SAp (SVar "cons" `SAp` x)) (SVar "nil"xs
+mklist = foldr (\ x -> SAp (SVar "cons" `SAp` x)) (SVar "nil")
 
 uAbs :: [Id] -> SKI -> SKI
 uAbs [] e       = SVar "K" `SAp` e
