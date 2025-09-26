@@ -36,7 +36,7 @@ removeSelfRec i e
 
 compileMultipleDefs :: SKI -> [(Id, SKI)] -> SKI
 compileMultipleDefs e defs
-    | not $ any (flip refers e . fst) def = e
+    | not $ any (flip refers e . fst) defs = e
     | otherwise = SAp lhs rhs
     where
       (is, vals) = unzip defs
