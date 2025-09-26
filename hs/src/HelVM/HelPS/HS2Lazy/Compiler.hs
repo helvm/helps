@@ -1,10 +1,13 @@
 module HelVM.HelPS.HS2Lazy.Compiler where
 
+--import           HelVM.HelIO.Control.Safe
+
 import           HS2Lazy.PPrint ()
 import           HS2Lazy.Syntax
 
 import           Prelude        hiding (Alt, Ap)
 
+--skiCompile :: MonadSafe m => Expr -> m SKI
 skiCompile :: Expr -> SKI
 skiCompile = compileExpr
 
