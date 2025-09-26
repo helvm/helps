@@ -38,12 +38,12 @@ removeSelfRec i e
 
 compileMultipleDefs :: SKI -> [(Id, SKI)] -> SKI
 compileMultipleDefs e defs
-    | not $ any (flip refers e . fst) defs = e
-    | otherwise = SAp lhs rhs
-    where
-      (is, vals) = unzip defs
-      lhs = uAbs is e
-      rhs = SVar "Y" `SAp` uAbs is (mklist vals)
+  | not $ any (flip refers e . fst) defs = e
+  | otherwise = SAp lhs rhs
+  where
+    (is, vals) = unzip defs
+    lhs = uAbs is e
+    rhs = SVar "Y" `SAp` uAbs is (mklist vals)
 
 mklist :: [SKI] -> SKI
 mklist = foldr f (SVar "nil") where f x = SAp (SVar "cons" `SAp` x)
