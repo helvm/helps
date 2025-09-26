@@ -1,10 +1,47 @@
-module HelVM.HelPS.HS2Lazy.Builtin where
+module HelVM.HelPS.HS2Lazy.Builtin (expandBltin) where
 
 import           HelVM.HelIO.Control.Safe
 
 import qualified Data.Map                 as Map
 
 import           HS2Lazy.Syntax
+
+expandBltin :: MonadSafe m => SKI -> m SKI
+expandBltin (SAp (SVar "error") _)   = pure skiError
+expandBltin (SAp e1 e2)              = SAp <$> expandBltin e1 <*> expandBltin e2
+expandBltin (SVar v)                 = pure $ fromMaybe (SVar v) $ Map.lookup v builtins
+expandBltin (SLit (LitInt n))        = liftMaybeOrError "expandBltin n" $ churchnums !!? n
+expandBltin (SLit (LitChar (c : _))) = liftMaybeOrError "expandBltin c" $ churchnums !!? ord c
+expandBltin _                        = liftError "expandBltin"
+
+skiError :: SKI
+skiError = SVar "I"
+
+builtins :: Map Id SKI
+builtins = fromList [
+    ("+" , str"``si`k`s``s`ksk")
+  , ("-" , str"``s`k`s`k```sii``s``s`ks``s`k`s``si`k`kk``s`k`s`k`s``s`ksk``s``s`ks``s`kk``sii`k``s``s``si`k`kk``si`kii`k`k`ki``s`k`s``si`k``s``s``si`k`kk``si`kii``s`kk``s``si`k``s`k`sik`k`k`ki")
+  , ("*" , str"``s`ksk")
+  , ("div" , str"``s`k`s```ss`s``s`ks``s`kk``s`k`s``s`ks``s`kk``s``s`ks``s`k`s``si`k`kk`s`k`s``s`ksk`k`k`ki``s`kk``si`k``s``s``si`k`kk``si`kii`k``sii``s`kk``s`k`si``s`kk``s``si`k``s`k`sik`k`k`ki")
+  , ("mod" , str"``s`k`s```ss`s``s`ks``s`kk``s`k`s``s`ks``s``s`ks``s`kk``s`ks`s``si`k`kk`k``s`kk``s`k```sii``s``s`ks``s`k`s``si`k`kk``s`k`s`k`s``s`ksk``s``s`ks``s`kk``sii`k``s``s``si`k`kk``si`kii`k`k`ki``s``s``si`k`kk``si`kii``s`kk``si`k``s``s``si`k`kk``si`kii`k``sii``s`kk``s`k`si``s`kk``s``si`k``s`k`sik`k`k`ki")
+  , ("&eq" , str"``s`k`s`k``si`kk``s`k`s``si`k``si`k`ki``s`kk``s``si`k``s`k`s``si`k`kik`k``s``si`kk`k```sii``s`k``s`k`s``si`k`kik``sii")
+  , ("&neq" , str"``s`k`s`k``si`kk``s`k`s``si`k``si`k`ki``s`kk``s``si`k``s`k`s``si`kkk`k``s``si`k`ki`k```sii``s`k``s`k`s``si`kkk``sii")
+  , ("<=" , str"``s``s`ks``s`kk``s``si`k``s`k`sik`k`kk`k``s``si`k``s`k`sik`k`k`ki")
+  , (">=" , str"``s`k`s``s``si`k``s`k`sik`k`kk``s`kk``s``si`k``s`k`sik`k`k`ki")
+  , ("<" , str"``s`k`s``s``si`k``s`k`sik`k`k`ki``s`kk``s``si`k``s`k`sik`k`kk")
+  , (">" , str"``s``s`ks``s`kk``s``si`k``s`k`sik`k`k`ki`k``s``si`k``s`k`sik`k`kk")
+  , ("&&" , str"``ss`k`k`ki")
+  , ("||" , str"``si`kk")
+  , ("." , str"``s`ksk")
+  , ("++" , str"```sii``s``s`ks``s`k`s`ks``s`k`s``s`ksk``s`kk``s`k`s`k`s``s`ks``s`kk``s`k`s`k`s`kk``s``s`ks``s`kk``s`ks``s`k`sik`kk``s`k`s`kk``s``s`ks``s`kk``s`ks``sii`kk`k`ki")
+  , ("Y" , str"```ss`s``s`ksk`k``sii")
+  , ("U" , str"``s``s`ks``s``s`ksk`k``si`kk`k``si`k`ki")
+  , ("cons" , str"``s``s`ks``s`kk``s`ks``s`k`sik`kk")
+  , ("nil" , str"`kk")
+  , ("IF" , SVar "I")
+  , ("ord" , SVar "I")
+  , ("chr" , SVar "I")
+  ]
 
 churchnums :: [SKI]
 churchnums = [
@@ -267,42 +304,5 @@ churchnums = [
   , str "```sii```sii``s``s`kski" --256
   ]
 
-builtins :: Map Id SKI
-builtins = fromList [
-    ("+" , str"``si`k`s``s`ksk")
-  , ("-" , str"``s`k`s`k```sii``s``s`ks``s`k`s``si`k`kk``s`k`s`k`s``s`ksk``s``s`ks``s`kk``sii`k``s``s``si`k`kk``si`kii`k`k`ki``s`k`s``si`k``s``s``si`k`kk``si`kii``s`kk``s``si`k``s`k`sik`k`k`ki")
-  , ("*" , str"``s`ksk")
-  , ("div" , str"``s`k`s```ss`s``s`ks``s`kk``s`k`s``s`ks``s`kk``s``s`ks``s`k`s``si`k`kk`s`k`s``s`ksk`k`k`ki``s`kk``si`k``s``s``si`k`kk``si`kii`k``sii``s`kk``s`k`si``s`kk``s``si`k``s`k`sik`k`k`ki")
-  , ("mod" , str"``s`k`s```ss`s``s`ks``s`kk``s`k`s``s`ks``s``s`ks``s`kk``s`ks`s``si`k`kk`k``s`kk``s`k```sii``s``s`ks``s`k`s``si`k`kk``s`k`s`k`s``s`ksk``s``s`ks``s`kk``sii`k``s``s``si`k`kk``si`kii`k`k`ki``s``s``si`k`kk``si`kii``s`kk``si`k``s``s``si`k`kk``si`kii`k``sii``s`kk``s`k`si``s`kk``s``si`k``s`k`sik`k`k`ki")
-  , ("&eq" , str"``s`k`s`k``si`kk``s`k`s``si`k``si`k`ki``s`kk``s``si`k``s`k`s``si`k`kik`k``s``si`kk`k```sii``s`k``s`k`s``si`k`kik``sii")
-  , ("&neq" , str"``s`k`s`k``si`kk``s`k`s``si`k``si`k`ki``s`kk``s``si`k``s`k`s``si`kkk`k``s``si`k`ki`k```sii``s`k``s`k`s``si`kkk``sii")
-  , ("<=" , str"``s``s`ks``s`kk``s``si`k``s`k`sik`k`kk`k``s``si`k``s`k`sik`k`k`ki")
-  , (">=" , str"``s`k`s``s``si`k``s`k`sik`k`kk``s`kk``s``si`k``s`k`sik`k`k`ki")
-  , ("<" , str"``s`k`s``s``si`k``s`k`sik`k`k`ki``s`kk``s``si`k``s`k`sik`k`kk")
-  , (">" , str"``s``s`ks``s`kk``s``si`k``s`k`sik`k`k`ki`k``s``si`k``s`k`sik`k`kk")
-  , ("&&" , str"``ss`k`k`ki")
-  , ("||" , str"``si`kk")
-  , ("." , str"``s`ksk")
-  , ("++" , str"```sii``s``s`ks``s`k`s`ks``s`k`s``s`ksk``s`kk``s`k`s`k`s``s`ks``s`kk``s`k`s`k`s`kk``s``s`ks``s`kk``s`ks``s`k`sik`kk``s`k`s`kk``s``s`ks``s`kk``s`ks``sii`kk`k`ki")
-  , ("Y" , str"```ss`s``s`ksk`k``sii")
-  , ("U" , str"``s``s`ks``s``s`ksk`k``si`kk`k``si`k`ki")
-  , ("cons" , str"``s``s`ks``s`kk``s`ks``s`k`sik`kk")
-  , ("nil" , str"`kk")
-  , ("IF" , SVar "I")
-  , ("ord" , SVar "I")
-  , ("chr" , SVar "I")
-  ]
-
 str :: String -> SKI
 str = SLit . LitStr
-
-skiError :: SKI
-skiError = SVar "I"
-
-expandBltin :: MonadSafe m => SKI -> m SKI
-expandBltin (SAp (SVar "error") _)   = pure skiError
-expandBltin (SAp e1 e2)              = SAp <$> (expandBltin e1) <*> (expandBltin e2)
-expandBltin (SVar v)                 = pure $ fromMaybe (SVar v) $ Map.lookup v builtins
-expandBltin (SLit (LitInt n))        = liftMaybeOrError "expandBltin n" $ churchnums !!? n
-expandBltin (SLit (LitChar (c : _))) = liftMaybeOrError "expandBltin c" $ churchnums !!? ord c
-expandBltin _                        = liftError "expandBltin"
