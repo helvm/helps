@@ -19,11 +19,14 @@ compileExpr e          = error ("compileExpr: " <> show e)
 
 compileLet :: BindGroup -> Expr -> SKI
 compileLet bg e = case map compileDef (bindings bg) of
-  [(i, v)] -> case abstract i e' of
-    SVar "K" `SAp` _ -> e'
-    e''              -> e'' `SAp` removeSelfRec i v
+  [(i, v)] -> compilePair e' i v
   defs     -> compileMultipleDefs e' defs
   where e' = compileExpr e
+
+compilePair :: SKI -> Id -> SKI -> SKI
+compilePair e' i v = case abstract i e' of
+  SVar "K" `SAp` _ -> e'
+  e''              -> e'' `SAp` removeSelfRec i v
 
 compileDef :: (Id , [Alt]) -> (Id , SKI)
 compileDef (i , [a]) = (i , compileAlt a)
