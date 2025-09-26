@@ -10,23 +10,22 @@ skiCompile = compileExpr
 
 compileExpr :: Expr -> SKI
 compileExpr (Ap e1 e2) = compileExpr e1 `SAp` compileExpr e2
-compileExpr (Let bg e) = compileLet bg e
+compileExpr (Let bg e) = compileLet bg $ compileExpr e
 compileExpr (Lambda a) = compileAlt a
 compileExpr (Var i)    = SVar i
 compileExpr (Lit l)    = SLit l
 compileExpr (Con con)  = SCon (conTag con) (conArity con)
 compileExpr e          = error ("compileExpr: " <> show e)
 
-compileLet :: BindGroup -> Expr -> SKI
-compileLet bg e = case map compileDef (bindings bg) of
-  [(i, v)] -> compilePair e' i v
-  defs     -> compileMultipleDefs e' defs
-  where e' = compileExpr e
+compileLet :: BindGroup -> SKI -> SKI
+compileLet bg e = go $ map compileDef (bindings bg) where
+  go [(i, v)] = compilePair e i v
+  go defs     = compileMultipleDefs e defs
 
 compilePair :: SKI -> Id -> SKI -> SKI
-compilePair e' i v = case abstract i e' of
-  SVar "K" `SAp` _ -> e'
-  e''              -> e'' `SAp` removeSelfRec i v
+compilePair e i v = go $ abstract i e where
+  go (SVar "K" `SAp` _) = e
+  go e'                 = e' `SAp` removeSelfRec i v
 
 compileDef :: (Id , [Alt]) -> (Id , SKI)
 compileDef (i , [a]) = (i , compileAlt a)
