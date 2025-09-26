@@ -22,8 +22,8 @@ run source = insertNewline 80 . map toLower . show <$> compile source
 
 compile :: MonadSafe m => String -> m SKI
 compile source = compile' =<< analyze source where
-  compile' (program, impls, classEnv, assumps) = expandBltin  aaa  where
-    aaa = skiCompile $ optimizeExpr $ expandCon $ programToExpr $ compilePatternMatch $ ([] , [impls]) : program'
+  compile' (program, impls, classEnv, assumps) = expandBltin skiCompiled where
+    skiCompiled = skiCompile $ optimizeExpr $ expandCon $ programToExpr $ compilePatternMatch $ ([] , [impls]) : program'
     (_, program') = Type.tiProgram classEnv assumpsPlus program
     assumpsPlus = assumps ++ Type.preludeAssumptions
 
