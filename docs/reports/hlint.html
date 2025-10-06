@@ -161,13 +161,12 @@ document.body.className = "script";
 
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
-<li><a id="hint0" href="javascript:show('hint0')">Warning: Use traverse (1)</a></li>
-<li><a id="hint1" href="javascript:show('hint1')">Suggestion: Redundant bracket (2)</a></li>
+<li><a id="hint0" href="javascript:show('hint0')">Suggestion: Redundant bracket (2)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs (3)</a></li>
+<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Optimizer.hs (2)</a></li>
 </ul>
 
 </div>
@@ -179,29 +178,20 @@ v3.10
 </p>
 
 <div class="hint0 file0">
-hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:28:23-62: Warning: Use traverse<br/>
+hs/src/HelVM/HelPS/HS2Lazy/Optimizer.hs:16:40-51: Suggestion: Redundant bracket<br/>
 Found<br/>
-<pre><span class='hs-definition'>sequenceA</span> <span class='hs-varop'>$</span> <span class='hs-varid'>compileDef</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>bindings</span> <span class='hs-varid'>bg</span><span class='hs-layout'>)</span></pre>
+<pre><span class='hs-conid'>Ap</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>optExpr</span> <span class='hs-varid'>e1</span><span class='hs-layout'>)</span></pre>
 Perhaps<br/>
-<pre><span class='hs-definition'>traverse</span> <span class='hs-varid'>compileDef</span> <span class='hs-layout'>(</span><span class='hs-varid'>bindings</span> <span class='hs-varid'>bg</span><span class='hs-layout'>)</span></pre>
+<pre><span class='hs-conid'>Ap</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>optExpr</span> <span class='hs-varid'>e1</span></pre>
 
 </div>
 
-<div class="hint1 file0">
-hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:28:50-62: Suggestion: Redundant bracket<br/>
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Optimizer.hs:16:57-68: Suggestion: Redundant bracket<br/>
 Found<br/>
-<pre><span class='hs-definition'>compileDef</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>bindings</span> <span class='hs-varid'>bg</span><span class='hs-layout'>)</span></pre>
+<pre><span class='hs-conid'>Ap</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>optExpr</span> <span class='hs-varid'>e1</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>optExpr</span> <span class='hs-varid'>e2</span><span class='hs-layout'>)</span></pre>
 Perhaps<br/>
-<pre><span class='hs-definition'>compileDef</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bg</span></pre>
-
-</div>
-
-<div class="hint1 file0">
-hs/src/HelVM/HelPS/HS2Lazy/Compiler.hs:62:47-67: Suggestion: Redundant bracket<br/>
-Found<br/>
-<pre><span class='hs-definition'>abstract</span> <span class='hs-varid'>v</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>compileAlt</span> <span class='hs-layout'>(</span><span class='hs-keyword'>as</span><span class='hs-layout'>,</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span><span class='hs-layout'>)</span></pre>
-Perhaps<br/>
-<pre><span class='hs-definition'>abstract</span> <span class='hs-varid'>v</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>compileAlt</span> <span class='hs-layout'>(</span><span class='hs-keyword'>as</span><span class='hs-layout'>,</span> <span class='hs-varid'>e</span><span class='hs-layout'>)</span></pre>
+<pre><span class='hs-conid'>Ap</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>optExpr</span> <span class='hs-varid'>e1</span><span class='hs-layout'>)</span> <span class='hs-varop'>&lt;*&gt;</span> <span class='hs-varid'>optExpr</span> <span class='hs-varid'>e2</span></pre>
 
 </div>
 

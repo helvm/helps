@@ -25,7 +25,7 @@ compileLet bg e = go <$> compileBindGroup bg where
   go defs     = compileMultipleDefs e defs
 
 compileBindGroup :: MonadSafe m => BindGroup -> m [(Id, SKI)]
-compileBindGroup bg = sequenceA $ compileDef <$> (bindings bg)
+compileBindGroup bg = traverse compileDef $ bindings bg
 
 compilePair :: SKI -> Id -> SKI -> SKI
 compilePair e i v = go $ abstract i e where
@@ -59,7 +59,7 @@ uAbs (i : is) e = SVar "U" `SAp` abstract i (uAbs is e)
 
 compileAlt :: MonadSafe m => Alt -> m SKI
 compileAlt ([] , Rhs e)      = compileExpr e
-compileAlt (PVar v : as , e) = abstract v <$> (compileAlt (as , e))
+compileAlt (PVar v : as , e) = abstract v <$> compileAlt (as , e)
 compileAlt (p : _ , _)       = liftError ("malformed pattern " <> show p)
 compileAlt _                 = liftError "compileAlt"
 
