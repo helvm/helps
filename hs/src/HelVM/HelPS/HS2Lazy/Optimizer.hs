@@ -13,7 +13,7 @@ optExpr :: MonadSafe m => Expr -> m Expr
 optExpr e@(Var _)             = pure e
 optExpr e@(Lit _)             = pure e
 optExpr e@(Con _)             = pure e
-optExpr (Ap e1 e2)            = Ap <$> (optExpr e1) <*> (optExpr e2)
+optExpr (Ap e1 e2)            = Ap <$> optExpr e1 <*> optExpr e2
 optExpr (Let bg e)            = optLet bg e
 optExpr (Lambda (vs , Rhs e)) = f <$> optExpr e where f r = Lambda (vs , Rhs r)
 optExpr (ESign e _)           = optExpr e

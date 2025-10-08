@@ -1,4 +1,4 @@
-module HelVM.HelPS.HS2Lazy.Compiler (skiCompile) where
+module HelVM.HelPS.HS2Lazy.Compiler.SkiCompiler (skiCompile) where
 
 import           HelVM.HelIO.Control.Safe
 
