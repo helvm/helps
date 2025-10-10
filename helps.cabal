@@ -1,7 +1,7 @@
 cabal-version:         2.4
 
 name:                  helps
-version:               0.3.0.7
+version:               0.3.0.8
 synopsis:              HELPS - Heavenly Esoteric Little Pre Schemer for Esoteric Languages
 description:           Please see the README on GitHub at <https://github.com/helvm/helps#readme>
 homepage:              https://helvm.org/helps/
@@ -125,6 +125,7 @@ library
 
     HelVM.HelPS.HS2Lazy.Adapter
     HelVM.HelPS.HS2Lazy.Builtin
+    HelVM.HelPS.HS2Lazy.Compiler.ProgramToExprConverter
     HelVM.HelPS.HS2Lazy.Compiler.SkiCompiler
     HelVM.HelPS.HS2Lazy.Compiler.ExpandCon
     HelVM.HelPS.HS2Lazy.Facade

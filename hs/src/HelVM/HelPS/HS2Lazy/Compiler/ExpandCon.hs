@@ -19,7 +19,7 @@ expandCon _                     = liftError "expandCon"
 
 conCon :: MonadSafe m => Const -> m Expr
 conCon con = makeExpr =<< calculateTag con where
-  makeExpr tag = buildLambda <$> (indexSafe fs $ tag - 1) where
+  makeExpr tag = buildLambda <$> indexSafe fs (tag - 1) where
     buildLambda f = Lambda (map PVar (as <> fs), Rhs (ap (Var f) (Var <$> as)))
     as = a <$> [1 .. conArity con] where a i = "@a" <> show i
     fs = f <$> [1 .. tyconNumCon (conTycon con)] where f i = "@f" <> show i

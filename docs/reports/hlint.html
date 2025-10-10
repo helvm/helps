@@ -161,12 +161,12 @@ document.body.className = "script";
 
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
-<li><a id="hint0" href="javascript:show('hint0')">Suggestion: Move brackets to avoid $ (1)</a></li>
+<li><a id="hint0" href="javascript:show('hint0')">Warning: Use concatMap (1)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Compiler/ExpandCon.hs (1)</a></li>
+<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Compiler/ProgramToExprConverter.hs (1)</a></li>
 </ul>
 
 </div>
@@ -178,11 +178,11 @@ v3.10
 </p>
 
 <div class="hint0 file0">
-hs/src/HelVM/HelPS/HS2Lazy/Compiler/ExpandCon.hs:22:18-57: Suggestion: Move brackets to avoid $<br/>
+hs/src/HelVM/HelPS/HS2Lazy/Compiler/ProgramToExprConverter.hs:19:21-45: Warning: Use concatMap<br/>
 Found<br/>
-<pre><span class='hs-definition'>buildLambda</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-layout'>(</span><span class='hs-varid'>indexSafe</span> <span class='hs-varid'>fs</span> <span class='hs-varop'>$</span> <span class='hs-varid'>tag</span> <span class='hs-comment'>-</span> <span class='hs-num'>1</span><span class='hs-layout'>)</span></pre>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bgs</span><span class='hs-layout'>)</span></pre>
 Perhaps<br/>
-<pre><span class='hs-definition'>buildLambda</span> <span class='hs-varop'>&lt;$&gt;</span> <span class='hs-varid'>indexSafe</span> <span class='hs-varid'>fs</span> <span class='hs-layout'>(</span><span class='hs-varid'>tag</span> <span class='hs-comment'>-</span> <span class='hs-num'>1</span><span class='hs-layout'>)</span></pre>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>bindings</span> <span class='hs-varid'>bgs</span></pre>
 
 </div>
 
