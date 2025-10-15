@@ -16,4 +16,4 @@ mainExpr bg = case bindings bg of
 
 regroup :: [BindGroup] -> [BindGroup]
 regroup bgs = [([], [is]) | is <- iss] where
-  iss = dependency (concat (map bindings bgs))
+  iss = dependency $ concatMap bindings bgs

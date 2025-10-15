@@ -8,7 +8,7 @@ import           HelVM.HelPS.HS2Lazy.Optimizer                       (optimizeEx
 import           HelVM.HelIO.Control.Safe
 
 import           HelVM.HelPS.HS2Lazy.Compiler.ProgramToExprConverter (programToExpr)
-import           HS2Lazy.PatComp                                     (compilePatternMatch)
+import           HelVM.HelPS.HS2Lazy.PatComp.PatternMatchCompiler    (compilePatternMatch)
 import qualified HS2Lazy.Static                                      as Static
 import qualified HS2Lazy.Type                                        as Type
 
