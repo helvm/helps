@@ -9,8 +9,8 @@ import           HelVM.HelIO.Control.Safe
 
 import           HelVM.HelPS.HS2Lazy.Compiler.ProgramToExprConverter (programToExpr)
 import           HelVM.HelPS.HS2Lazy.PatComp.PatternMatchCompiler    (compilePatternMatch)
+import qualified HelVM.HelPS.HS2Lazy.Type                            as Type
 import qualified HS2Lazy.Static                                      as Static
-import qualified HS2Lazy.Type                                        as Type
 
 import qualified HS2Lazy.Lexer                                       as Lexer
 import qualified HS2Lazy.Parser                                      as Parser
