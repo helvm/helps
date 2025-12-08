@@ -5,8 +5,8 @@ import qualified HelVM.HelPS.HS2Lazy.Type              as T
 
 import qualified HelVM.HelPS.HS2Lazy.Parser            as P
 import           HelVM.HelPS.HS2Lazy.PatComp           (patBindings)
-import           HelVM.HelPS.HS2Lazy.Syntax
-import           HelVM.HelPS.HS2Lazy.Syntax.Dependency
+import           HS2Lazy.Syntax
+import           Syntax.Dependency
 
 import           Data.List                             (foldl, foldl1, foldr1, intersect, lookup, nub, partition, union, (!!), (\\))
 import qualified Data.List                             (find)

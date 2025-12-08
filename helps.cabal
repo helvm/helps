@@ -127,6 +127,7 @@ library
     HelVM.HelPS.HS2Lazy.Builtin
     HelVM.HelPS.HS2Lazy.Facade
     HelVM.HelPS.HS2Lazy.Optimizer
+    HelVM.HelPS.HS2Lazy.Static
     HelVM.HelPS.HS2Lazy.Type
     HelVM.HelPS.HS2Lazy.Unsafe
 
