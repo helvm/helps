@@ -161,12 +161,17 @@ document.body.className = "script";
 
 <p><a class="all" href="javascript:show('')">All hints</a></p>
 <ul>
-<li>No hints</li>
+<li><a id="hint0" href="javascript:show('hint0')">Warning: Eta reduce (5)</a></li>
+<li><a id="hint1" href="javascript:show('hint1')">Warning: Redundant bracket (1)</a></li>
+<li><a id="hint2" href="javascript:show('hint2')">Warning: Use concatMap (3)</a></li>
+<li><a id="hint3" href="javascript:show('hint3')">Warning: Use ordNub (1)</a></li>
+<li><a id="hint4" href="javascript:show('hint4')">Warning: Use shows (3)</a></li>
+<li><a id="hint5" href="javascript:show('hint5')">Suggestion: Redundant bracket (2)</a></li>
 </ul>
 
 <p><a class="all" href="javascript:show('')">All files</a></p>
 <ul>
-<li>No files</li>
+<li><a id="file0" href="javascript:show('file0')">hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs (15)</a></li>
 </ul>
 
 </div>
@@ -177,7 +182,145 @@ v3.10
     - a tool to suggest improvements to your Haskell code.
 </p>
 
-No hints
+<div class="hint4 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:56:23-33: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint4 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:64:46-56: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint4 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:74:23-33: Warning: Use shows<br/>
+Found<br/>
+<pre><span class='hs-definition'>showsPrec</span> <span class='hs-num'>0</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>shows</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:104:3-24: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>show</span> <span class='hs-varid'>tc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span> <span class='hs-varid'>tc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>show</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:112:3-28: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>assocKey</span> <span class='hs-varid'>tc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span> <span class='hs-varid'>tc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>assocKey</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconName</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:214:1-20: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>list</span> <span class='hs-varid'>t</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TAp</span> <span class='hs-varid'>tList</span> <span class='hs-varid'>t</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>list</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>TAp</span> <span class='hs-varid'>tList</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:226:3-24: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>kind</span> <span class='hs-varid'>tc</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconKind</span> <span class='hs-varid'>tc</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>kind</span> <span class='hs-keyglyph'>=</span> <span class='hs-varid'>tyconKind</span></pre>
+
+</div>
+
+<div class="hint5 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:234:25-32: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-layout'>(</span><span class='hs-varid'>kind</span> <span class='hs-varid'>t</span><span class='hs-layout'>)</span> <span class='hs-keyword'>of</span>
+  <span class='hs-layout'>(</span><span class='hs-conid'>Kfun</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>k</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>k</span>
+  <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>error</span> <span class='hs-str'>"kind"</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>case</span> <span class='hs-varid'>kind</span> <span class='hs-varid'>t</span> <span class='hs-keyword'>of</span>
+  <span class='hs-layout'>(</span><span class='hs-conid'>Kfun</span> <span class='hs-keyword'>_</span> <span class='hs-varid'>k</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>k</span>
+  <span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>)</span> <span class='hs-keyglyph'>-&gt;</span> <span class='hs-varid'>error</span> <span class='hs-str'>"kind"</span></pre>
+
+</div>
+
+<div class="hint1 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:236:5-7: Warning: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-layout'>(</span><span class='hs-keyword'>_</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-keyword'>_</span></pre>
+
+</div>
+
+<div class="hint3 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:259:8-10: Warning: Use ordNub<br/>
+Found<br/>
+<pre><span class='hs-definition'>nub</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>ordNub</span></pre>
+<span class='note'>Note: &#39;nub&#39; is O(n^2), &#39;ordNub&#39; is O(n log n)</span>
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:259:14-28: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-varop'>.</span> <span class='hs-varid'>map</span> <span class='hs-varid'>tv</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>tv</span></pre>
+
+</div>
+
+<div class="hint5 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:321:30-41: Suggestion: Redundant bracket<br/>
+Found<br/>
+<pre><span class='hs-definition'>i</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-layout'>(</span><span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>sc</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>i</span> <span class='hs-conop'>:&gt;:</span> <span class='hs-varid'>apply</span> <span class='hs-varid'>s</span> <span class='hs-varid'>sc</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:415:35-57: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span></pre>
+
+</div>
+
+<div class="hint2 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:420:23-45: Warning: Use concatMap<br/>
+Found<br/>
+<pre><span class='hs-definition'>concat</span> <span class='hs-layout'>(</span><span class='hs-varid'>map</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span><span class='hs-layout'>)</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>concatMap</span> <span class='hs-varid'>patVars</span> <span class='hs-varid'>ps</span></pre>
+
+</div>
+
+<div class="hint0 file0">
+hs/src/HelVM/HelPS/HS2Lazy/Syntax.hs:464:1-29: Warning: Eta reduce<br/>
+Found<br/>
+<pre><span class='hs-definition'>idEnvTransformer</span> <span class='hs-varid'>ce</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Just</span> <span class='hs-varid'>ce</span></pre>
+Perhaps<br/>
+<pre><span class='hs-definition'>idEnvTransformer</span> <span class='hs-keyglyph'>=</span> <span class='hs-conid'>Just</span></pre>
+
+</div>
+
 </div>
 <script type='text/javascript'>
 show(window.location.hash.slice(1), true);

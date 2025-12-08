@@ -129,6 +129,7 @@ library
     HelVM.HelPS.HS2Lazy.Facade
     HelVM.HelPS.HS2Lazy.Optimizer
     HelVM.HelPS.HS2Lazy.SCC
+    HelVM.HelPS.HS2Lazy.Syntax
     HelVM.HelPS.HS2Lazy.Type
     HelVM.HelPS.HS2Lazy.Unsafe
 
