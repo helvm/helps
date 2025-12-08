@@ -36,6 +36,7 @@ common common-options
     , relude
     , helio
     , hs2lazy
+    , array
     , containers
     , safe
     , unipatterns
@@ -127,6 +128,7 @@ library
     HelVM.HelPS.HS2Lazy.Builtin
     HelVM.HelPS.HS2Lazy.Facade
     HelVM.HelPS.HS2Lazy.Optimizer
+    HelVM.HelPS.HS2Lazy.SCC
     HelVM.HelPS.HS2Lazy.Type
     HelVM.HelPS.HS2Lazy.Unsafe
 
@@ -135,6 +137,7 @@ library
     HelVM.HelPS.HS2Lazy.Compiler.ExpandCon
 
     HelVM.HelPS.HS2Lazy.PatComp.PatternMatchCompiler
+
 
 
   build-depends:
