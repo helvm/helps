@@ -1,18 +1,18 @@
 {- HLINT ignore -}
 {-# OPTIONS_GHC -w #-}
 module HelVM.HelPS.HS2Lazy.Static where
-import qualified HelVM.HelPS.HS2Lazy.Type              as T
+import qualified HelVM.HelPS.HS2Lazy.Type    as T
 
-import qualified HelVM.HelPS.HS2Lazy.Parser            as P
-import           HelVM.HelPS.HS2Lazy.PatComp           (patBindings)
+import qualified HelVM.HelPS.HS2Lazy.Parser  as P
+import           HelVM.HelPS.HS2Lazy.PatComp (patBindings)
 import           HS2Lazy.Syntax
 import           Syntax.Dependency
 
-import           Data.List                             (foldl, foldl1, foldr1, intersect, lookup, nub, partition, union, (!!), (\\))
-import qualified Data.List                             (find)
-import qualified Data.List                             as List
+import           Data.List                   (foldl, foldl1, foldr1, intersect, lookup, nub, partition, union, (!!), (\\))
+import qualified Data.List                   (find)
+import qualified Data.List                   as List
 
-import           Prelude                               hiding (Alt, Ap, Const, Type, lift, lookupEnv, modify, newTVar)
+import           Prelude                     hiding (Alt, Ap, Const, Type, lift, lookupEnv, modify, newTVar)
 
 type TyconEnv = ([Tycon], [Synonym])
 type DataType = (TyconEnv, [Const])
