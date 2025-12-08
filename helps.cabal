@@ -38,6 +38,7 @@ common common-options
     , hs2lazy
     , array
     , containers
+    , parsec
     , safe
     , unipatterns
     , yjtools
@@ -128,6 +129,7 @@ library
     HelVM.HelPS.HS2Lazy.Builtin
     HelVM.HelPS.HS2Lazy.Facade
     HelVM.HelPS.HS2Lazy.Optimizer
+    HelVM.HelPS.HS2Lazy.Parser
     HelVM.HelPS.HS2Lazy.SCC
     HelVM.HelPS.HS2Lazy.Syntax
     HelVM.HelPS.HS2Lazy.Type
@@ -138,8 +140,6 @@ library
     HelVM.HelPS.HS2Lazy.Compiler.ExpandCon
 
     HelVM.HelPS.HS2Lazy.PatComp.PatternMatchCompiler
-
-
 
   build-depends:
 
