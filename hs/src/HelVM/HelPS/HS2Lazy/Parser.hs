@@ -596,9 +596,9 @@ tokenWildcard = hsToken TokenWildcard
 token' :: (Token -> Maybe a) -> HsParser a
 token' test = token showToken posToken testToken
   where
-    showToken (tok, pos) = show tok
-    posToken (tok, pos) = pos
-    testToken (tok, pos) = test tok
+    showToken (tok, _) = show tok
+    posToken (_, pos) = pos
+    testToken (tok, _) = test tok
 
 satisfy :: (Token -> Bool) -> HsParser Token
 satisfy test = token' (\t -> if test t then Just t else Nothing)
