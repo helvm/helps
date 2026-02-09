@@ -33,7 +33,6 @@ flag ghcoptions
 common common-options
   build-depends:
       base                 <  5
-    , relude
     , helio
     , hs2lazy
     , array
@@ -41,9 +40,6 @@ common common-options
     , safe
     , unipatterns
     , yjtools
-  mixins:
-      base hiding (Prelude)
-    , relude (Relude as Prelude, Relude.Extra, Relude.Unsafe, Data.Text)
   default-language:    Haskell2010
   default-extensions:
     EmptyDataDecls
