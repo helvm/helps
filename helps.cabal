@@ -33,7 +33,6 @@ flag ghcoptions
 common common-options
   build-depends:
       base                 <  5
-    , helio
     , hs2lazy
     , array
     , containers
@@ -112,8 +111,6 @@ library
     HelVM.Hel.Compiler.Effectively
     HelVM.Hel.Compiler.Typically
     HelVM.Hel.MiniHaskell.Classy
-
-    HelVM.HelPS.Util
 
     HelVM.HelPS.Compiler.Adapter
     HelVM.HelPS.Compiler.How
