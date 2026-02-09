@@ -181,7 +181,6 @@ test-suite helps-test
     , hspec-golden
     , hspec-slow
 
-    , helio
     , helps
     , rio
 
