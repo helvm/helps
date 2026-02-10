@@ -9,10 +9,12 @@
 * [x] Migrate [mini haskell](https://github.com/helvm/mini-haskell) - A compiler for a subset of Haskell to Combinatory Logic, use TypeClass
 * [ ] Migrate [Mini-Haskell Project](https://github.com/helvm/Mini-Haskell-jasonhongxyz) - A "Mini-Haskell" functional programming language
 * [ ] Migrate [Micro Haskell](https://github.com/helvm/MicroHs)
-* [ ] Migrate [prelude from PureScript](https://github.com/purescript/purescript-prelude) 
+* [ ] Migrate [MicroHaskell](https://github.com/helvm/microhaskell) - Lambda-calculus-based Interpreter for a Haskell subset 
+* [ ] Migrate [prelude from PureScript](https://github.com/purescript/purescript-prelude)
 
 ### Parsec:
 * [ ] Migrate [Haskell to Lazy K compiler](https://github.com/helvm/hs2blc) - use Stream, not IO
+* [ ] Migrate [MiniHaskell Compiler](https://github.com/helvm/minihaskell-compiler) - MiniHaskell Compiler
 * [ ] Migrate [Duet](https://github.com/helvm/duet) - A tiny language, a subset of Haskell (with type classes) aimed at aiding teachers teach Haskell
 * [ ] Migrate [helium](https://github.com/helvm/helium) and LVM - small educable compiler
 
