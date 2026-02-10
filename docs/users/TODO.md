@@ -14,9 +14,9 @@
 
 ### Parsec:
 * [ ] Migrate [Haskell to Lazy K compiler](https://github.com/helvm/hs2blc) - use Stream, not IO
-* [ ] Migrate [MiniHaskell Compiler](https://github.com/helvm/minihaskell-compiler) - MiniHaskell Compiler
 * [ ] Migrate [Duet](https://github.com/helvm/duet) - A tiny language, a subset of Haskell (with type classes) aimed at aiding teachers teach Haskell
 * [ ] Migrate [helium](https://github.com/helvm/helium) and LVM - small educable compiler
+* [ ] Migrate [MiniHaskell Compiler](https://github.com/helvm/minihaskell-compiler) - MiniHaskell Compiler
 
 ### External Haskell parser:
 * [ ] Migrate [hs2bf](https://github.com/helvm/hs2bf) - very easy, use external parser for Haskell98
