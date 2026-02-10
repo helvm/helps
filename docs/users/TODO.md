@@ -8,6 +8,7 @@
 * [ ] Check other things from https://crypto.stanford.edu/~blynn/compiler/
 * [ ] Migrate [mini haskell](https://github.com/helvm/mini-haskell) - A compiler for a subset of Haskell to Combinatory Logic, use TypeClass
 * [ ] Migrate [Mini-Haskell Project](https://github.com/helvm/Mini-Haskell-jasonhongxyz) - A "Mini-Haskell" functional programming language
+* [ ] Migrate [Micro Haskell](https://github.com/helvm/MicroHs)
 * [ ] Migrate [prelude from PureScript](https://github.com/purescript/purescript-prelude) 
 
 ### Parsec:
